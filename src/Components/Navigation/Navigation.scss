@@ -1,0 +1,28 @@
+.navigation {
+  display: flex;
+  flex-direction: row;
+  max-width: 583px;
+
+  &__nav {
+    display: flex;
+  }
+
+  &__nav-list {
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+    width: 100%;
+    align-items: flex-start;
+  }
+
+  &__nav-items {
+    color: var(--Gray-100, #111115);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 100%; 
+
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+}

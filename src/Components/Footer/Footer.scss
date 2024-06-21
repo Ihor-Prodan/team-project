@@ -1,0 +1,114 @@
+.footer {
+  display: inline-flex;
+  padding: 16px 32px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 64px;
+  background: #111115;
+
+
+  &__top {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: flex-start;
+    align-content: flex-start;
+    flex-wrap: wrap;
+  }
+
+  &__block-contact {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  &__contact {
+    display: flex;
+    color: var(--Gray-0, #EDEDED);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 100%;
+  }
+
+  &__block-nav {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__navigation {
+    display: flex;
+    flex-direction: row;
+    max-width: 583px;
+  
+    &__nav {
+      display: flex;
+    }
+  
+    &__nav-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      width: 100%;
+      align-items: flex-start;
+    }
+  
+    &__nav-items {
+      color: var(--Gray-0, #EDEDED);
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 100%;
+    }
+  }
+
+  &__block-social {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  &__social {
+    color: var(--Gray-0, #EDEDED);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 100%;
+  }
+
+  &__bottom {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+
+  &__policy {
+    display: flex;
+    align-items: flex-start;
+    gap: 40px;
+  }
+
+  &__policy-item {
+    color: var(--Gray-60, #A7A7A7);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 100%;
+  }
+
+  &__bottom-copyring {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+  }
+
+  &__copyring-text {
+    color: var(--Gray-60, #A7A7A7);
+    text-align: center;
+    font-family: "Red Hat Display";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 140%;
+    letter-spacing: 0.28px;
+  }
+}

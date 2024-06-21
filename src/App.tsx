@@ -1,21 +1,19 @@
 import React from 'react';
-import './App.scss';
-
-interface Props {
-  onClick: () => void;
-  children: React.ReactNode;
-}
-
-export const Provider: React.FC<Props> = React.memo(({ onClick, children }) => (
-  <button type="button" onClick={onClick}>
-    {children}
-  </button>
-));
+import { Provider } from 'react-redux';
+import store, { persister } from './Store/store';
+import { PersistGate } from 'redux-persist/integration/react';
+import { HomePage } from './Components/Home-Page/Home-Page';
 
 export const App: React.FC = () => {
   return (
-    <div className="starter">
-      <Provider onClick={() => ({})}>TodoList</Provider>
-    </div>
+    <Provider store={store}>
+      <PersistGate persistor={persister}>
+        <div>
+          <HomePage />
+        </div>
+      </PersistGate>
+    </Provider>
   );
 };
+
+export default App;

@@ -1,0 +1,44 @@
+.slider__wrapper {
+  display: flex;
+  max-width: 1512px;
+  margin: 0 auto;
+  justify-content: center;
+  flex-direction: column;
+  margin-inline: auto;
+}
+
+.slider {
+  display: flex;
+  flex-direction: column;
+
+  &__title-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    margin-bottom: 96px;
+  }
+
+  &__title {
+    color: var(--Gray-0, #EDEDED);
+    font-size: 80px;
+    font-weight: 500;
+    line-height: 130%;
+    letter-spacing: 3.2px;
+    text-transform: uppercase;
+  }
+
+  &__buttons-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+  }
+
+  &__button {
+    cursor: pointer;
+  }
+
+  &__slide {
+    width: 100%;
+  }
+}
