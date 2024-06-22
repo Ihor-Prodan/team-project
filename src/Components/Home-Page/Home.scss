@@ -5,6 +5,7 @@
   justify-content: center;
   flex-direction: column;
   margin-inline: auto;
+  position: relative;
 }
 
 .home__page {
@@ -42,7 +43,7 @@
   &-top-button {
     margin: 56px 0 59px 0;
     display: flex;
-    width: 221px;
+    width: 220px;
     height: 56px;
     padding: 16px 32px;
     justify-content: center;
@@ -56,6 +57,24 @@
     line-height: 100%;
     letter-spacing: 0.64px;
     text-transform: uppercase;
+    gap: 12px;
+    text-wrap: nowrap;
+    transition: width 0.4s ease, font-size 0.4s ease;
+
+    &:hover {
+      transition: width 0.4s ease, font-size 0.4s ease;
+      width: 241px;
+    }
+
+    &:active {
+      transition: width 0.4s ease, font-size 0.4s ease;
+      color: var(--Gray-0, #EDEDED);
+      font-size: 18px;
+      font-style: normal;
+      font-weight: 700;
+      letter-spacing: 0.72px;
+      width: 272px;
+    }
   }
 
   &-main-poster {
@@ -188,7 +207,7 @@
   &-ready-button {
     margin: 96px auto 188px auto;
     display: flex;
-    width: 222px;
+    width: 210px;
     height: 56px;
     padding: 16px 32px;
     justify-content: center;
@@ -196,5 +215,23 @@
     flex-shrink: 0;
     border-radius: 8px;
     background: #E2DDDB;
+    text-transform: uppercase;
+    gap: 12px;
+    text-wrap: nowrap;
+    transition: width 0.7s ease, font-size 0.4s ease;
+
+    &:hover {
+      transition: width 0.7s ease, font-size 0.4s ease;
+      width: 241px;
+    }
+
+    &:active {
+      transition: width 0.4s ease, font-size 0.6s ease;
+      font-size: 18px;
+      font-style: normal;
+      font-weight: 700;
+      letter-spacing: 0.72px;
+      width: 272px;
+    }
   }
 }

@@ -29,6 +29,24 @@
     font-size: 16px;
     font-weight: 400;
     line-height: 100%;
+    position: relative;
+    cursor: pointer;
+
+    &:hover::after, &:active::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -50%;
+      width: 3px;
+      border: 2px solid var(--Gray-100, #EDEDED);
+      border-radius: 8px;
+      transition: width 0.5s ease;
+    }
+
+    &:active::after {
+      border-radius: 8px;
+      width: 100%;
+    }
   }
 
   &__block-nav {
@@ -54,10 +72,27 @@
     }
   
     &__nav-items {
+      position: relative;
       color: var(--Gray-0, #EDEDED);
       font-size: 16px;
       font-weight: 400;
       line-height: 100%;
+
+      &:hover::after, &:active::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: -50%;
+        width: 3px;
+        border: 2px solid var(--Gray-100, #EDEDED);
+        border-radius: 8px;
+        transition: width 0.5s ease;
+      }
+  
+      &:active::after {
+        border-radius: 8px;
+        width: 100%;
+      }
     }
   }
 
@@ -72,6 +107,25 @@
     font-size: 16px;
     font-weight: 400;
     line-height: 100%;
+    position: relative;
+    cursor: pointer;
+
+
+    &:hover::after, &:active::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -50%;
+      width: 3px;
+      border: 2px solid var(--Gray-100, #EDEDED);
+      border-radius: 8px;
+      transition: width 0.5s ease;
+    }
+
+    &:active::after {
+      border-radius: 8px;
+      width: 100%;
+    }
   }
 
   &__bottom {
@@ -93,6 +147,24 @@
     font-size: 16px;
     font-weight: 400;
     line-height: 100%;
+    position: relative;
+    cursor: pointer;
+
+    &:hover::after, &:active::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -50%;
+      width: 3px;
+      border: 2px solid var(--Gray-100, #A7A7A7);
+      border-radius: 8px;
+      transition: width 0.5s ease;
+    }
+
+    &:active::after {
+      border-radius: 8px;
+      width: 100%;
+    }
   }
 
   &__bottom-copyring {

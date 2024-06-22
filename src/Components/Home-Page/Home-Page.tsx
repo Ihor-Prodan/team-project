@@ -9,6 +9,7 @@ import Footer from '../Footer/Footer';
 
 export const HomePage: React.FC = () => {
   const [loaded, setLoaded] = useState(false);
+  const [active, setActive] = useState(false);
 
   useEffect(() => {
     const img = new Image();
@@ -51,6 +52,14 @@ export const HomePage: React.FC = () => {
     },
   ];
 
+  const handleMouseDown = () => {
+    setActive(true);
+  };
+
+  const handleMouseUp = () => {
+    setActive(false);
+  };
+
   return (
     <>
       <div className="home__page-wrapper">
@@ -61,7 +70,29 @@ export const HomePage: React.FC = () => {
             <p className="home__page-slogan">
               Experience harmony of body and mind at Pulse Gym
             </p>
-            <button className="home__page-top-button">Book a workout</button>
+            <button
+              className="home__page-top-button"
+              onMouseDown={handleMouseDown}
+              onMouseUp={handleMouseUp}
+            >
+              Book a workout
+              <svg
+                className="home__page-button-arrow"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <path
+                  d="M3 12.013L20.789 12M14.013 19L21 12L14.012 5"
+                  strokeWidth={active ? '2' : ''}
+                  stroke="white"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
           </div>
           <img
             className={`home__page-main-poster ${loaded ? 'loaded' : ''}`}
@@ -109,7 +140,28 @@ export const HomePage: React.FC = () => {
           </div>
           <div className="home__page-ready-container">
             <h2 className="home__page-ready-title">ready to rock?</h2>
-            <button className="home__page-ready-button">Book a workout</button>
+            <button
+              className="home__page-ready-button"
+              onMouseDown={handleMouseDown}
+              onMouseUp={handleMouseUp}
+            >
+              Book a workout
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <path
+                  d="M3 12.013L20.789 12M14.013 19L21 12L14.012 5"
+                  strokeWidth={active ? '2' : ''}
+                  stroke="#111115"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
           </div>
         </section>
         <Footer />

@@ -107,7 +107,6 @@ export const Slider: React.FC = () => {
             </div>
           </div>
           <ReactSwiper
-            // className="swiper__swiper"
             loop={true}
             spaceBetween={90}
             slidesPerView={'auto'}
@@ -119,11 +118,7 @@ export const Slider: React.FC = () => {
           >
             {slides &&
               slides.map(slide => (
-                <SwiperSlide
-                  key={slide}
-                  style={{ width: '100%' }}
-                  // className="slider__slides"
-                >
+                <SwiperSlide key={slide} style={{ width: '100%' }}>
                   <img className="slider__slide" src={slide}></img>
                 </SwiperSlide>
               ))}

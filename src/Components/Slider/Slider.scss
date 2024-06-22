@@ -36,9 +36,31 @@
 
   &__button {
     cursor: pointer;
+    transition: stroke 0.3s ease;
+
+    &:hover rect {
+      stroke-width: 1px;
+      stroke: var(--Gray-30, #A7A7A7);
+    }
+
+    &:hover path {
+      stroke-width: 1px;
+      stroke: var(--Gray-30, #A7A7A7);
+    }
+
+    &:active rect {
+      stroke-width: 2px;
+      stroke: var(--Gray-30, #C3C3C3);
+    }
+
+    &:active path {
+      stroke-width: 3px;
+      stroke: var(--Gray-30, #C3C3C3);
+    }
   }
 
   &__slide {
     width: 100%;
+    cursor: pointer;
   }
 }

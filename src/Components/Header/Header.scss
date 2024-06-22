@@ -8,9 +8,15 @@
   background: #e2dddb99;
   backdrop-filter: blur(4px);
   padding-inline: 32px;
+  position: sticky;
+  top: 0;
+  z-index: 2;
 
   &__logo {
     cursor: pointer;
+    &:hover {
+      transform: scale(1.03);
+    }
   }
 
   &__nav-and-button {
@@ -33,8 +39,21 @@
     text-align: center;
     font-size: 16px;
     font-weight: 500;
-    line-height: 100%; /* 16px */
+    line-height: 100%;
     letter-spacing: 0.64px;
     text-transform: uppercase;
+
+    &:hover {
+      border: 1px solid var(--Gray-60, #A7A7A7);
+      color: var(--Gray-80, #444);
+    }
+
+    &:active {
+      padding: 16px 30px;
+      outline: none;
+      box-shadow: 0 0 0 2px var(--Gray-100, #111115) inset; 
+      color: var(--Gray-100, #111115);
+      font-weight: 700;
+    }
   }
 }
