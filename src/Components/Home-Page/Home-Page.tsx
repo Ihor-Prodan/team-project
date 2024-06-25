@@ -63,8 +63,8 @@ export const HomePage: React.FC = () => {
   return (
     <>
       <div className="home__page-wrapper">
-        <Header />
         <section className="home__page">
+          <Header />
           <div className="home__page-top">
             <h1 className="home__page-title">Synchronize your life</h1>
             <p className="home__page-slogan">
@@ -75,7 +75,7 @@ export const HomePage: React.FC = () => {
               onMouseDown={handleMouseDown}
               onMouseUp={handleMouseUp}
             >
-              Book a workout
+              <span className="home__page-top-button-text">Book a workout</span>
               <svg
                 className="home__page-button-arrow"
                 xmlns="http://www.w3.org/2000/svg"
@@ -94,10 +94,13 @@ export const HomePage: React.FC = () => {
               </svg>
             </button>
           </div>
-          <img
-            className={`home__page-main-poster ${loaded ? 'loaded' : ''}`}
-            src={poster}
-          ></img>
+          <div className="home__page-gradient">
+            <img
+              className={`home__page-main-poster ${loaded ? 'loaded' : ''}`}
+              src={poster}
+            ></img>
+          </div>
+
           <div className="home__page-bottom">
             <div className="home__page-about-flex-container">
               <div className="home__page-about-container">
@@ -125,7 +128,7 @@ export const HomePage: React.FC = () => {
               </div>
             </div>
             <div className="home__page-workout-plans-container">
-              <h2 className="home__page-workout-title"></h2>
+              <h2 className="home__page-workout-title">Workout plans</h2>
               <article className="home__page-workouts-list">
                 {initialCart.map(cart => (
                   <WorkoutsCart cart={cart} key={cart.id} />
@@ -147,6 +150,7 @@ export const HomePage: React.FC = () => {
             >
               Book a workout
               <svg
+                className="home__page-ready-button-arrow-white"
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
                 height="24"

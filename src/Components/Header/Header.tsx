@@ -1,11 +1,29 @@
 /* eslint-disable max-len */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Navigation } from '../Navigation/Navigation';
 import './Header.scss';
 
 export const Header: React.FC = () => {
+  const [isScrolledUp, setIsScrolledUp] = useState(true);
+  const [lastScrollTop, setLastScrollTop] = useState(0);
+
+  //Header-scroll function
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+
+      setIsScrolledUp(scrollTop < lastScrollTop);
+      setLastScrollTop(scrollTop <= 0 ? 0 : scrollTop);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollTop]);
+  //Header-scroll function
+
   return (
-    <section className="header">
+    <header className={`header ${isScrolledUp ? '' : 'sticky'}`}>
       <svg
         className="header__logo"
         xmlns="http://www.w3.org/2000/svg"
@@ -55,7 +73,7 @@ export const Header: React.FC = () => {
         <Navigation />
         <button className="header__button">Book a workout</button>
       </div>
-    </section>
+    </header>
   );
 };
 

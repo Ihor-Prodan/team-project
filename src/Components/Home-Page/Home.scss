@@ -5,17 +5,18 @@
   justify-content: center;
   flex-direction: column;
   margin-inline: auto;
-  position: relative;
 }
 
 .home__page {
   display: flex;
   flex-direction: column;
+  position: relative;
+  background: var(--Primary-100, #D6D0CE);
 
   &-top {
     display: flex;
     flex-direction: column;
-    background: rgba(226, 221, 219, 0.60);
+    background: var(--Primary-100, #D6D0CE);
     backdrop-filter: blur(4px);
     justify-content: flex-start;
     padding-inline: 32px;
@@ -23,7 +24,7 @@
 
   &-title {
     display: flex;
-    margin-top: 160px;
+    margin-top: 136px;
     color: var(--Gray-100, #111115);
     font-size: 120px;
     font-weight: 500;
@@ -33,7 +34,7 @@
 
   &-slogan {
     display: flex;
-    margin-top: 40px;
+    margin-top: 16px;
     color: var(--Gray-80, #444);
     font-size: 32px;
     font-weight: 300;
@@ -45,7 +46,7 @@
     display: flex;
     width: 220px;
     height: 56px;
-    padding: 16px 32px;
+    padding: 0 16px 0 40px;
     justify-content: center;
     align-items: center;
     border-radius: 8px;
@@ -58,23 +59,32 @@
     letter-spacing: 0.64px;
     text-transform: uppercase;
     gap: 12px;
-    text-wrap: nowrap;
-    transition: width 0.4s ease, font-size 0.4s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    transition: width 0.4s ease-in, font-size 0.4s ease;
 
     &:hover {
       transition: width 0.4s ease, font-size 0.4s ease;
       width: 241px;
     }
 
+    &:hover .home__page-button-arrow path {
+      stroke: white;
+    }
+
     &:active {
       transition: width 0.4s ease, font-size 0.4s ease;
       color: var(--Gray-0, #EDEDED);
-      font-size: 18px;
+      font-size: 16px;
       font-style: normal;
       font-weight: 700;
       letter-spacing: 0.72px;
       width: 272px;
     }
+  }
+
+  &-button-arrow path {
+    stroke: #111115;
   }
 
   &-main-poster {
@@ -84,6 +94,10 @@
     background: var(--Gray-100-Gradient, linear-gradient(0deg, #111115 0%, rgba(17, 17, 21, 0.00) 100%));
     opacity: 0;
     transition: opacity 2s ease-in-out;
+  }
+
+  &-gradient {
+    background: var(--Gray-100-Gradient, linear-gradient(0deg, #111115 0%, rgba(17, 17, 21, 0.00) 100%));
   }
 
   &-main-poster.loaded {
@@ -164,9 +178,20 @@
   }
 
   &-workout-plans-container {
-    margin-top: 188px;
+    margin-top: 144px;
     display: flex;
     flex-direction: column;
+  }
+
+  &-workout-title {
+    display: flex;
+    margin-bottom: 56px;
+    color: var(--Gray-0, #F3F4F6);
+    font-size: 72px;
+    font-weight: 400;
+    line-height: 130%;
+    letter-spacing: 2.88px;
+    text-transform: uppercase;
   }
 
   &-workouts-list {
@@ -177,7 +202,7 @@
 
   &-slider-container {
     display: flex;
-    margin-top: 186px;
+    margin-top: 144px;
     width: 100%;
   }
 
@@ -195,7 +220,7 @@
 
   &-ready-title {
     display: flex;
-    margin-top: 180px;
+    margin-top: 144px;
     color: var(--Gray-0, #EDEDED);
     text-align: center;
     font-size: 200px;
@@ -205,11 +230,11 @@
   }
 
   &-ready-button {
-    margin: 96px auto 188px auto;
+    margin: 56px auto 188px auto;
     display: flex;
     width: 210px;
     height: 56px;
-    padding: 16px 32px;
+    padding: 0 16px 0 40px;
     justify-content: center;
     align-items: center;
     flex-shrink: 0;
@@ -225,9 +250,17 @@
       width: 241px;
     }
 
+    .home__page-ready-button-arrow-white path {
+      stroke: #E2DDDB;
+    }
+
+    &:hover .home__page-ready-button-arrow-white path {
+      stroke: #111115;
+    }
+
     &:active {
-      transition: width 0.4s ease, font-size 0.6s ease;
-      font-size: 18px;
+      transition: width 0.6s ease, font-size 0.6s ease;
+      font-size: 16px;
       font-style: normal;
       font-weight: 700;
       letter-spacing: 0.72px;

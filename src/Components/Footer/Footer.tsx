@@ -11,7 +11,13 @@ export const Footer: React.FC = () => {
   ];
 
   const social = ['Instagram', 'Facebook', 'YouTube'];
-  const navItems = ['Timetable', 'Workout plans', 'Trainers', 'Price'];
+  const navItems = [
+    'Timetable',
+    'Workout plans',
+    'Trainers',
+    'Price',
+    'Contacts',
+  ];
   const policy = ['Jobs & Career', 'Terms of service', 'Privacy policy'];
 
   return (
@@ -76,7 +82,11 @@ export const Footer: React.FC = () => {
               <nav className="footer__navigation__nav">
                 <ul className="footer__navigation__nav-list">
                   {navItems.map(item => (
-                    <NavLink to={''} key={item}>
+                    <NavLink
+                      to={''}
+                      key={item}
+                      className="footer__navigation__nav-links"
+                    >
                       <li className="footer__navigation__nav-items">{item}</li>
                     </NavLink>
                   ))}

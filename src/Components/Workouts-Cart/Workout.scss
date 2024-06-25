@@ -39,6 +39,13 @@
     display: flex;
     align-items: center;
     gap: 8px;
+
+    &-time {
+      padding-left: 3px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
   }
 
   &-info-workout {
