@@ -11,8 +11,11 @@ import {
 import persistReducer from 'redux-persist/es/persistReducer';
 import persistStore from 'redux-persist/es/persistStore';
 import storage from 'redux-persist/lib/storage';
+import { themeSlice } from '../Slices/themeMode';
 
-const rootReducer = combineReducers({});
+const rootReducer = combineReducers({
+  theme: themeSlice.reducer,
+});
 
 const persistConfig = {
   key: 'root',

@@ -6,8 +6,13 @@ import poster from './Pictures/main-poster.png';
 import { WorkoutsCart } from '../Workouts-Cart/Workouts-Cart';
 import { Slider } from '../Slider/Slider';
 import Footer from '../Footer/Footer';
+import { Theme } from '../Redux/Slices/themeMode';
 
-export const HomePage: React.FC = () => {
+interface Props {
+  themeColor: Theme;
+}
+
+export const HomePage: React.FC<Props> = ({ themeColor }) => {
   const [loaded, setLoaded] = useState(false);
   const [active, setActive] = useState(false);
 
@@ -64,7 +69,7 @@ export const HomePage: React.FC = () => {
     <>
       <div className="home__page-wrapper">
         <section className="home__page">
-          <Header />
+          <Header themeColor={themeColor} />
           <div className="home__page-top">
             <h1 className="home__page-title">Synchronize your life</h1>
             <p className="home__page-slogan">
