@@ -48,7 +48,6 @@ export const calendarSlice: Slice<
   reducers: {
     setDays: state => {
       state.days = updateDays();
-      state.currentDayIndex = 0;
     },
     setCurrentDayIndex: (state, action: PayloadAction<number>) => {
       state.currentDayIndex = action.payload;

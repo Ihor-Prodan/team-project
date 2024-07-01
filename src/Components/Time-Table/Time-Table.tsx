@@ -20,27 +20,8 @@ export const TimeTable: React.FC<Props> = ({ themeColor }) => {
   const currentDayIndex = useAppSelector(
     state => state.calendar.currentDayIndex,
   );
-  const swiperRef = useRef<Swiper | null>(null);
   const dispatch = useAppDispatch();
-  // const [currentDayIndex, setCurrentDayIndex] = useState<number>(0);
-  // const [days, setDays] = useState<{ day: string; date: string; dayIndex: number }[]
-  // >([]);
-
-  // const updateDays = () => {
-  //   const today = new Date();
-  //   const newDays = Array.from({ length: 21 }).map((_, index) => {
-  //     const date = addDays(today, index);
-
-  //     return {
-  //       day: format(date, 'EEE'),
-  //       date: format(date, 'dd.MM'),
-  //       dayIndex: index,
-  //     };
-  //   });
-
-  //   setDays(newDays);
-  //   setCurrentDayIndex(0);
-  // };
+  const swiperRef = useRef<Swiper | null>(null);
 
   useEffect(() => {
     dispatch(setDays());
@@ -140,6 +121,7 @@ export const TimeTable: React.FC<Props> = ({ themeColor }) => {
     },
   ];
 
+  //create grid-elements
   const timetableGrid = times.map(t => ({
     time: t,
     studios: studio.map(stud => ({
@@ -151,6 +133,7 @@ export const TimeTable: React.FC<Props> = ({ themeColor }) => {
         null,
     })),
   }));
+  //create grid-elements
 
   //swiper logic
   const slideNext = () => {

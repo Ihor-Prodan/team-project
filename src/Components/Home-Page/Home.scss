@@ -16,7 +16,7 @@
   &-top {
     display: flex;
     flex-direction: column;
-    background: var(--Primary-100, #D6D0CE);
+    background: var(100--Primary-, #D6D0CE);
     backdrop-filter: blur(4px);
     justify-content: flex-start;
     padding-inline: 32px;
