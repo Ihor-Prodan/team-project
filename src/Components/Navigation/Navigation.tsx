@@ -14,7 +14,7 @@ export const Navigation: React.FC<Props> = ({ themeColor }) => {
     'Timetable',
     'Workout plans',
     'Trainers',
-    'Price',
+    'Prices',
     'Contacts',
   ];
 

@@ -43,11 +43,13 @@
   }
 
   &__nav-items {
-    position: relative; 
+    position: relative;
     color: var(--Gray-100, #111115);
     font-size: 16px;
     font-weight: 400;
-    line-height: 100%; 
+    line-height: 100%;
+    white-space: nowrap;
+
 
     &-dark {
       color: var(--Gray-100, #F3F4F6);
@@ -63,6 +65,7 @@
       width: 100%;
       border: 1px solid var(--Gray-100, #111115);
       border-radius: 8px;
+      font-weight: 500;
     }
   }
 
@@ -78,21 +81,3 @@
     }
   }
 }
-
-// .navigation-links-dark {
-//   &:hover::after, &:active::after {
-//     content: '';
-//     position: absolute;
-//     left: 0;
-//     bottom: 0;
-//     width: 3px;
-//     border: 1px solid var(--Gray-100, #D5D6DA);
-//     border-radius: 8px;
-//     transition: width 0.5s ease;
-//   }
-
-//   &:active::after {
-//     border-radius: 8px;
-//     width: 100%;
-//   }
-// }

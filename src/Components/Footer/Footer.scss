@@ -25,10 +25,10 @@
 
   &__contact {
     display: flex;
-    padding-block: 18px;
+    padding-block: 14px;
     color: var(--Gray-0, #EDEDED);
     font-size: 16px;
-    font-weight: 400;
+    font-weight: 300;
     line-height: 100%;
     position: relative;
     cursor: pointer;
@@ -76,9 +76,9 @@
       position: relative;
       color: var(--Gray-0, #EDEDED);
       font-size: 16px;
-      font-weight: 400;
+      font-weight: 300;
       line-height: 100%;
-      padding-block: 18px;
+      padding-block: 14px;
 
       &:hover::after, &:active::after {
         content: '';
@@ -107,11 +107,11 @@
   &__social {
     color: var(--Gray-0, #EDEDED);
     font-size: 16px;
-    font-weight: 400;
+    font-weight: 300;
     line-height: 100%;
     position: relative;
     cursor: pointer;
-    padding-block: 18px;
+    padding-block: 14px;
 
 
     &:hover::after, &:active::after {
@@ -148,11 +148,11 @@
   &__policy-item {
     color: var(--Gray-60, #A7A7A7);
     font-size: 16px;
-    font-weight: 400;
+    font-weight: 300;
     line-height: 100%;
     position: relative;
     cursor: pointer;
-    padding-block: 18px;
+    padding-block: 14px;
 
     &:hover::after, &:active::after {
       content: '';
@@ -180,7 +180,6 @@
   &__copyring-text {
     color: var(--Gray-60, #A7A7A7);
     text-align: center;
-    font-family: "Red Hat Display";
     font-size: 14px;
     font-style: normal;
     font-weight: 400;

@@ -4,7 +4,7 @@
   padding: 32px;
   flex-direction: column;
   align-items: flex-start;
-  gap: 56px;
+  gap: 32px;
   border-radius: 8px;
   border: 1px solid var(--Gray-80, #444);
   flex-direction: column;
@@ -22,7 +22,7 @@
     flex: 1 0 0;
     color: var(--Gray-0, #EDEDED);
     font-size: 40px;
-    font-weight: 500;
+    font-weight: 400;
     line-height: 110%;
     text-wrap: wrap;
   }
@@ -60,18 +60,20 @@
   &-text-container {
     display: flex;
     height: 40px;
+    margin-bottom: 24px;
   }
 
   &-description {
     color: var(--Gray-30, #C3C3C3);
     font-size: 16px;
     font-style: normal;
-    font-weight: 400;
+    font-weight: 300;
     line-height: 140%;
     height: auto;
   }
 
   &-button {
+    margin-top: 24px;
     display: flex;
     width: 188px;
     height: 48px;
@@ -96,7 +98,7 @@
       font-weight: 600;
       outline: none;
       border: 1px solid var(--Primary-100, #E2DDDB);
-      box-shadow: 0 0 0 1px var(--Gray-100, #E2DDDB) inset; 
+      // box-shadow: 0 0 0 1px var(--Gray-100, #E2DDDB) inset; 
     }
   }
 }

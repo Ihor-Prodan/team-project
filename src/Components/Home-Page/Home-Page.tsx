@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import Header from '../Header/Header';
 import './Home.scss';
-import poster from './Pictures/main-poster.png';
+import poster from './Pictures/BG-poster.png';
 import { WorkoutsCart } from '../Workouts-Cart/Workouts-Cart';
 import { Slider } from '../Slider/Slider';
 import Footer from '../Footer/Footer';

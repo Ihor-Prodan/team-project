@@ -12,9 +12,11 @@ import persistReducer from 'redux-persist/es/persistReducer';
 import persistStore from 'redux-persist/es/persistStore';
 import storage from 'redux-persist/lib/storage';
 import { themeSlice } from '../Slices/themeMode';
+import { calendarSlice } from '../Slices/Calendar';
 
 const rootReducer = combineReducers({
   theme: themeSlice.reducer,
+  calendar: calendarSlice.reducer,
 });
 
 const persistConfig = {

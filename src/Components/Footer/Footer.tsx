@@ -18,7 +18,11 @@ export const Footer: React.FC = () => {
     'Price',
     'Contacts',
   ];
-  const policy = ['Jobs & Career', 'Terms of service', 'Privacy policy'];
+  const policy = [
+    'Return and Refund Policy',
+    'Terms of service',
+    'Privacy policy',
+  ];
 
   return (
     <>
