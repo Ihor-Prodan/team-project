@@ -72,6 +72,14 @@
       stroke: white;
     }
 
+    &:active path {
+      stroke-width: 2px;
+    }
+
+    .home__page-button-arrow path {
+      transition: stroke-width 0.4s ease;
+    }
+
     &:active {
       transition: width 0.4s ease, font-size 0.4s ease;
       color: var(--Gray-0, #EDEDED);
@@ -252,6 +260,14 @@
 
     .home__page-ready-button-arrow-white path {
       stroke: #E2DDDB;
+    }
+
+    &:active path {
+      stroke-width: 2px;
+    }
+
+    .home__page-ready-button-arrow-white path {
+      transition: stroke-width 0.4s ease;
     }
 
     &:hover .home__page-ready-button-arrow-white path {

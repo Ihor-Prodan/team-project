@@ -363,14 +363,6 @@ export const TimeTable: React.FC<Props> = ({
                                   : 'Gym'}
                               </p>
                             </div>
-                            {/* <div className="timetable__grid-studioname-atributs">
-                              <p className="timetable__grid-studioname-text">
-                                Location:
-                              </p>
-                              <p className="timetable__grid-studioname-text">
-                                {studioClass.class.location}
-                              </p>
-                            </div> */}
                           </div>
                           <div className="timetable__grid-studioname-hover-button">
                             <button className="timetable__grid-studioname-book-button">

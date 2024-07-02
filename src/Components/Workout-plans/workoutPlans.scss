@@ -138,5 +138,125 @@
 .LedWorkout {
   width: 100%;
   padding-inline: 32px;
-  
+
+  .workout {
+    &__content-container {
+      margin: 48px 0 144px 0;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    &__content-info {
+      display: flex;
+      max-width: 344px;
+      height: auto;
+      padding: 16px;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+      border-radius: 8px;
+      border: 1px solid var(--Gray-80, #575759);
+
+      &-img {
+        width: 100%;
+        height: 100%;
+      }
+
+      &-container {
+        width: 100%;
+        height: auto;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(3, 1fr);
+        gap: 24px;
+      }
+
+      &-icon {
+        display: flex;
+        width: 24px;
+        height: 24px;
+        padding: 4px;
+        justify-content: center;
+        align-items: center;
+      }
+
+      &-nameAndText {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      &-name {
+        align-self: stretch;
+        color: var(--Gray-0, #F3F4F6);
+        font-size: 24px;
+        font-weight: 300;
+        line-height: 140%;
+      }
+
+      &-text {
+        align-self: stretch;
+        color: var(--Gray-60, #B0B1B5);
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 300;
+        line-height: 140%;
+      }
+
+      &-bookButton {
+        grid-column: 1/3;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        height: 56px;
+        min-width: 221px;
+        padding: 16px 32px;
+        justify-content: center;
+        border-radius: 8px;
+        background: var(--Primary-100, #D6D0CE);
+        text-transform: uppercase;
+        transition: all 0.6s ease;
+        overflow: hidden;
+        position: relative;
+
+        &:hover {
+          .workout__button-text {
+            transform: translateX(-10px);
+          }
+      
+          .workout__ready-button-arrow-white {
+            transform: scale(1);
+            opacity: 1;
+          }
+        }
+      
+        &:active {
+          transition: width 0.6s ease, font-size 0.6s ease;
+          font-size: 16px;
+          font-style: normal;
+          font-weight: 600;
+          letter-spacing: 0.72px;
+        }
+
+        &:active path {
+          stroke-width: 2px;
+        }
+      
+        .workout__button-text {
+          transition: transform 0.6s ease;
+        }
+      
+        .workout__ready-button-arrow-white {
+          transition: transform 0.6s ease, opacity 0.6s ease;
+          transform: scale(0);
+          opacity: 1;
+        }
+
+        .workout__ready-button-arrow-white path {
+          transition: stroke-width 0.6s ease;
+        }
+      }
+    }
+  }
 }

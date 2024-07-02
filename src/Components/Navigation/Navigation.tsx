@@ -13,20 +13,7 @@ export const Navigation: React.FC<Props> = ({ themeColor }) => {
   const [activeDropdownIndex, setActiveDropdownIndex] = useState<number | null>(
     null,
   );
-
   const theme = useAppSelector(state => state.theme.theme);
-  // const navItems = [
-  //   'Timetable',
-  //   'Workout plans',
-  //   'Trainers',
-  //   'Prices',
-  //   'Contacts',
-  // ];
-
-  // const navItems = [{
-  //   name: 'Timetable',
-  //   path: 'timetable',
-  // }]
 
   const getLinkClass = (isActive: boolean) => {
     const baseClass = 'navigation__links';
@@ -38,8 +25,6 @@ export const Navigation: React.FC<Props> = ({ themeColor }) => {
         ? 'isActive'
         : 'navigation-links-dark__isActive'
       : '';
-
-    // console.log(`${activeClass}`);
 
     return `${baseClass} ${themeClass} ${activeClass}`;
   };
@@ -75,10 +60,7 @@ export const Navigation: React.FC<Props> = ({ themeColor }) => {
                 getLinkClass(isActive || activeDropdownIndex === index)
               }
             >
-              <div
-                className="navigation__nav-items-drobdown-conteiner"
-                // onClick={() => handleIsDropdown(index)}
-              >
+              <div className="navigation__nav-items-drobdown-conteiner">
                 <li
                   className={
                     theme === themeColor

@@ -57,6 +57,17 @@ export const Root: React.FC = () => {
             }
           />
 
+          <Route
+            path="workout/self-guided-workout"
+            element={
+              <LedWorkout
+                themeColor={Theme.dark}
+                isLedWorkout={false}
+                workoutName={'Self-Guided Workout'}
+              />
+            }
+          />
+
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </HashRouter>

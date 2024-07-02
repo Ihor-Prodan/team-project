@@ -152,10 +152,6 @@
   }
 
   &__grid {
-    // display: grid;
-    // grid-template-columns: repeat(7, 277px);
-    // grid-template-rows: repeat(24, 120px);
-
     display: flex;
     flex-direction: row;
     width: 100%;
@@ -190,7 +186,6 @@
         align-self: stretch;
         border-right: 1px solid var(--Gray-80, #575759);
         border-bottom: 1px solid var(--Gray-80, #575759);
-        // border-top: 1px solid var(--Gray-80, #575759);
       }
     }
 
@@ -237,11 +232,6 @@
             opacity: 1;
             bottom: 0;
           }
-
-          // &:hover .timetable__grid-studioname-hover-button {
-          //   opacity: 1;
-          //   bottom: 0;
-          // }
         }
 
         &-item-title:hover .timetable__grid-studioname-hover-button {

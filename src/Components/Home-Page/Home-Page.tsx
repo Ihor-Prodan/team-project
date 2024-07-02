@@ -14,7 +14,6 @@ interface Props {
 
 export const HomePage: React.FC<Props> = ({ themeColor }) => {
   const [loaded, setLoaded] = useState(false);
-  const [active, setActive] = useState(false);
 
   useEffect(() => {
     const img = new Image();
@@ -57,14 +56,6 @@ export const HomePage: React.FC<Props> = ({ themeColor }) => {
     },
   ];
 
-  const handleMouseDown = () => {
-    setActive(true);
-  };
-
-  const handleMouseUp = () => {
-    setActive(false);
-  };
-
   return (
     <>
       <div className="home__page-wrapper">
@@ -75,11 +66,7 @@ export const HomePage: React.FC<Props> = ({ themeColor }) => {
             <p className="home__page-slogan">
               Experience harmony of body and mind at Pulse Gym
             </p>
-            <button
-              className="home__page-top-button"
-              onMouseDown={handleMouseDown}
-              onMouseUp={handleMouseUp}
-            >
+            <button className="home__page-top-button">
               <span className="home__page-top-button-text">Book a workout</span>
               <svg
                 className="home__page-button-arrow"
@@ -91,7 +78,7 @@ export const HomePage: React.FC<Props> = ({ themeColor }) => {
               >
                 <path
                   d="M3 12.013L20.789 12M14.013 19L21 12L14.012 5"
-                  strokeWidth={active ? '2' : ''}
+                  strokeWidth="1"
                   stroke="white"
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -148,11 +135,7 @@ export const HomePage: React.FC<Props> = ({ themeColor }) => {
           </div>
           <div className="home__page-ready-container">
             <h2 className="home__page-ready-title">ready to rock?</h2>
-            <button
-              className="home__page-ready-button"
-              onMouseDown={handleMouseDown}
-              onMouseUp={handleMouseUp}
-            >
+            <button className="home__page-ready-button">
               Book a workout
               <svg
                 className="home__page-ready-button-arrow-white"
@@ -164,7 +147,7 @@ export const HomePage: React.FC<Props> = ({ themeColor }) => {
               >
                 <path
                   d="M3 12.013L20.789 12M14.013 19L21 12L14.012 5"
-                  strokeWidth={active ? '2' : ''}
+                  strokeWidth="1"
                   stroke="#111115"
                   strokeLinecap="round"
                   strokeLinejoin="round"

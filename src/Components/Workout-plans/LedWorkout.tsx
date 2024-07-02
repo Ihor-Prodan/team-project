@@ -3,6 +3,10 @@ import React from 'react';
 import { Theme } from '../Redux/Slices/themeMode';
 import Header from '../Header/Header';
 import './workoutPlans.scss';
+import sectionLed from './Pictures/section-led.png';
+import sectionSelf from './Pictures/section-self.png';
+import { selfGuidedWorkoutPlans, workoutPlansLed } from './Helpers/cartData';
+import Footer from '../Footer/Footer';
 
 interface Props {
   themeColor: Theme;
@@ -15,6 +19,8 @@ export const LedWorkout: React.FC<Props> = ({
   isLedWorkout,
   workoutName,
 }) => {
+  const cartData = isLedWorkout ? workoutPlansLed : selfGuidedWorkoutPlans;
+
   return (
     <div className="wrapper">
       <section className="LedWorkout bg-[#111115]">
@@ -30,10 +36,50 @@ export const LedWorkout: React.FC<Props> = ({
         <h3 className="workout__title-group">{workoutName}</h3>
         <div className="workout__content-container">
           <div className="workout__content-info-container">
-            <div className="workout__content-info"></div>
+            {cartData.map((info, ind) => {
+              const Icon = info.icon;
+
+              return (
+                <div className="workout__content-info" key={ind}>
+                  <div className="workout__content-info-icon">
+                    <Icon />
+                  </div>
+                  <div className="workout__content-info-nameAndText">
+                    <h4 className="workout__content-info-name">{info.title}</h4>
+                    <p className="workout__content-info-text">
+                      {info.description}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+            <button className="workout__content-info-bookButton">
+              <span className="workout__button-text">Book a Workout</span>
+              <svg
+                className="workout__ready-button-arrow-white"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <path
+                  d="M3 12.013L20.789 12M14.013 19L21 12L14.012 5"
+                  strokeWidth="1"
+                  stroke="#111115"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
           </div>
+          <img
+            src={isLedWorkout ? sectionLed : sectionSelf}
+            className="workout__content-info-img"
+          />
         </div>
       </section>
+      <Footer />
     </div>
   );
 };
