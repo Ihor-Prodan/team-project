@@ -6,6 +6,8 @@ import App from '../../App';
 import store from '../Redux/Store/store';
 import { TimeTable } from '../Time-Table/Time-Table';
 import { Theme } from '../Redux/Slices/themeMode';
+import WorkoutPlans from '../Workout-plans/WorkoutPlans';
+import { LedWorkout } from '../Workout-plans/LedWorkout';
 
 export const Root: React.FC = () => {
   return (
@@ -14,9 +16,47 @@ export const Root: React.FC = () => {
         <Routes>
           <Route path="/" element={<App themeColor={Theme.light} />} />
           <Route
-            path="/Timetable"
-            element={<TimeTable themeColor={Theme.dark} />}
+            path="/timetable/group-workout"
+            element={
+              <TimeTable
+                themeColor={Theme.dark}
+                workoutName={'Group Workout'}
+                isLedWorkout={true}
+              />
+            }
           />
+
+          <Route
+            path="timetable/trainer-led-workout"
+            element={
+              <TimeTable
+                themeColor={Theme.dark}
+                workoutName={'Trainer-Led Workout'}
+                isLedWorkout={false}
+              />
+            }
+          />
+          <Route
+            path="workout/group-workout"
+            element={
+              <WorkoutPlans
+                themeColor={Theme.dark}
+                workoutName={'Group Workout'}
+              />
+            }
+          />
+
+          <Route
+            path="workout/trainer-led-workout"
+            element={
+              <LedWorkout
+                themeColor={Theme.dark}
+                isLedWorkout={true}
+                workoutName={'Trainer-Led Workout'}
+              />
+            }
+          />
+
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </HashRouter>

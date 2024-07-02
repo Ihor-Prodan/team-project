@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import './Navigation.scss';
 import { useAppSelector } from '../../Hooks/hooks';
 import { Theme } from '../Redux/Slices/themeMode';
+import navItems from './navItems';
 
 interface Props {
   themeColor: Theme;
@@ -14,13 +15,18 @@ export const Navigation: React.FC<Props> = ({ themeColor }) => {
   );
 
   const theme = useAppSelector(state => state.theme.theme);
-  const navItems = [
-    'Timetable',
-    'Workout plans',
-    'Trainers',
-    'Prices',
-    'Contacts',
-  ];
+  // const navItems = [
+  //   'Timetable',
+  //   'Workout plans',
+  //   'Trainers',
+  //   'Prices',
+  //   'Contacts',
+  // ];
+
+  // const navItems = [{
+  //   name: 'Timetable',
+  //   path: 'timetable',
+  // }]
 
   const getLinkClass = (isActive: boolean) => {
     const baseClass = 'navigation__links';
@@ -59,23 +65,28 @@ export const Navigation: React.FC<Props> = ({ themeColor }) => {
         <ul className="navigation__nav-list">
           {navItems.map((item, index) => (
             <NavLink
-              onClick={e => e?.preventDefault()}
-              to={`/${item}`}
-              key={item}
+              onClick={e =>
+                (item.dropdownItems?.length && e?.preventDefault()) ||
+                handleIsDropdown(index)
+              }
+              to={`/${item.path}`}
+              key={item.path}
               className={({ isActive }) =>
                 getLinkClass(isActive || activeDropdownIndex === index)
               }
             >
-              <div className="navigation__nav-items-drobdown-conteiner">
+              <div
+                className="navigation__nav-items-drobdown-conteiner"
+                // onClick={() => handleIsDropdown(index)}
+              >
                 <li
-                  onClick={() => handleIsDropdown(index)}
                   className={
                     theme === themeColor
                       ? 'navigation__nav-items'
                       : 'navigation__nav-items-dark'
                   }
                 >
-                  {item}
+                  {item.name}
                 </li>
                 {index < 2 && (
                   <>
@@ -103,27 +114,22 @@ export const Navigation: React.FC<Props> = ({ themeColor }) => {
                         }
                       >
                         <ul className="dropDown__menu-list">
-                          <NavLink to={'/Timetable'}>
-                            <li
-                              className={
-                                theme === themeColor
-                                  ? 'dropDown__menu-item'
-                                  : 'dropDown__menu-item-dark'
-                              }
+                          {item.dropdownItems?.map(el => (
+                            <NavLink
+                              to={`/${item.path}/${el.path}`}
+                              key={el.name}
                             >
-                              Group Workout
-                            </li>
-                          </NavLink>
-
-                          <li
-                            className={
-                              theme === themeColor
-                                ? 'dropDown__menu-item'
-                                : 'dropDown__menu-item-dark'
-                            }
-                          >
-                            Trainer-Led Workout
-                          </li>
+                              <li
+                                className={
+                                  theme === themeColor
+                                    ? 'dropDown__menu-item'
+                                    : 'dropDown__menu-item-dark'
+                                }
+                              >
+                                {el.name}
+                              </li>
+                            </NavLink>
+                          ))}
                         </ul>
                       </div>
                     )}

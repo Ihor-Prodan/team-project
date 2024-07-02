@@ -34,13 +34,17 @@
       border-radius: 8px;
       width: 100%;
     }
-  }
 
-  // &__links-dark {
-  //   &:hover::after, &:active::after {
-  //     border-color: var(--after-border-color-dark);
-  //   }
-  // }
+    &:hover {
+      text-shadow: 0 0 0.01px #111115;
+    }
+
+    &-dark {
+      &:hover {
+        text-shadow: 0 0 0.01px #F3F4F6;
+      }
+    }
+  }
 
   &__nav-items {
     position: relative;
@@ -58,16 +62,8 @@
       align-items: center;
     }
 
-    // &-icon-dark path {
-    //   stroke: #D5D6DA;
-    // }
-
-    // &-icon:active path {
-    //   transform: rotate(360deg);
-    // }
-
     &-dark {
-      color: var(--Gray-100, #F3F4F6);
+      color: var(--Gray-100, #D5D6DA);
     }
   }
 
@@ -89,7 +85,7 @@
       content: '';
       position: absolute;
       left: 0;
-      bottom: 8px;
+      bottom: 12px;
       width: 100%;
       border: 1px solid var(--Gray-100, #D5D6DA);
       border-radius: 8px;
@@ -98,7 +94,7 @@
 
   .dropDown__menu {
     position: absolute;
-    top: 35px;
+    top: 40px;
     left: -9px;
     width: 170px;
     height: auto;
@@ -114,7 +110,7 @@
 
     &-dark {
       position: absolute;
-      top: 35px;
+      top: 40px;
       left: -9px;
       width: 170px;
       height: auto;
@@ -206,20 +202,10 @@
 }
 
 .header-dark {
-  display: none;
-  // .navigation-links {
-    background-color: red;
-    &:hover::after, &:active::after {
-      border-color: #Fff;
-    }
-  // }
-}
-
-// .header {
-//   .navigation-links {
-//     &:hover::after, &:active::after {
-//       border-color: red;
-//     }
-//   }
-// }
-
+  .navigation__links {
+   &:hover::after, &:active::after {
+    bottom: 12px;
+    border-color: #D5D6DA;
+   }
+  }
+} 

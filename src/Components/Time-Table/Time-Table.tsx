@@ -5,7 +5,6 @@ import { Theme } from '../Redux/Slices/themeMode';
 import './timetable.scss';
 import 'swiper/css';
 import Footer from '../Footer/Footer';
-// import { addDays, format } from 'date-fns';
 import Swiper from 'swiper';
 import { Swiper as ReactSwiper, SwiperSlide } from 'swiper/react';
 import { useAppDispatch, useAppSelector } from '../../Hooks/hooks';
@@ -13,9 +12,15 @@ import { setCurrentDayIndex, setDays } from '../Redux/Slices/Calendar';
 
 interface Props {
   themeColor: Theme;
+  workoutName: string;
+  isLedWorkout: boolean;
 }
 
-export const TimeTable: React.FC<Props> = ({ themeColor }) => {
+export const TimeTable: React.FC<Props> = ({
+  themeColor,
+  workoutName,
+  isLedWorkout,
+}) => {
   const days = useAppSelector(state => state.calendar.days);
   const currentDayIndex = useAppSelector(
     state => state.calendar.currentDayIndex,
@@ -70,18 +75,21 @@ export const TimeTable: React.FC<Props> = ({ themeColor }) => {
           name: 'Hatha Yoga',
           trainer: 'Daryna Milovska',
           id: '1',
+          location: 'Flex studio',
         },
         {
           studio: 'Cycle studio',
           name: 'Hill Climb',
           trainer: 'Yuliya Shevchenko',
           id: '7',
+          location: 'Cycle studio',
         },
         {
           studio: 'Cardio studio',
           name: 'HIIT',
           trainer: 'Roman Kovalenko',
           id: '2',
+          location: 'Cardio studio',
         },
       ],
     },
@@ -93,6 +101,7 @@ export const TimeTable: React.FC<Props> = ({ themeColor }) => {
           name: 'Barre',
           trainer: 'Daryna Milovska',
           id: '8',
+          location: 'Mind studio',
         },
         {
           studio: 'Power studio',
@@ -110,12 +119,14 @@ export const TimeTable: React.FC<Props> = ({ themeColor }) => {
           name: 'HI-SIT',
           trainer: 'Olexander Kovalchuk',
           id: '4',
+          location: 'Power studio',
         },
         {
           studio: 'Power studio',
           name: 'Circuit Training',
           trainer: 'Natalia Voloshyna',
           id: '5',
+          location: 'Power studio',
         },
       ],
     },
@@ -133,6 +144,19 @@ export const TimeTable: React.FC<Props> = ({ themeColor }) => {
         null,
     })),
   }));
+
+  // const studioList = !isLedWorkout ? studio.slice(0, 4) : studio;
+  // const timetableGrid = times.map(t => ({
+  //   time: t,
+  //   studios: studioList.map(stud => ({
+  //     studio: stud,
+  //     class:
+  //       timetable
+  //         .filter(slot => slot.time.startsWith(t))
+  //         .flatMap(slot => slot.classes.filter(c => c.studio === stud))[0] ||
+  //       null,
+  //   })),
+  // }));
   //create grid-elements
 
   //swiper logic
@@ -167,13 +191,14 @@ export const TimeTable: React.FC<Props> = ({ themeColor }) => {
       <section className="timetable">
         <Header themeColor={themeColor} />
         <div className="timetable__title-description-container">
-          <h1 className="timetable__title">Timetable</h1>
+          <h2 className="timetable__title">Timetable</h2>
           <p className="timetable__descriptions">
-            Check out our detailed timetable to enjoy a variety of classes
-            tailored to suit your needs. Plan workouts and book a spot today!
+            {isLedWorkout
+              ? 'Check out our detailed timetable to enjoy a variety of classes tailored to suit your needs. Plan workouts and book a spot today!'
+              : 'Check out our timetable for trainer-led workout designed to meet your needs. Schedule your workouts and book a session today!'}
           </p>
         </div>
-        <h3 className="timetable__title-group">Group Workout</h3>
+        <h3 className="timetable__title-group">{workoutName}</h3>
         <div className="timetable__calendar">
           <div className="timetable__calendar-header">
             <svg
@@ -260,7 +285,9 @@ export const TimeTable: React.FC<Props> = ({ themeColor }) => {
           </div>
           <div className="timetable__grid">
             <ul className="timetable__grid-time">
-              <li className="timetable__grid-time-item-1"></li>
+              {isLedWorkout && (
+                <li className="timetable__grid-time-item-1"></li>
+              )}
               {times.map(t => (
                 <li className="timetable__grid-time-item" key={t}>
                   {t}
@@ -269,7 +296,9 @@ export const TimeTable: React.FC<Props> = ({ themeColor }) => {
             </ul>
             {studio.map(stud => (
               <div className="wrap" key={stud}>
-                <ul className="timetable__grid-studioname">{stud}</ul>
+                {isLedWorkout && (
+                  <ul className="timetable__grid-studioname">{stud}</ul>
+                )}
                 {timetableGrid.map(({ time, studios }) => {
                   const studioClass = studios.find(s => s.studio === stud);
                   const timeSlot = timetable.find(slot =>
@@ -282,32 +311,42 @@ export const TimeTable: React.FC<Props> = ({ themeColor }) => {
                         <div className="timetable__grid-studioname-item">
                           <div className="timetable__grid-studioname-title-icon">
                             <h3 className="timetable__grid-studioname-item-title">
-                              {studioClass.class.name}
+                              {isLedWorkout
+                                ? studioClass.class.name
+                                : studioClass.class.trainer}
                             </h3>
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="30"
-                              height="9"
-                              viewBox="0 0 30 9"
-                              fill="none"
-                            >
-                              <path
-                                d="M4.16667 8.33272C6.46785 8.33272 8.33333 6.46724 8.33333 4.16606C8.33333 1.86487 6.46785 -0.000610352 4.16667 -0.000610352C1.86548 -0.000610352 0 1.86487 0 4.16606C0 6.46724 1.86548 8.33272 4.16667 8.33272Z"
-                                fill="#BEAFA9"
-                              />
-                              <path
-                                d="M14.881 8.33272C17.1822 8.33272 19.0477 6.46724 19.0477 4.16606C19.0477 1.86487 17.1822 -0.000610352 14.881 -0.000610352C12.5798 -0.000610352 10.7144 1.86487 10.7144 4.16606C10.7144 6.46724 12.5798 8.33272 14.881 8.33272Z"
-                                fill="#BEAFA9"
-                              />
-                              <path
-                                d="M29.2623 4.16606C29.2623 6.1911 27.6207 7.83272 25.5956 7.83272C23.5706 7.83272 21.929 6.1911 21.929 4.16606C21.929 2.14101 23.5706 0.49939 25.5956 0.49939C27.6207 0.49939 29.2623 2.14101 29.2623 4.16606Z"
-                                stroke="#BEAFA9"
-                              />
-                            </svg>
+                            {isLedWorkout && (
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="30"
+                                height="9"
+                                viewBox="0 0 30 9"
+                                fill="none"
+                              >
+                                <path
+                                  d="M4.16667 8.33272C6.46785 8.33272 8.33333 6.46724 8.33333 4.16606C8.33333 1.86487 6.46785 -0.000610352 4.16667 -0.000610352C1.86548 -0.000610352 0 1.86487 0 4.16606C0 6.46724 1.86548 8.33272 4.16667 8.33272Z"
+                                  fill="#BEAFA9"
+                                />
+                                <path
+                                  d="M14.881 8.33272C17.1822 8.33272 19.0477 6.46724 19.0477 4.16606C19.0477 1.86487 17.1822 -0.000610352 14.881 -0.000610352C12.5798 -0.000610352 10.7144 1.86487 10.7144 4.16606C10.7144 6.46724 12.5798 8.33272 14.881 8.33272Z"
+                                  fill="#BEAFA9"
+                                />
+                                <path
+                                  d="M29.2623 4.16606C29.2623 6.1911 27.6207 7.83272 25.5956 7.83272C23.5706 7.83272 21.929 6.1911 21.929 4.16606C21.929 2.14101 23.5706 0.49939 25.5956 0.49939C27.6207 0.49939 29.2623 2.14101 29.2623 4.16606Z"
+                                  stroke="#BEAFA9"
+                                />
+                              </svg>
+                            )}
                           </div>
                           <div className="timetable__grid-studioname-time-trainer">
                             <div className="timetable__grid-studioname-atributs">
-                              <p className="timetable__grid-studioname-text">
+                              <p
+                                className={
+                                  isLedWorkout
+                                    ? 'timetable__grid-studioname-text pr-4'
+                                    : 'timetable__grid-studioname-text pr-7'
+                                }
+                              >
                                 Time:
                               </p>
                               <p className="timetable__grid-studioname-text">
@@ -316,12 +355,22 @@ export const TimeTable: React.FC<Props> = ({ themeColor }) => {
                             </div>
                             <div className="timetable__grid-studioname-atributs">
                               <p className="timetable__grid-studioname-text">
-                                Trainer:
+                                {isLedWorkout ? 'Trainer:' : 'Location:'}
                               </p>
                               <p className="timetable__grid-studioname-text">
-                                {studioClass.class.trainer}
+                                {isLedWorkout
+                                  ? studioClass.class.trainer
+                                  : 'Gym'}
                               </p>
                             </div>
+                            {/* <div className="timetable__grid-studioname-atributs">
+                              <p className="timetable__grid-studioname-text">
+                                Location:
+                              </p>
+                              <p className="timetable__grid-studioname-text">
+                                {studioClass.class.location}
+                              </p>
+                            </div> */}
                           </div>
                           <div className="timetable__grid-studioname-hover-button">
                             <button className="timetable__grid-studioname-book-button">

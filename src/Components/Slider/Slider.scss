@@ -21,7 +21,7 @@
 
   &__title {
     color: var(--Gray-0, #EDEDED);
-    font-size: 72px;
+    font-size: 64px;
     font-weight: 500;
     line-height: 130%;
     letter-spacing: 3.2px;
@@ -29,6 +29,7 @@
   }
 
   &__buttons-container {
+    margin-top: 10px;
     display: flex;
     align-items: flex-start;
     gap: 24px;

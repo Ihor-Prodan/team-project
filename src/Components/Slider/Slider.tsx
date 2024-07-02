@@ -57,8 +57,8 @@ export const Slider: React.FC = () => {
                 onClick={() => slidePrev()}
                 aria-label="Previous"
                 xmlns="http://www.w3.org/2000/svg"
-                width="56"
-                height="56"
+                width="50"
+                height="50"
                 viewBox="0 0 56 56"
                 fill="none"
               >
@@ -83,8 +83,8 @@ export const Slider: React.FC = () => {
                 aria-label="Next"
                 className="slider__button"
                 xmlns="http://www.w3.org/2000/svg"
-                width="56"
-                height="56"
+                width="50"
+                height="50"
                 viewBox="0 0 56 56"
                 fill="none"
               >
