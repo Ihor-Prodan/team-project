@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Theme } from '../Redux/Slices/themeMode';
 import Header from '../Header/Header';
 import './workoutPlans.scss';
@@ -7,6 +7,7 @@ import sectionLed from './Pictures/section-led.png';
 import sectionSelf from './Pictures/section-self.png';
 import { selfGuidedWorkoutPlans, workoutPlansLed } from './Helpers/cartData';
 import Footer from '../Footer/Footer';
+import { useLocation } from 'react-router-dom';
 
 interface Props {
   themeColor: Theme;
@@ -20,6 +21,12 @@ export const LedWorkout: React.FC<Props> = ({
   workoutName,
 }) => {
   const cartData = isLedWorkout ? workoutPlansLed : selfGuidedWorkoutPlans;
+
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   return (
     <div className="wrapper">

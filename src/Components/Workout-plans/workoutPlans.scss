@@ -75,10 +75,16 @@
     flex-shrink: 0;
     border-radius: 8px;
     border: 1px solid var(--Gray-80, #575759);
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transition: transform 0.3s ease;
+      transform: scale(1.01);
+    }
 
     &-img {
       background-size: contain;
-      width: 403px;
+      width: 100%;
       height: 420px;
       flex-shrink: 0;
       border-radius: 4px;
@@ -117,11 +123,38 @@
         align-self: stretch;
 
         &-title {
+          position: relative;
           color: var(--Gray-0, #F3F4F6);
           font-size: 32px;
           font-style: normal;
           font-weight: 300;
           line-height: 130%;
+          cursor: pointer;
+
+          &:hover {
+            text-shadow: 0 0 0.02px #F3F4F6;
+          }
+
+          &:hover::after, &:active::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -2px;
+            width: 3px;
+            border: 1px solid var(--Gray-100, #F3F4F6);
+            border-radius: 8px;
+            transition: width 0.5s ease;
+          }
+
+          &:active:after, &:active::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -2px;
+            width: 100%;
+            border: 1px solid var(--Gray-100, #F3F4F6);
+            border-radius: 8px;
+          }
         }
     }
 

@@ -8,6 +8,7 @@ import { TimeTable } from '../Time-Table/Time-Table';
 import { Theme } from '../Redux/Slices/themeMode';
 import WorkoutPlans from '../Workout-plans/WorkoutPlans';
 import { LedWorkout } from '../Workout-plans/LedWorkout';
+import { WorkoutDetail } from '../Workout-detail/WorcoutDetail';
 
 export const Root: React.FC = () => {
   return (
@@ -66,6 +67,11 @@ export const Root: React.FC = () => {
                 workoutName={'Self-Guided Workout'}
               />
             }
+          />
+
+          <Route
+            path="workout/group-workout/:id"
+            element={<WorkoutDetail themeColor={Theme.dark} />}
           />
 
           <Route path="*" element={<NotFoundPage />} />

@@ -7,6 +7,8 @@ import { WorkoutsCart } from '../Workouts-Cart/Workouts-Cart';
 import { Slider } from '../Slider/Slider';
 import Footer from '../Footer/Footer';
 import { Theme } from '../Redux/Slices/themeMode';
+import { initialCart } from './Helpers/card-data-home';
+import { useLocation } from 'react-router-dom';
 
 interface Props {
   themeColor: Theme;
@@ -14,6 +16,7 @@ interface Props {
 
 export const HomePage: React.FC<Props> = ({ themeColor }) => {
   const [loaded, setLoaded] = useState(false);
+  const { pathname } = useLocation();
 
   useEffect(() => {
     const img = new Image();
@@ -22,38 +25,15 @@ export const HomePage: React.FC<Props> = ({ themeColor }) => {
     img.onload = () => setLoaded(true);
   }, [poster]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
   const aboutDescription = [
     '2500 m² space to grow',
     'Diverse plans',
     'Top-quality Technogym equipment',
     'Expert trainers',
-  ];
-
-  const initialCart = [
-    {
-      id: '1',
-      name: 'Group Workout',
-      duration: '45 - 90 min',
-      people: 'up to 20 people',
-      description:
-        'Join energetic group workouts where motivation thrives in a supportive community environment.',
-    },
-    {
-      id: '2',
-      name: 'Trainer-Led Workout',
-      duration: '60 min',
-      people: '2 people',
-      description:
-        'Experience personalized guidance and expertise with our trainer-led workouts tailored to your fitness goals.',
-    },
-    {
-      id: '3',
-      name: 'Self-Guided Workout',
-      duration: 'as you like',
-      people: 'only you',
-      description:
-        'Enjoy the flexibility of self-guided training sessions, empowering you to pursue fitness at your own pace.',
-    },
   ];
 
   return (

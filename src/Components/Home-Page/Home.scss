@@ -203,9 +203,14 @@
   }
 
   &-workouts-list {
+    width: 100%;
     display: flex;
     align-items: flex-start;
     gap: 24px;
+
+    &-link {
+      width: 100%;
+    }
   }
 
   &-slider-container {

@@ -9,6 +9,7 @@ import Swiper from 'swiper';
 import { Swiper as ReactSwiper, SwiperSlide } from 'swiper/react';
 import { useAppDispatch, useAppSelector } from '../../Hooks/hooks';
 import { setCurrentDayIndex, setDays } from '../Redux/Slices/Calendar';
+import { useLocation } from 'react-router-dom';
 
 interface Props {
   themeColor: Theme;
@@ -27,6 +28,11 @@ export const TimeTable: React.FC<Props> = ({
   );
   const dispatch = useAppDispatch();
   const swiperRef = useRef<Swiper | null>(null);
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   useEffect(() => {
     dispatch(setDays());
@@ -71,6 +77,7 @@ export const TimeTable: React.FC<Props> = ({
       time: '7:00 - 8:00',
       classes: [
         {
+          time: '7:00 - 8:00',
           studio: 'Flex studio',
           name: 'Hatha Yoga',
           trainer: 'Daryna Milovska',
@@ -78,6 +85,7 @@ export const TimeTable: React.FC<Props> = ({
           location: 'Flex studio',
         },
         {
+          time: '7:00 - 8:00',
           studio: 'Cycle studio',
           name: 'Hill Climb',
           trainer: 'Yuliya Shevchenko',
@@ -85,6 +93,7 @@ export const TimeTable: React.FC<Props> = ({
           location: 'Cycle studio',
         },
         {
+          time: '7:00 - 8:00',
           studio: 'Cardio studio',
           name: 'HIIT',
           trainer: 'Roman Kovalenko',
@@ -97,6 +106,7 @@ export const TimeTable: React.FC<Props> = ({
       time: '8:00 - 9:00',
       classes: [
         {
+          time: '8:00 - 9:00',
           studio: 'Mind studio',
           name: 'Barre',
           trainer: 'Daryna Milovska',
@@ -104,6 +114,7 @@ export const TimeTable: React.FC<Props> = ({
           location: 'Mind studio',
         },
         {
+          time: '8:00 - 9:00',
           studio: 'Power studio',
           name: 'Circuit Training',
           trainer: 'Oleksandr Kovalchuk',
@@ -115,6 +126,7 @@ export const TimeTable: React.FC<Props> = ({
       time: '12:00 - 13:00',
       classes: [
         {
+          time: '12:00 - 13:00',
           studio: 'Power studio',
           name: 'HI-SIT',
           trainer: 'Olexander Kovalchuk',
@@ -122,10 +134,31 @@ export const TimeTable: React.FC<Props> = ({
           location: 'Power studio',
         },
         {
+          time: '12:00 - 13:00',
           studio: 'Power studio',
           name: 'Circuit Training',
           trainer: 'Natalia Voloshyna',
           id: '5',
+          location: 'Power studio',
+        },
+        {
+          time: '12:00 - 13:00',
+          studio: 'Power studio',
+          name: 'Circuit Training',
+          trainer: 'Oleksandr Kovalchuk',
+          id: '3',
+        },
+      ],
+    },
+    {
+      time: '17:00 - 18:00',
+      classes: [
+        {
+          time: '17:00 - 18:00',
+          studio: 'Mind studio',
+          name: 'HI-SIT',
+          trainer: 'Olexander Kovalchuk',
+          id: '4',
           location: 'Power studio',
         },
       ],
@@ -302,7 +335,7 @@ export const TimeTable: React.FC<Props> = ({
                 {timetableGrid.map(({ time, studios }) => {
                   const studioClass = studios.find(s => s.studio === stud);
                   const timeSlot = timetable.find(slot =>
-                    slot.classes.some(c => c.name === studioClass?.class?.name),
+                    slot.classes.some(c => c.time === studioClass?.class?.time),
                   );
 
                   return (

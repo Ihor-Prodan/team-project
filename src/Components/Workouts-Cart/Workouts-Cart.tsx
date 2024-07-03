@@ -1,6 +1,7 @@
 /* eslint-disable max-len */
 import React from 'react';
 import './Workout.scss';
+import { Link } from 'react-router-dom';
 
 type Cart = {
   id: string;
@@ -8,6 +9,7 @@ type Cart = {
   duration: string;
   people: string;
   description: string;
+  path: string;
 };
 
 interface Props {
@@ -60,7 +62,9 @@ export const WorkoutsCart: React.FC<Props> = ({ cart }) => {
       <div className="workout__cart-text-container">
         <p className="workout__cart-description">{cart.description}</p>
       </div>
-      <button className="workout__cart-button">see more</button>
+      <Link to={`/workout/${cart.path}`}>
+        <button className="workout__cart-button">see more</button>
+      </Link>
     </section>
   );
 };

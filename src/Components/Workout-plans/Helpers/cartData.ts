@@ -11,8 +11,7 @@ import {
 export const selfGuidedWorkoutPlans = [
   {
     title: 'Flexible Schedule',
-    description:
-      'Workout anytime from 6:00 to 22:00 on weekdays and 8:00 to 20:00 on weekends.',
+    description: 'Workout anytime: Weekdays 6:00-22:00, Weekends 8:00-20:00.',
     icon: DurationIcon,
   },
   {

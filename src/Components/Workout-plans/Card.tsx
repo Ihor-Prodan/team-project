@@ -1,23 +1,27 @@
 /* eslint-disable max-len */
 import React from 'react';
+import { NavLink } from 'react-router-dom';
+import { CardType } from './initialCartData';
 
 interface Props {
-  card: { img: string; description: string; title: string; isTop: boolean };
+  card: CardType;
 }
 
 export const Card: React.FC<Props> = ({ card }) => {
   return (
     <div className="workout__list-cart">
-      <img src={card.img} className="workout__list-cart-img"></img>
+      <img src={card.image} className="workout__list-cart-img"></img>
       {card.isTop && (
         <div className="workout__list-cart-img-top">Top trainer</div>
       )}
 
       <div className="workout__list-cart-content">
         <div className="workout__list-cart-content-titleAndStrong">
-          <span className="workout__list-cart-content-titleAndStrong-title">
-            {card.title}
-          </span>
+          <NavLink to={`/workout/group-workout/${card.id}`}>
+            <span className="workout__list-cart-content-titleAndStrong-title">
+              {card.name}
+            </span>
+          </NavLink>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="30"

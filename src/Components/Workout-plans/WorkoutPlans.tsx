@@ -1,11 +1,12 @@
 /* eslint-disable max-len */
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import Header from '../Header/Header';
 import { Theme } from '../Redux/Slices/themeMode';
-import testImg from './Pictures/test.png';
 import './workoutPlans.scss';
 import Footer from '../Footer/Footer';
 import Card from './Card';
+import { useLocation } from 'react-router-dom';
+import { CardType, initialStateCart } from './initialCartData';
 
 interface Props {
   themeColor: Theme;
@@ -13,36 +14,47 @@ interface Props {
 }
 
 export const WorkoutPlans: React.FC<Props> = ({ themeColor, workoutName }) => {
-  const initialState = [
-    {
-      img: testImg,
-      description:
-        'Experience deep relaxation and improved flexibility through gentle poses and focused breathing techniques in Hatha Yoga sessions led by Daryna Milovska.',
-      title: 'Hatha Yoga',
-      isTop: false,
-    },
-    {
-      img: testImg,
-      description:
-        'Experience deep relaxation and improved flexibility through gentle poses and focused breathing techniques in Hatha Yoga sessions led by Daryna Milovska.',
-      title: 'Hatha Yoga',
-      isTop: true,
-    },
-    {
-      img: testImg,
-      description:
-        'Experience deep relaxation and improved flexibility through gentle poses and focused breathing techniques in Hatha Yoga sessions led by Daryna Milovska.',
-      title: 'Hatha Yoga',
-      isTop: false,
-    },
-    {
-      img: testImg,
-      description:
-        'Experience deep relaxation and improved flexibility through gentle poses and focused breathing techniques in Hatha Yoga sessions led by Daryna Milovska.',
-      title: 'Hatha Yoga',
-      isTop: true,
-    },
-  ];
+  const [cards, setCards] = useState<CardType[]>(initialStateCart);
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  useEffect(() => {
+    setCards(initialStateCart);
+  }, []);
+
+  // const initialState = [
+  //   {
+  //     img: 'https://i.ibb.co/sJFsrwt/Hatha-Yoga.jpg',
+  //     description:
+  //       'Experience deep relaxation and improved flexibility through gentle poses and focused breathing techniques in Hatha Yoga sessions led by Daryna Milovska.',
+  //     title: 'Hatha Yoga',
+  //     isTop: false,
+  //   },
+  //   {
+  //     img: 'https://i.ibb.co/qxrZHNf/Barre.jpg',
+  //     description:
+  //       'Experience deep relaxation and improved flexibility through gentle poses and focused breathing techniques in Hatha Yoga sessions led by Daryna Milovska.',
+  //     title: 'Hatha Yoga',
+  //     isTop: true,
+  //   },
+  //   {
+  //     img: testImg,
+  //     description:
+  //       'Experience deep relaxation and improved flexibility through gentle poses and focused breathing techniques in Hatha Yoga sessions led by Daryna Milovska.',
+  //     title: 'Hatha Yoga',
+  //     isTop: false,
+  //   },
+  //   {
+  //     img: testImg,
+  //     description:
+  //       'Experience deep relaxation and improved flexibility through gentle poses and focused breathing techniques in Hatha Yoga sessions led by Daryna Milovska.',
+  //     title: 'Hatha Yoga',
+  //     isTop: true,
+  //   },
+  // ];
 
   const worcoutsBlock = ['Flex & Stretch', 'Strength & Mass', 'Shape & Tone'];
 
@@ -62,8 +74,8 @@ export const WorkoutPlans: React.FC<Props> = ({ themeColor, workoutName }) => {
           <Fragment key={workout}>
             <h3 className="workout__workouts">{workout}</h3>
             <article className="workout__list">
-              {initialState.map(card => (
-                <Card card={card} key={card.title} />
+              {cards.map(card => (
+                <Card card={card} key={card.id} />
               ))}
             </article>
           </Fragment>
