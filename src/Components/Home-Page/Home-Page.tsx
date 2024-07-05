@@ -1,46 +1,52 @@
 /* eslint-disable max-len */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Header from '../Header/Header';
-import './Home.scss';
+import './home.scss';
 import poster from './Pictures/BG-poster.png';
 import { WorkoutsCart } from '../Workouts-Cart/Workouts-Cart';
-import { Slider } from '../Slider/Slider';
 import Footer from '../Footer/Footer';
 import { Theme } from '../Redux/Slices/themeMode';
-import { initialCart } from './Helpers/card-data-home';
-import { useLocation } from 'react-router-dom';
+import { aboutDescription, initialCart } from './Helpers/card-data-home';
+import useLoadAnimation from '../../Hooks/animation';
+import MySwiper from '../Swiper/Swiper';
+import useScrollToTop from '../../Hooks/location';
 
 interface Props {
   themeColor: Theme;
 }
 
 export const HomePage: React.FC<Props> = ({ themeColor }) => {
-  const [loaded, setLoaded] = useState(false);
-  const { pathname } = useLocation();
+  useScrollToTop();
+  const [headerDark, setHeaderDark] = useState(Theme.light);
+  const darkSectionRef = useRef<HTMLDivElement>(null);
+  const loaded = useLoadAnimation(poster);
 
+  //header color change function
   useEffect(() => {
-    const img = new Image();
+    const handleScroll = () => {
+      if (darkSectionRef.current) {
+        const darkSectionTop =
+          darkSectionRef.current.getBoundingClientRect().top;
 
-    img.src = poster;
-    img.onload = () => setLoaded(true);
-  }, [poster]);
+        if (darkSectionTop <= 0) {
+          setHeaderDark(Theme.dark);
+        } else {
+          setHeaderDark(Theme.light);
+        }
+      }
+    };
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
+    window.addEventListener('scroll', handleScroll);
 
-  const aboutDescription = [
-    '2500 m² space to grow',
-    'Diverse plans',
-    'Top-quality Technogym equipment',
-    'Expert trainers',
-  ];
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [themeColor]);
+  //header color change function
 
   return (
     <>
       <div className="home__page-wrapper">
+        <Header themeColor={headerDark} />
         <section className="home__page">
-          <Header themeColor={themeColor} />
           <div className="home__page-top">
             <h1 className="home__page-title">Synchronize your life</h1>
             <p className="home__page-slogan">
@@ -73,7 +79,7 @@ export const HomePage: React.FC<Props> = ({ themeColor }) => {
             ></img>
           </div>
 
-          <div className="home__page-bottom">
+          <div className="home__page-bottom" ref={darkSectionRef}>
             <div className="home__page-about-flex-container">
               <div className="home__page-about-container">
                 <h2 className="home__page-about-title">about gym</h2>
@@ -109,7 +115,7 @@ export const HomePage: React.FC<Props> = ({ themeColor }) => {
             </div>
             <div className="home__page-slider-container">
               <div className="home__page-slider-titleAndButton">
-                <Slider />
+                <MySwiper />
               </div>
             </div>
           </div>

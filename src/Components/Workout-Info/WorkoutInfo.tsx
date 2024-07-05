@@ -2,20 +2,22 @@
 import React, { useEffect, useState } from 'react';
 import { Theme } from '../Redux/Slices/themeMode';
 import Header from '../Header/Header';
-import './workoutDetail.scss';
-// import testIm from './Pictures/testIMG.png';
+import './workoutInfo.scss';
 import Footer from '../Footer/Footer';
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import useLoadAnimation from '../../Hooks/animation';
 import { CardType, initialStateCart } from '../Workout-plans/initialCartData';
+import useScrollToTop from '../../Hooks/location';
 
 interface Props {
   themeColor: Theme;
 }
 
-export const WorkoutDetail: React.FC<Props> = ({ themeColor }) => {
+export const WorkoutInfo: React.FC<Props> = ({ themeColor }) => {
+  useScrollToTop();
   const { id } = useParams();
-  const { pathname } = useLocation();
   const [workout, setWorkout] = useState<CardType | null>(null);
+  const loaded = useLoadAnimation(workout?.image);
 
   const getWorkoutById = (cartId: string): CardType | undefined => {
     return initialStateCart.find(wor => wor.id === cartId);
@@ -33,14 +35,10 @@ export const WorkoutDetail: React.FC<Props> = ({ themeColor }) => {
     }
   }, [id]);
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
-
   return (
-    <div className="wrapper">
+    <div className="wrapper bg-[#111115]">
+      <Header themeColor={themeColor} />
       <section className="workout__detail bg-[#111115]">
-        <Header themeColor={themeColor} />
         <div className="workout__detail-linkContainer">
           <Link to={'/workout/group-workout'}>
             <p className="workout__detail-linkContainer-plans">Workout plans</p>
@@ -62,7 +60,9 @@ export const WorkoutDetail: React.FC<Props> = ({ themeColor }) => {
           <p className="workout__detail-linkContainer-name">{workout?.name}</p>
         </div>
         <div className="workout__detail-grid">
-          <div className="workout__detail-grid-content">
+          <div
+            className={`workout__detail-grid-content ${loaded ? 'loaded' : ''}`}
+          >
             <div className="workout__detail-grid-content-titleAndicon">
               <h3 className="workout__detail-grid-content-titleAndicon-title">
                 {workout?.name}
@@ -88,7 +88,9 @@ export const WorkoutDetail: React.FC<Props> = ({ themeColor }) => {
                 />
               </svg>
             </div>
-            <div className="workout__detail-grid-content">
+            <div
+              className={`workout__detail-grid-content  ${loaded ? 'loaded' : ''}`}
+            >
               <div className="workout__detail-grid-content-aboutWorkout">
                 <p className="workout__detail-grid-content-title">Duration</p>
                 <p className="workout__detail-grid-content-text">
@@ -99,7 +101,7 @@ export const WorkoutDetail: React.FC<Props> = ({ themeColor }) => {
                 <p className="workout__detail-grid-content-title">
                   About Workout
                 </p>
-                <p className="workout__detail-grid-content-text">
+                <p className="workout__detail-grid-content-text trainer">
                   Trainer: {workout?.couch}
                 </p>
                 <p className="workout__detail-grid-content-text">
@@ -137,11 +139,13 @@ export const WorkoutDetail: React.FC<Props> = ({ themeColor }) => {
               </svg>
             </button>
           </div>
-          <img
-            src={workout?.image}
-            className="workout__detail-grid-img"
-            alt="hatha-yoga"
-          ></img>
+          <div className="workout__detail-grid-img-wrapper">
+            <img
+              src={workout?.image}
+              className={`workout__detail-grid-img ${loaded ? 'loaded' : ''}`}
+              alt={workout?.name}
+            ></img>
+          </div>
         </div>
       </section>
       <Footer />

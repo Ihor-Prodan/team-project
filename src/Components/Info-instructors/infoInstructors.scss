@@ -1,0 +1,158 @@
+.wrapper {
+  display: flex;
+  max-width: 1512px;
+  margin: 0 auto;
+  justify-content: center;
+  flex-direction: column;
+  margin-inline: auto;
+}
+
+.instructors__details {
+  width: 100%;
+  padding-inline: 32px;
+  background: #111115;
+
+  &-linkContainer {
+    margin-top: 12px;
+    display: flex;
+    width: 283px;
+    align-items: center;
+
+    &-trainers {
+      display: flex;
+      margin-bottom: 4px;
+      color: var(--Gray-60, #B0B1B5);
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 100%;
+    }
+
+    &-name {
+      display: flex;
+      margin-bottom: 3px;
+      color: var(--Gray-0, #F3F4F6);
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 100%;
+      cursor: pointer;
+
+      &:hover {
+        text-shadow: 0 0 0.02px #F3F4F6;
+        transform: scale(1.01);
+      }
+    }
+  }
+
+  &-grid {
+    position: relative;
+    display: grid;
+    width: 100%;
+    max-height: 756px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 147px;
+    margin-bottom: 144px;
+
+    &-img {
+      width: 100%;
+      height: 100%;
+      border-radius: 8px;
+      background: lightgray 0px -63.696px / 100% 116.851% no-repeat;
+      background-size: cover;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 2s ease-in-out;
+
+      &-info-top {
+        width: 110px;
+        height: 38px;
+        right: 30px;
+        top: 30px;
+        position: absolute;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 8px;
+        background: var(--Primary-100, #D6D0CE);
+        color: var(--Gray-100, #111115);
+        text-align: right;
+        font-size: 16px;
+        font-weight: 300;
+        line-height: 140%;
+        z-index: 1;
+        opacity: 0;
+        transition: opacity 2s ease-in-out;
+      }
+    }
+
+    .loaded {
+      opacity: 1;
+    }
+
+    &-content {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      max-height: 756px;
+      gap: 40px;
+      justify-content: space-between;
+      opacity: 0;
+      transition: opacity 2s ease-in-out;
+
+      &-titleAndicon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 32px;
+
+        &-title {
+          color: var(--Gray-0, #F3F4F6);
+          font-size: 64px;
+          font-weight: 400;
+          line-height: 130%;
+          letter-spacing: 2.88px;
+          text-transform: uppercase;
+          text-wrap: nowrap;
+        }
+      }
+
+      &-duration {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: flex-start;
+        gap: 15px;
+      }
+
+      &-aboutWorkout {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: flex-start;
+        gap: 15px;
+      }
+
+      &-title {
+        color: var(--Gray-0, #F3F4F6);
+        font-size: 40px;
+        font-weight: 500;
+        line-height: 110%;
+      }
+
+      &-text {
+        color: var(--Gray-60, #B0B1B5);
+        font-size: 16px;
+        font-weight: 300;
+        line-height: 140%;
+
+        &-two {
+          margin-top: -6px;
+          display: flex;
+          color: var(--Gray-60, #B0B1B5);
+          font-size: 16px;
+          font-weight: 300;
+          line-height: 140%;
+        }
+      }
+    }
+  }
+}

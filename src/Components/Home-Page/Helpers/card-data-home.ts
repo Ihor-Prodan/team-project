@@ -28,3 +28,10 @@ export const initialCart = [
     path: 'self-guided-workout',
   },
 ];
+
+export const aboutDescription = [
+  '2500 m² space to grow',
+  'Diverse plans',
+  'Top-quality Technogym equipment',
+  'Expert trainers',
+];

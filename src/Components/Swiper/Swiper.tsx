@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { Swiper as ReactSwiper, SwiperSlide } from 'swiper/react';
 import Swiper from 'swiper';
 import 'swiper/css';
-import './Slider.scss';
+import './mySwiper.scss';
 import one from './Pictures/Number=01.png';
 import two from './Pictures/Number=02.png';
 import three from './Pictures/Number=03.png';
@@ -11,7 +11,7 @@ import five from './Pictures/Number=05.png';
 import six from './Pictures/Number=06.png';
 import seven from './Pictures/Number=07.png';
 
-export const Slider: React.FC = () => {
+export const MySwiper: React.FC = () => {
   const swiperRef = useRef<Swiper | null>(null);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -129,4 +129,4 @@ export const Slider: React.FC = () => {
   );
 };
 
-export default Slider;
+export default MySwiper;

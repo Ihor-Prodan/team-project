@@ -1,0 +1,192 @@
+.wrapper {
+  display: flex;
+  max-width: 1512px;
+  margin: 0 auto;
+  justify-content: center;
+  flex-direction: column;
+  margin-inline: auto;
+}
+
+.prices {
+  width: 100%;
+  padding-inline: 32px;
+
+  &__title {
+    color: var(--Gray-0, #F3F4F6);
+    font-size: 64px;
+    font-weight: 400;
+    line-height: 130%;
+    letter-spacing: 2.88px;
+    text-transform: uppercase;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    width: 100%;
+    gap: 24px;
+    margin: 48px 0 144px 0;
+
+    &-card {
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      max-width: 437px;
+      padding: 32px;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 40px;
+      border-radius: 8px;
+      border: 1px solid var(--Gray-80, #575759);
+
+      &-top {
+        width: 110px;
+        height: 38px;
+        right: 36px;
+        top: 36px;
+        position: absolute;
+        display: inline-flex;
+        padding: var(--sds-size-space-200) var(--sds-size-space-400);
+        justify-content: center;
+        align-items: center;
+        border-radius: 8px;
+        opacity: var(--sds-size-stroke-border);
+        background: var(--Primary-100, #D6D0CE);
+        color: var(--Gray-100, #111115);
+        text-align: right;
+        font-size: 16px;
+        font-weight: 300;
+        line-height: 140%;
+        z-index: 1;
+      }
+
+      &-container-top {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        gap: 32px;
+        width: 100%;
+
+        &-title {
+          color: var(--Gray-0, #F3F4F6);
+          font-size: 40px;
+          font-weight: 500;
+          line-height: 110%;
+        }
+
+        &-text {
+          color: var(--Gray-30, #D5D6DA);
+          font-size: 20px;
+          font-weight: 300;
+          line-height: 140%;
+        }
+      }
+
+      &-container-content {
+        display: flex;
+        justify-content: start;
+        flex-direction: column;
+        gap: 18px;
+        width: 100%;
+      }
+
+      &-content {
+        display: flex;
+        flex-direction: row;
+        gap: 5px;
+
+        &-text {
+          color: var(--Gray-60, #B0B1B5);
+          font-size: 16px;
+          font-weight: 300;
+          line-height: 140%;
+        }
+      }
+
+      &-line {
+        display: flex;
+        height: 2px;
+        width: 100%;
+        color: #575759;
+        border-bottom: 1px solid #575759;
+      }
+
+      &-benefits {
+        display: flex;
+        flex-direction: row;
+        gap: 5px;
+      }
+
+      &-benefits-container {
+        width: 100%;
+        height: 108px;
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+
+        &-text {
+          color: var(--Gray-60, #B0B1B5);
+          font-size: 16px;
+          font-weight: 300;
+          line-height: 140%;
+        }
+      }
+
+      &-price {
+        align-self: stretch;
+        color: var(--Gray-0, #F3F4F6);
+        font-size: 40px;
+        font-weight: 500;
+        line-height: 110%;
+
+        &-month {
+          margin-left: 5px;
+          opacity: var(--sds-size-stroke-border);
+          color: var(--Gray-60, #B0B1B5);
+          font-size: 24px;
+          font-weight: 300;
+          line-height: 140%;
+        }
+      }
+
+      &-button {
+        display: flex;
+        height: 48px;
+        width: 100%;
+        padding: 16px 32px;
+        justify-content: center;
+        align-items: center;
+        align-self: stretch;
+        border-radius: 8px;
+        border: 1px solid var(--Gray-30, #D5D6DA);
+        color: var(--Gray-0, #F3F4F6);
+        text-align: center;
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 100%;
+        letter-spacing: 0.64px;
+        text-transform: uppercase;
+
+
+        &:hover {
+          border: 1px solid var(--Gray-60, #A7A7A7);
+        }
+
+        &:active {
+          font-weight: 600;
+          outline: none;
+          border: 1px solid var(--Primary-100, #E2DDDB);
+        }
+      }
+
+      &-bottom {
+        width: 100%;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 32px;
+      }
+    }
+  }
+}

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import './Navigation.scss';
+import './navigation.scss';
 import { useAppSelector } from '../../Hooks/hooks';
 import { Theme } from '../Redux/Slices/themeMode';
-import navItems from './navItems';
+import navItems from './Helpers/navItems';
 
 interface Props {
   themeColor: Theme;

@@ -1,29 +1,10 @@
 /* eslint-disable max-len */
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import './Footer.scss';
+import './footer.scss';
+import { contacts, navItems, policy, social } from './Helpers/footerNav';
 
 export const Footer: React.FC = () => {
-  const contacts = [
-    'Kyiv, Velyka Vasylkivska Street, 72',
-    '+380 (44) 123-4567',
-    'info@pulsegym.ua',
-  ];
-
-  const social = ['Instagram', 'Facebook', 'YouTube'];
-  const navItems = [
-    'Timetable',
-    'Workout plans',
-    'Trainers',
-    'Price',
-    'Contacts',
-  ];
-  const policy = [
-    'Return and Refund Policy',
-    'Terms of service',
-    'Privacy policy',
-  ];
-
   return (
     <>
       <section className="footer">
@@ -87,11 +68,13 @@ export const Footer: React.FC = () => {
                 <ul className="footer__navigation__nav-list">
                   {navItems.map(item => (
                     <NavLink
-                      to={''}
-                      key={item}
+                      to={item.path}
+                      key={item.path}
                       className="footer__navigation__nav-links"
                     >
-                      <li className="footer__navigation__nav-items">{item}</li>
+                      <li className="footer__navigation__nav-items">
+                        {item.name}
+                      </li>
                     </NavLink>
                   ))}
                 </ul>

@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import React, { useEffect, useState } from 'react';
 import { Navigation } from '../Navigation/Navigation';
-import './Header.scss';
+import './header.scss';
 import { useAppSelector } from '../../Hooks/hooks';
 import { Theme } from '../Redux/Slices/themeMode';
 import { NavLink } from 'react-router-dom';

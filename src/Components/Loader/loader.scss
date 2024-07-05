@@ -1,0 +1,28 @@
+.loader {
+  height: 45px;
+  aspect-ratio: 2;
+  border: 10px solid #111115;
+  box-sizing: border-box;
+  background: 
+    radial-gradient(farthest-side,#D6D0CE 98%,transparent) left/17px 17px,
+    radial-gradient(farthest-side,#D6D0CE 98%,transparent) left/17px 17px,
+    radial-gradient(farthest-side,#D6D0CE 98%,transparent) center/17px 17px,
+    radial-gradient(farthest-side,#D6D0CE 98%,transparent) right/17px 17px,
+    #111115;
+  background-repeat: no-repeat;
+  animation: l14 1s infinite;
+}
+
+@keyframes l14 {
+  0% {background-position: left, left, center, right}
+  100% {background-position: right, left, center, right}
+}
+
+.loader-container {
+  background-color: #111115;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

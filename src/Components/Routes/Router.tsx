@@ -4,11 +4,15 @@ import { Provider } from 'react-redux';
 import { NotFoundPage } from '../Not-Found-Page/Not-Found-Page';
 import App from '../../App';
 import store from '../Redux/Store/store';
-import { TimeTable } from '../Time-Table/Time-Table';
 import { Theme } from '../Redux/Slices/themeMode';
 import WorkoutPlans from '../Workout-plans/WorkoutPlans';
 import { LedWorkout } from '../Workout-plans/LedWorkout';
-import { WorkoutDetail } from '../Workout-detail/WorcoutDetail';
+import { Instructors } from '../Instructors/Instructors';
+import { Prices } from '../Prices/Prices';
+import { InfoInstructors } from '../Info-instructors/InfoInstructors';
+import { Timetable } from '../Timetable/Timetable';
+import { WorkoutInfo } from '../Workout-Info/WorkoutInfo';
+import Contacts from '../Contacts/Contacts';
 
 export const Root: React.FC = () => {
   return (
@@ -16,21 +20,21 @@ export const Root: React.FC = () => {
       <HashRouter>
         <Routes>
           <Route path="/" element={<App themeColor={Theme.light} />} />
+
           <Route
             path="/timetable/group-workout"
             element={
-              <TimeTable
+              <Timetable
                 themeColor={Theme.dark}
                 workoutName={'Group Workout'}
                 isLedWorkout={true}
               />
             }
           />
-
           <Route
             path="timetable/trainer-led-workout"
             element={
-              <TimeTable
+              <Timetable
                 themeColor={Theme.dark}
                 workoutName={'Trainer-Led Workout'}
                 isLedWorkout={false}
@@ -57,7 +61,6 @@ export const Root: React.FC = () => {
               />
             }
           />
-
           <Route
             path="workout/self-guided-workout"
             element={
@@ -68,10 +71,25 @@ export const Root: React.FC = () => {
               />
             }
           />
-
           <Route
             path="workout/group-workout/:id"
-            element={<WorkoutDetail themeColor={Theme.dark} />}
+            element={<WorkoutInfo themeColor={Theme.dark} />}
+          />
+
+          <Route
+            path="trainers/"
+            element={<Instructors themeColor={Theme.dark} />}
+          />
+          <Route
+            path="trainers/:id"
+            element={<InfoInstructors themeColor={Theme.dark} />}
+          />
+
+          <Route path="/prices" element={<Prices themeColor={Theme.dark} />} />
+
+          <Route
+            path="/contacts"
+            element={<Contacts themeColor={Theme.dark} />}
           />
 
           <Route path="*" element={<NotFoundPage />} />

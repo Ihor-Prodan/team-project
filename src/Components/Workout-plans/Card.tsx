@@ -10,11 +10,9 @@ interface Props {
 export const Card: React.FC<Props> = ({ card }) => {
   return (
     <div className="workout__list-cart">
-      <img src={card.image} className="workout__list-cart-img"></img>
-      {card.isTop && (
-        <div className="workout__list-cart-img-top">Top trainer</div>
-      )}
-
+      <NavLink to={`/workout/group-workout/${card.id}`} className="w-full">
+        <img src={card.image} className="workout__list-cart-img"></img>
+      </NavLink>
       <div className="workout__list-cart-content">
         <div className="workout__list-cart-content-titleAndStrong">
           <NavLink to={`/workout/group-workout/${card.id}`}>

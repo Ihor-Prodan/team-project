@@ -50,7 +50,7 @@ export const initialStateCart = [
     description:
       'Experience deep relaxation and improved flexibility through gentle poses and focused breathing techniques in Hatha Yoga sessions led by Daryna Milovska.',
     preparationTips: 'Wear comfortable clothing, bring a towel.',
-    image: 'https://i.ibb.co/sJFsrwt/Hatha-Yoga.jpg',
+    image: 'https://i.ibb.co/873vpjf/Hatha-Yoga.jpg',
     id: '1',
     isTop: true,
   },
@@ -64,7 +64,7 @@ export const initialStateCart = [
       'A practice that focuses on deep stretching and relaxation. Enhance flexibility, release tension, and promote overall well-being in these soothing sessions that emphasize holding poses for longer periods to access deeper connective tissues.',
     preparationTips:
       'Wear comfortable clothing, bring a blanket or bolster for support.',
-    image: 'https://i.ibb.co/19GTHT7/Yin-Yoga.jpg',
+    image: 'https://i.ibb.co/NyTvhDT/Yin-Yoga.jpg',
     id: '2',
     isTop: false,
   },

@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import React from 'react';
-import './Workout.scss';
+import './workout.scss';
 import { Link } from 'react-router-dom';
 
 type Cart = {
