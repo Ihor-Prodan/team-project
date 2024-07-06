@@ -6,6 +6,9 @@ import { GivIcon, GroupIcon, GymIcon, LockerIcon } from './Helpers/priceIcons';
 import Footer from '../Footer/Footer';
 import pricesCard from './Helpers/priceCardInfo';
 import useScrollToTop from '../../Hooks/location';
+import { useAppDispatch, useAppSelector } from '../../Hooks/hooks';
+import { setIsModal } from '../Redux/Slices/Modal';
+import { Auth } from '../Auth/Auth';
 
 interface Props {
   themeColor: Theme;
@@ -13,6 +16,8 @@ interface Props {
 
 export const Prices: React.FC<Props> = ({ themeColor }) => {
   useScrollToTop();
+  const dispatch = useAppDispatch();
+  const isModalVisible = useAppSelector(state => state.modal.isModal);
 
   return (
     <div className="wrapper bg-[#111115]">
@@ -98,7 +103,10 @@ export const Prices: React.FC<Props> = ({ themeColor }) => {
                     / 3 months
                   </span>
                 </p>
-                <button className="prices__grid-card-button">
+                <button
+                  className="prices__grid-card-button"
+                  onClick={() => dispatch(setIsModal(true))}
+                >
                   Get membership
                 </button>
                 {/* </div> */}
@@ -108,6 +116,7 @@ export const Prices: React.FC<Props> = ({ themeColor }) => {
         </div>
       </section>
       <Footer />
+      {isModalVisible && <Auth />}
     </div>
   );
 };

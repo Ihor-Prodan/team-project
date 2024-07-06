@@ -11,6 +11,8 @@ import { useAppDispatch, useAppSelector } from '../../Hooks/hooks';
 import { setCurrentDayIndex, setDays } from '../Redux/Slices/Calendar';
 import useScrollToTop from '../../Hooks/location';
 import { studio, times, timetable } from './Helpers/timetableData';
+import { setIsModal } from '../Redux/Slices/Modal';
+import { Auth } from '../Auth/Auth';
 
 interface Props {
   themeColor: Theme;
@@ -25,6 +27,7 @@ export const Timetable: React.FC<Props> = ({
 }) => {
   useScrollToTop();
   const days = useAppSelector(state => state.calendar.days);
+  const isModalVisible = useAppSelector(state => state.modal.isModal);
   const currentDayIndex = useAppSelector(
     state => state.calendar.currentDayIndex,
   );
@@ -263,7 +266,10 @@ export const Timetable: React.FC<Props> = ({
                             </div>
                           </div>
                           <div className="timetable__grid-studioname-hover-button">
-                            <button className="timetable__grid-studioname-book-button">
+                            <button
+                              className="timetable__grid-studioname-book-button"
+                              onClick={() => dispatch(setIsModal(true))}
+                            >
                               Book now
                             </button>
                           </div>
@@ -280,6 +286,7 @@ export const Timetable: React.FC<Props> = ({
         </div>
       </section>
       <Footer />
+      {isModalVisible && <Auth />}
     </div>
   );
 };

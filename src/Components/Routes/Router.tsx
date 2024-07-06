@@ -1,5 +1,5 @@
 import { HashRouter, Route, Routes } from 'react-router-dom';
-import React from 'react';
+import React, { useState } from 'react';
 import { Provider } from 'react-redux';
 import { NotFoundPage } from '../Not-Found-Page/Not-Found-Page';
 import App from '../../App';
@@ -13,13 +13,28 @@ import { InfoInstructors } from '../Info-instructors/InfoInstructors';
 import { Timetable } from '../Timetable/Timetable';
 import { WorkoutInfo } from '../Workout-Info/WorkoutInfo';
 import Contacts from '../Contacts/Contacts';
+import RefundPolicy from '../Policy/Refund';
+import TermsOfService from '../Policy/Term-Of-Service';
+import PrivacyPolicy from '../Policy/Privacy-Policy';
+import { Auth } from '../Auth/Auth';
 
 export const Root: React.FC = () => {
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+
   return (
     <Provider store={store}>
       <HashRouter>
         <Routes>
-          <Route path="/" element={<App themeColor={Theme.light} />} />
+          <Route
+            path="/"
+            element={
+              <App
+                themeColor={Theme.light}
+                isModalVisible={isModalVisible}
+                setIsModalVisible={setIsModalVisible}
+              />
+            }
+          />
 
           <Route
             path="/timetable/group-workout"
@@ -91,6 +106,23 @@ export const Root: React.FC = () => {
             path="/contacts"
             element={<Contacts themeColor={Theme.dark} />}
           />
+
+          <Route
+            path="refund-policy"
+            element={<RefundPolicy themeColor={Theme.dark} />}
+          />
+
+          <Route
+            path="terms-of-service"
+            element={<TermsOfService themeColor={Theme.dark} />}
+          />
+
+          <Route
+            path="privacy-policy"
+            element={<PrivacyPolicy themeColor={Theme.dark} />}
+          />
+
+          <Route path="auth" element={<Auth />} />
 
           <Route path="*" element={<NotFoundPage />} />
         </Routes>

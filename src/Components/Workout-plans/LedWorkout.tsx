@@ -8,6 +8,9 @@ import sectionSelf from './Pictures/section-self.png';
 import { selfGuidedWorkoutPlans, workoutPlansLed } from './Helpers/cartData';
 import Footer from '../Footer/Footer';
 import useScrollToTop from '../../Hooks/location';
+import { setIsModal } from '../Redux/Slices/Modal';
+import { useAppDispatch, useAppSelector } from '../../Hooks/hooks';
+import { Auth } from '../Auth/Auth';
 
 interface Props {
   themeColor: Theme;
@@ -21,6 +24,8 @@ export const LedWorkout: React.FC<Props> = ({
   workoutName,
 }) => {
   useScrollToTop();
+  const dispatch = useAppDispatch();
+  const isModalVisible = useAppSelector(state => state.modal.isModal);
   const cartData = isLedWorkout ? workoutPlansLed : selfGuidedWorkoutPlans;
 
   return (
@@ -55,7 +60,10 @@ export const LedWorkout: React.FC<Props> = ({
                 </div>
               );
             })}
-            <button className="workout__content-info-bookButton">
+            <button
+              className="workout__content-info-bookButton"
+              onClick={() => dispatch(setIsModal(true))}
+            >
               <span className="workout__button-text">Book a Workout</span>
               <svg
                 className="workout__ready-button-arrow-white"
@@ -82,6 +90,7 @@ export const LedWorkout: React.FC<Props> = ({
         </div>
       </section>
       <Footer />
+      {isModalVisible && <Auth />}
     </div>
   );
 };

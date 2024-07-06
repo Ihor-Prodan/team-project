@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import './footer.scss';
 import { contacts, navItems, policy, social } from './Helpers/footerNav';
 
@@ -92,9 +92,13 @@ export const Footer: React.FC = () => {
         <div className="footer__bottom">
           <div className="footer__policy">
             {policy.map(item => (
-              <a className="footer__policy-link" key={item}>
-                <p className="footer__policy-item">{item}</p>
-              </a>
+              <Link
+                to={item.path}
+                className="footer__policy-link"
+                key={item.path}
+              >
+                <p className="footer__policy-item">{item.name}</p>
+              </Link>
             ))}
           </div>
           <div className="footer__bottom-copyring">

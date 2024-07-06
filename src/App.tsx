@@ -7,6 +7,8 @@ import { Theme } from './Components/Redux/Slices/themeMode';
 
 interface Props {
   themeColor: Theme;
+  isModalVisible: boolean;
+  setIsModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const App: React.FC<Props> = ({ themeColor }) => {

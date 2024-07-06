@@ -8,6 +8,9 @@ import { Link, useParams } from 'react-router-dom';
 import useLoadAnimation from '../../Hooks/animation';
 import { CardType, initialStateCart } from '../Workout-plans/initialCartData';
 import useScrollToTop from '../../Hooks/location';
+import { setIsModal } from '../Redux/Slices/Modal';
+import { useAppDispatch, useAppSelector } from '../../Hooks/hooks';
+import { Auth } from '../Auth/Auth';
 
 interface Props {
   themeColor: Theme;
@@ -18,6 +21,8 @@ export const WorkoutInfo: React.FC<Props> = ({ themeColor }) => {
   const { id } = useParams();
   const [workout, setWorkout] = useState<CardType | null>(null);
   const loaded = useLoadAnimation(workout?.image);
+  const dispatch = useAppDispatch();
+  const isModalVisible = useAppSelector(state => state.modal.isModal);
 
   const getWorkoutById = (cartId: string): CardType | undefined => {
     return initialStateCart.find(wor => wor.id === cartId);
@@ -117,7 +122,10 @@ export const WorkoutInfo: React.FC<Props> = ({ themeColor }) => {
                 </p>
               </div>
             </div>
-            <button className="workout__detail-grid-content-button">
+            <button
+              className="workout__detail-grid-content-button"
+              onClick={() => dispatch(setIsModal(true))}
+            >
               <span className="workout__button-text">
                 book a Trainer-Led Workout
               </span>
@@ -149,6 +157,7 @@ export const WorkoutInfo: React.FC<Props> = ({ themeColor }) => {
         </div>
       </section>
       <Footer />
+      {isModalVisible && <Auth />}
     </div>
   );
 };

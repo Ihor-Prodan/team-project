@@ -6,6 +6,8 @@ import poster from './Pictures/posterContact.png';
 import './contacts.scss';
 import Footer from '../Footer/Footer';
 import useScrollToTop from '../../Hooks/location';
+import { useAppSelector } from '../../Hooks/hooks';
+import { Auth } from '../Auth/Auth';
 
 interface Props {
   themeColor: Theme;
@@ -13,6 +15,7 @@ interface Props {
 
 export const Contacts: React.FC<Props> = ({ themeColor }) => {
   useScrollToTop();
+  const isModalVisible = useAppSelector(state => state.modal.isModal);
 
   return (
     <div className="wrapper">
@@ -67,6 +70,7 @@ export const Contacts: React.FC<Props> = ({ themeColor }) => {
         </div>
       </section>
       <Footer />
+      {isModalVisible && <Auth />}
     </div>
   );
 };

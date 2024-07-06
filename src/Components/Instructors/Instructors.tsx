@@ -7,6 +7,8 @@ import Footer from '../Footer/Footer';
 import { NavLink } from 'react-router-dom';
 import Loader from '../Loader/Loader';
 import useScrollToTop from '../../Hooks/location';
+import { useAppSelector } from '../../Hooks/hooks';
+import { Auth } from '../Auth/Auth';
 
 interface Props {
   themeColor: Theme;
@@ -14,6 +16,7 @@ interface Props {
 
 export const Instructors: React.FC<Props> = ({ themeColor }) => {
   useScrollToTop();
+  const isModalVisible = useAppSelector(state => state.modal.isModal);
 
   return (
     <div className="wrapper bg-[#111115]">
@@ -50,6 +53,7 @@ export const Instructors: React.FC<Props> = ({ themeColor }) => {
         </div>
       </section>
       <Footer />
+      {isModalVisible && <Auth />}
     </div>
   );
 };

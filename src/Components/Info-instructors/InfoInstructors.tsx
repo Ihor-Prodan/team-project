@@ -8,6 +8,9 @@ import { TrainerType, trainers } from '../Instructors/trainersList';
 import Footer from '../Footer/Footer';
 import useLoadAnimation from '../../Hooks/animation';
 import useScrollToTop from '../../Hooks/location';
+import { setIsModal } from '../Redux/Slices/Modal';
+import { useAppDispatch, useAppSelector } from '../../Hooks/hooks';
+import { Auth } from '../Auth/Auth';
 
 interface Props {
   themeColor: Theme;
@@ -18,6 +21,8 @@ export const InfoInstructors: React.FC<Props> = ({ themeColor }) => {
   const [trainer, setTrainer] = useState<TrainerType | null>(null);
   const { id } = useParams();
   const loaded = useLoadAnimation(trainer?.image);
+  const dispatch = useAppDispatch();
+  const isModalVisible = useAppSelector(state => state.modal.isModal);
 
   const getWorkoutById = (trainerId: string): TrainerType | undefined => {
     return trainers.find(t => t.id === trainerId);
@@ -101,7 +106,10 @@ export const InfoInstructors: React.FC<Props> = ({ themeColor }) => {
                 </p>
               </div>
             </div>
-            <button className="workout__detail-grid-content-button">
+            <button
+              className="workout__detail-grid-content-button"
+              onClick={() => dispatch(setIsModal(true))}
+            >
               <span className="workout__button-text">
                 book a Trainer-Led Workout
               </span>
@@ -138,6 +146,7 @@ export const InfoInstructors: React.FC<Props> = ({ themeColor }) => {
         </div>
       </section>
       <Footer />
+      {isModalVisible && <Auth />}
     </div>
   );
 };

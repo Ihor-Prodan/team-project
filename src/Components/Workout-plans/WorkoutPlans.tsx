@@ -7,6 +7,8 @@ import Footer from '../Footer/Footer';
 import Card from './Card';
 import { CardType, initialStateCart } from './initialCartData';
 import useScrollToTop from '../../Hooks/location';
+import { Auth } from '../Auth/Auth';
+import { useAppSelector } from '../../Hooks/hooks';
 
 interface Props {
   themeColor: Theme;
@@ -15,6 +17,7 @@ interface Props {
 
 export const WorkoutPlans: React.FC<Props> = ({ themeColor, workoutName }) => {
   useScrollToTop();
+  const isModalVisible = useAppSelector(state => state.modal.isModal);
   const [cards, setCards] = useState<CardType[]>(initialStateCart);
 
   useEffect(() => {
@@ -47,6 +50,7 @@ export const WorkoutPlans: React.FC<Props> = ({ themeColor, workoutName }) => {
         ))}
       </section>
       <Footer />
+      {isModalVisible && <Auth />}
     </div>
   );
 };

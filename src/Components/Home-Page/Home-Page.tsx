@@ -10,6 +10,9 @@ import { aboutDescription, initialCart } from './Helpers/card-data-home';
 import useLoadAnimation from '../../Hooks/animation';
 import MySwiper from '../Swiper/Swiper';
 import useScrollToTop from '../../Hooks/location';
+import { useAppDispatch, useAppSelector } from '../../Hooks/hooks';
+import { setIsModal } from '../Redux/Slices/Modal';
+import { Auth } from '../Auth/Auth';
 
 interface Props {
   themeColor: Theme;
@@ -17,6 +20,8 @@ interface Props {
 
 export const HomePage: React.FC<Props> = ({ themeColor }) => {
   useScrollToTop();
+  const isModalVisible = useAppSelector(state => state.modal.isModal);
+  const dispatch = useAppDispatch();
   const [headerDark, setHeaderDark] = useState(Theme.light);
   const darkSectionRef = useRef<HTMLDivElement>(null);
   const loaded = useLoadAnimation(poster);
@@ -52,7 +57,10 @@ export const HomePage: React.FC<Props> = ({ themeColor }) => {
             <p className="home__page-slogan">
               Experience harmony of body and mind at Pulse Gym
             </p>
-            <button className="home__page-top-button">
+            <button
+              className="home__page-top-button"
+              onClick={() => dispatch(setIsModal(true))}
+            >
               <span className="home__page-top-button-text">Book a workout</span>
               <svg
                 className="home__page-button-arrow"
@@ -121,7 +129,10 @@ export const HomePage: React.FC<Props> = ({ themeColor }) => {
           </div>
           <div className="home__page-ready-container">
             <h2 className="home__page-ready-title">ready to rock?</h2>
-            <button className="home__page-ready-button">
+            <button
+              className="home__page-ready-button"
+              onClick={() => dispatch(setIsModal(true))}
+            >
               Book a workout
               <svg
                 className="home__page-ready-button-arrow-white"
@@ -143,6 +154,7 @@ export const HomePage: React.FC<Props> = ({ themeColor }) => {
           </div>
         </section>
         <Footer />
+        {isModalVisible && <Auth />}
       </div>
     </>
   );

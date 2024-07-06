@@ -15,7 +15,7 @@ export const navItems = [
 ];
 
 export const policy = [
-  'Return and Refund Policy',
-  'Terms of service',
-  'Privacy policy',
+  { name: 'Return and Refund Policy', path: '/refund-policy' },
+  { name: 'Terms of service', path: '/terms-of-service' },
+  { name: 'Privacy policy', path: '/privacy-policy' },
 ];
