@@ -120,3 +120,5 @@ export const Prices: React.FC<Props> = ({ themeColor }) => {
     </div>
   );
 };
+
+export default React.memo(Prices);

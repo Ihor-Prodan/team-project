@@ -55,4 +55,4 @@ export const WorkoutPlans: React.FC<Props> = ({ themeColor, workoutName }) => {
   );
 };
 
-export default WorkoutPlans;
+export default React.memo(WorkoutPlans);

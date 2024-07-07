@@ -16,7 +16,6 @@ import Contacts from '../Contacts/Contacts';
 import RefundPolicy from '../Policy/Refund';
 import TermsOfService from '../Policy/Term-Of-Service';
 import PrivacyPolicy from '../Policy/Privacy-Policy';
-import { Auth } from '../Auth/Auth';
 
 export const Root: React.FC = () => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
@@ -121,8 +120,6 @@ export const Root: React.FC = () => {
             path="privacy-policy"
             element={<PrivacyPolicy themeColor={Theme.dark} />}
           />
-
-          <Route path="auth" element={<Auth />} />
 
           <Route path="*" element={<NotFoundPage />} />
         </Routes>

@@ -161,3 +161,5 @@ export const WorkoutInfo: React.FC<Props> = ({ themeColor }) => {
     </div>
   );
 };
+
+export default React.memo(WorkoutInfo);

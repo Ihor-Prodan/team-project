@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import Header from '../Header/Header';
 import './home.scss';
 import poster from './Pictures/BG-poster.png';
-import { WorkoutsCart } from '../Workouts-Cart/Workouts-Cart';
+import { WorkoutsCard } from '../Workouts-Card-home/Workouts-CardHome';
 import Footer from '../Footer/Footer';
 import { Theme } from '../Redux/Slices/themeMode';
 import { aboutDescription, initialCart } from './Helpers/card-data-home';
@@ -117,7 +117,7 @@ export const HomePage: React.FC<Props> = ({ themeColor }) => {
               <h2 className="home__page-workout-title">Workout plans</h2>
               <article className="home__page-workouts-list">
                 {initialCart.map(cart => (
-                  <WorkoutsCart cart={cart} key={cart.id} />
+                  <WorkoutsCard cart={cart} key={cart.id} />
                 ))}
               </article>
             </div>
@@ -159,3 +159,5 @@ export const HomePage: React.FC<Props> = ({ themeColor }) => {
     </>
   );
 };
+
+export default React.memo(HomePage);

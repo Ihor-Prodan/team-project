@@ -125,3 +125,5 @@ export const Navigation: React.FC<Props> = ({ themeColor }) => {
     </section>
   );
 };
+
+export default React.memo(Navigation);

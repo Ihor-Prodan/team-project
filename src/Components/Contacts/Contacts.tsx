@@ -75,4 +75,4 @@ export const Contacts: React.FC<Props> = ({ themeColor }) => {
   );
 };
 
-export default Contacts;
+export default React.memo(Contacts);

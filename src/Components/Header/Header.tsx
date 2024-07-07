@@ -109,4 +109,4 @@ export const Header: React.FC<Props> = ({ themeColor }) => {
   );
 };
 
-export default Header;
+export default React.memo(Header);

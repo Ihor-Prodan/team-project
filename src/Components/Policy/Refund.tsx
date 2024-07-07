@@ -120,4 +120,4 @@ const RefundPolicy: React.FC<Props> = ({ themeColor }) => {
   );
 };
 
-export default RefundPolicy;
+export default React.memo(RefundPolicy);

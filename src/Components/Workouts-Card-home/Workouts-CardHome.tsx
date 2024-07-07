@@ -16,7 +16,7 @@ interface Props {
   cart: Cart;
 }
 
-export const WorkoutsCart: React.FC<Props> = ({ cart }) => {
+export const WorkoutsCard: React.FC<Props> = ({ cart }) => {
   return (
     <section className="workout__cart">
       <div className="workout__cart-planes">
@@ -68,3 +68,5 @@ export const WorkoutsCart: React.FC<Props> = ({ cart }) => {
     </section>
   );
 };
+
+export default React.memo(WorkoutsCard);

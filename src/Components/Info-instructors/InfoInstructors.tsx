@@ -150,3 +150,5 @@ export const InfoInstructors: React.FC<Props> = ({ themeColor }) => {
     </div>
   );
 };
+
+export default React.memo(InfoInstructors);

@@ -57,3 +57,5 @@ export const Instructors: React.FC<Props> = ({ themeColor }) => {
     </div>
   );
 };
+
+export default React.memo(Instructors);

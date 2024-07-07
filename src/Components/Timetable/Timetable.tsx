@@ -290,3 +290,5 @@ export const Timetable: React.FC<Props> = ({
     </div>
   );
 };
+
+export default React.memo(Timetable);

@@ -157,4 +157,4 @@ const TermsOfService: React.FC<Props> = ({ themeColor }) => {
   );
 };
 
-export default TermsOfService;
+export default React.memo(TermsOfService);

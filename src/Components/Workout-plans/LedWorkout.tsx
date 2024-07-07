@@ -94,3 +94,5 @@ export const LedWorkout: React.FC<Props> = ({
     </div>
   );
 };
+
+export default React.memo(LedWorkout);

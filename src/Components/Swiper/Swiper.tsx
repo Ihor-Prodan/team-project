@@ -129,4 +129,4 @@ export const MySwiper: React.FC = () => {
   );
 };
 
-export default MySwiper;
+export default React.memo(MySwiper);
