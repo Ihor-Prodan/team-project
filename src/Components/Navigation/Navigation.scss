@@ -36,12 +36,12 @@
     }
 
     &:hover {
-      text-shadow: 0 0 0.01px #111115;
+      text-shadow: 0 0 0.02px #111115;
     }
 
     &-dark {
       &:hover {
-        text-shadow: 0 0 0.01px #F3F4F6;
+        text-shadow: 0 0 0.02px #F3F4F6;
       }
     }
   }
@@ -76,7 +76,7 @@
       width: 100%;
       border: 1px solid var(--Gray-100, #111115);
       border-radius: 8px;
-      font-weight: 500;
+      // font-weight: 500;
     }
   }
 
@@ -209,3 +209,25 @@
    }
   }
 } 
+
+.header-dark {
+  .navigation__links {
+   &:hover::after, &:active::after {
+    bottom: 12px;
+    border-color: #D5D6DA;
+   }
+  }
+} 
+
+.isActive {
+  &::after, &:active::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 8px;
+    width: 100%;
+    border: 1px solid var(--Gray-100, #111115);
+    border-radius: 8px;
+    // font-weight: 500;
+  }
+}

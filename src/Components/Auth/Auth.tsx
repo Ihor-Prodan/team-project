@@ -7,6 +7,7 @@ import picturesLogin from './Pictures/login.png';
 import { useAppDispatch, useAppSelector } from '../../Hooks/hooks';
 import { setIsConfirm, setIsModal } from '../Redux/Slices/Modal';
 import Joi from 'joi';
+import { useNavigate } from 'react-router-dom';
 
 interface FormData {
   fullName?: string;
@@ -60,6 +61,7 @@ export const Auth: React.FC = () => {
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isVisiblePassword, setIsVisiblePassword] = useState(false);
+  const navigate = useNavigate();
 
   const isConfirm = useAppSelector(state => state.modal.isConfirm);
 
@@ -69,12 +71,6 @@ export const Auth: React.FC = () => {
 
   const handleBlur = () => {
     setActiveInput(null);
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-
-    setFormData({ ...formData, [name]: value });
   };
 
   const validateForm = (data: FormData) => {
@@ -92,6 +88,16 @@ export const Auth: React.FC = () => {
     });
 
     return findErrors;
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    setFormData({ ...formData, [name]: value });
+
+    const formErrors = validateForm({ ...formData, [name]: value });
+
+    setErrors(formErrors);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -120,6 +126,8 @@ export const Auth: React.FC = () => {
         email: '',
         password: '',
       });
+
+      navigate('/profile');
 
       // eslint-disable-next-line no-console
       console.log('Form submitted', user);

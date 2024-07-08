@@ -16,6 +16,7 @@ import Contacts from '../Contacts/Contacts';
 import RefundPolicy from '../Policy/Refund';
 import TermsOfService from '../Policy/Term-Of-Service';
 import PrivacyPolicy from '../Policy/Privacy-Policy';
+import UserPage from '../User-Page/UserPage';
 
 export const Root: React.FC = () => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
@@ -119,6 +120,11 @@ export const Root: React.FC = () => {
           <Route
             path="privacy-policy"
             element={<PrivacyPolicy themeColor={Theme.dark} />}
+          />
+
+          <Route
+            path="profile"
+            element={<UserPage themeColor={Theme.light} />}
           />
 
           <Route path="*" element={<NotFoundPage />} />

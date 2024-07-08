@@ -32,6 +32,20 @@ export const Header: React.FC<Props> = ({ themeColor }) => {
   }, [lastScrollTop]);
   //Header-scroll function
 
+  const getLinkClass = (isActive: boolean) => {
+    const baseClass = 'navigation__links';
+    const themeClass = themeColor
+      ? 'navigation__links-dark'
+      : 'navigation__links';
+    const activeClass = isActive
+      ? theme === themeColor
+        ? 'isActive'
+        : 'navigation-links-dark__isActive'
+      : '';
+
+    return `${baseClass} ${themeClass} ${activeClass}`;
+  };
+
   return (
     <header
       className={`header ${isScrolledUp ? '' : 'sticky'} ${theme === themeColor ? 'header' : 'header-dark'}`}
@@ -88,14 +102,22 @@ export const Header: React.FC<Props> = ({ themeColor }) => {
       </div>
 
       <div className="header__profile-and-button">
-        <p
-          onClick={() => dispatch(setIsModal(true))}
-          className={
-            theme === themeColor ? 'header__profile' : 'header__profile-dark'
-          }
+        <NavLink
+          to={'/profile'}
+          className={({ isActive }) => getLinkClass(isActive)}
         >
-          Profile
-        </p>
+          <p
+            onClick={() => dispatch(setIsModal(true))}
+            className={
+              theme === themeColor
+                ? 'navigation__nav-items'
+                : 'navigation__nav-items-dark'
+            }
+          >
+            Profile
+          </p>
+        </NavLink>
+
         <button
           onClick={() => dispatch(setIsModal(true))}
           className={

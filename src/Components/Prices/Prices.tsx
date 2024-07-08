@@ -96,7 +96,6 @@ export const Prices: React.FC<Props> = ({ themeColor }) => {
                     </p>
                   </div>
                 </div>
-                {/* <div className="prices__grid-card-price-bottom-priceAndButton"> */}
                 <p className="prices__grid-card-price">
                   {item.price}
                   <span className="prices__grid-card-price-month">
@@ -109,7 +108,6 @@ export const Prices: React.FC<Props> = ({ themeColor }) => {
                 >
                   Get membership
                 </button>
-                {/* </div> */}
               </div>
             </div>
           ))}
