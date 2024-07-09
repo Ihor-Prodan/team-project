@@ -14,11 +14,17 @@ import storage from 'redux-persist/lib/storage';
 import { calendarSlice } from '../Slices/Calendar';
 import { modalSlice } from '../Slices/Modal';
 import { themeSlice } from '../Slices/themeMode';
+import { workoutsSlice } from '../Slices/Workouts';
+import { trainersSlice } from '../Slices/Trainers';
+import { userSlice } from '../Slices/User';
 
 const rootReducer = combineReducers({
   theme: themeSlice.reducer,
   calendar: calendarSlice.reducer,
   modal: modalSlice.reducer,
+  workouts: workoutsSlice.reducer,
+  trainers: trainersSlice.reducer,
+  user: userSlice.reducer,
 });
 
 const persistConfig = {

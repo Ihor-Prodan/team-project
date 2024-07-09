@@ -5,14 +5,84 @@ import Header from '../Header/Header';
 import { Theme } from '../Redux/Slices/themeMode';
 import Footer from '../Footer/Footer';
 import MemberShips from './MemberShips';
+import MyWorkout from './MyWorkout';
+import { useAppSelector } from '../../Hooks/hooks';
+import { NavLink } from 'react-router-dom';
 
 interface Props {
   themeColor: Theme;
+  isMyWorkout: boolean;
+  isMembership: boolean;
 }
 
-export const UserPage: React.FC<Props> = ({ themeColor }) => {
-  const [selectedItem, setSelectedItem] = useState(0);
-  const list = ['Personal info', 'Membership', 'Trainer-led workouts'];
+type UserData = {
+  fullName: string;
+  email: string;
+  password: string;
+  number: string;
+  card: string;
+  cardDate: string;
+  cvv: string;
+};
+
+export const UserPage: React.FC<Props> = ({
+  themeColor,
+  isMembership,
+  isMyWorkout,
+}) => {
+  const currentUser = useAppSelector(state => state.user.user);
+  const [formData, setFormData] = useState<UserData>({
+    fullName: '',
+    email: '',
+    password: '',
+    number: '',
+    card: '',
+    cardDate: '',
+    cvv: '',
+  });
+
+  const list = [
+    { name: 'Personal info', path: '/profile' },
+    { name: 'Membership', path: '/membership' },
+    { name: 'Trainer-led workouts', path: '/my-workout' },
+  ];
+
+  const clearForm = (em: string) => {
+    if (em === 'email') {
+      setFormData({
+        ...formData,
+        email: '',
+      });
+    }
+
+    if (em === 'name') {
+      setFormData({
+        ...formData,
+        fullName: '',
+      });
+    }
+
+    if (em === 'card') {
+      setFormData({
+        ...formData,
+        card: '',
+      });
+    }
+
+    if (em === 'cardDate') {
+      setFormData({
+        ...formData,
+        cardDate: '',
+      });
+    }
+
+    if (em === 'cvv') {
+      setFormData({
+        ...formData,
+        cvv: '',
+      });
+    }
+  };
 
   return (
     <div className="wrapper-userPage">
@@ -23,16 +93,17 @@ export const UserPage: React.FC<Props> = ({ themeColor }) => {
           <div className="userPage__info-container-menu">
             <ul className="userPage__info-container-menuList">
               {list.map((item, ind) => (
-                <li
-                  className={
-                    selectedItem === ind
-                      ? 'isActiveList'
-                      : 'userPage__info-container-menuItem '
-                  }
-                  key={ind}
-                  onClick={() => setSelectedItem(ind)}
-                >
-                  {item}
+                <li key={ind}>
+                  <NavLink
+                    to={item.path}
+                    className={({ isActive }) =>
+                      isActive
+                        ? 'isActiveList'
+                        : 'userPage__info-container-menuItem'
+                    }
+                  >
+                    {item.name}
+                  </NavLink>
                 </li>
               ))}
               <li className="userPage__info-container-menuItem mt-8">
@@ -40,7 +111,7 @@ export const UserPage: React.FC<Props> = ({ themeColor }) => {
               </li>
             </ul>
           </div>
-          {selectedItem === 0 && (
+          {!isMembership && !isMyWorkout && (
             <div className="userPage__info-container-modalInfo">
               <div className="userPage__info-container-modalInfo-top">
                 <h3 className="userPage__info-container-modalInfo-top-title">
@@ -57,6 +128,7 @@ export const UserPage: React.FC<Props> = ({ themeColor }) => {
                       Full name
                     </p>
                     <svg
+                      onClick={() => clearForm('name')}
                       className="userPage__info-container-modalInfo-forms-personal-input-clear"
                       xmlns="http://www.w3.org/2000/svg"
                       width="18"
@@ -71,7 +143,11 @@ export const UserPage: React.FC<Props> = ({ themeColor }) => {
                     </svg>
                     <input
                       className="userPage__info-container-modalInfo-forms-personal-input"
-                      placeholder="Serhiy Antonovych"
+                      placeholder={
+                        currentUser
+                          ? `${currentUser.firstName} ${currentUser.lastName}`
+                          : 'Serhiy Antonovych'
+                      }
                     ></input>
                   </div>
                   <div className="userPage__info-container-modalInfo-forms-personal-info">
@@ -93,7 +169,11 @@ export const UserPage: React.FC<Props> = ({ themeColor }) => {
                     </svg>
                     <input
                       className="userPage__info-container-modalInfo-forms-personal-input"
-                      placeholder="Pulsegym@example.ua"
+                      placeholder={
+                        currentUser
+                          ? `${currentUser.email}`
+                          : 'Pulsegym@example.ua'
+                      }
                     ></input>
                   </div>
                   <div className="userPage__info-container-modalInfo-forms-personal-info">
@@ -201,7 +281,8 @@ export const UserPage: React.FC<Props> = ({ themeColor }) => {
               </form>
             </div>
           )}
-          {selectedItem === 1 && <MemberShips />}
+          {isMembership && <MemberShips />}
+          {isMyWorkout && <MyWorkout />}
         </div>
       </section>
       <Footer />

@@ -42,9 +42,11 @@ export const WorkoutPlans: React.FC<Props> = ({ themeColor, workoutName }) => {
           <Fragment key={workout}>
             <h3 className="workout__workouts">{workout}</h3>
             <article className="workout__list">
-              {cards.map(card => (
-                <Card card={card} key={card.id} />
-              ))}
+              {cards
+                .filter(card => card.category === workout)
+                .map(card => (
+                  <Card card={card} key={card.id} />
+                ))}
             </article>
           </Fragment>
         ))}

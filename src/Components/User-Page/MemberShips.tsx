@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import React, { useState } from 'react';
+import React from 'react';
 import './userPage.scss';
 import {
   GivIcon,
@@ -7,13 +7,17 @@ import {
   GymIcon,
   LockerIcon,
 } from '../Prices/Helpers/priceIcons';
+import { useAppSelector } from '../../Hooks/hooks';
+import { useNavigate } from 'react-router-dom';
 
 export const Memberships: React.FC = () => {
-  const [haveMember, setHaveMember] = useState(false);
+  // const [haveMember, setHaveMember] = useState(false);
+  const currentUser = useAppSelector(state => state.user.user);
+  const navigate = useNavigate();
 
-  const handleMemberChange = () => {
-    setHaveMember(prev => !prev);
-  };
+  // const handleMemberChange = () => {
+  //   setHaveMember(prev => !prev);
+  // };
 
   return (
     <div className="userPage__info-container-modalInfo">
@@ -27,28 +31,28 @@ export const Memberships: React.FC = () => {
         you&apos;re not satisfied, cancel membership within one month.
       </p>
       <div className="userPage__info-container-member-content mt-8">
-        {!haveMember && (
+        {!currentUser?.membership.date && (
           <div className="userPage__info-container-member">
             <p className="userPage__info-container-member-text">
               You do not have any membership yet
             </p>
             <button
               className="userPage__info-container-member-button"
-              onClick={handleMemberChange}
+              onClick={() => navigate('/prices')}
             >
               select membership
             </button>
           </div>
         )}
       </div>
-      {haveMember && (
+      {currentUser?.membership.date && (
         <div className="userPage__info-container-member-isMember mt-[-40px]">
           <div className="userPage__info-container-member-isMember-duration">
             <p className="userPage__info-container-member-isMember-duration-months">
-              12 months
+              {currentUser.membership.duration} months
             </p>
             <p className="userPage__info-container-member-isMember-duration-data mt-1">
-              Due to 01.01.2025
+              Due to {currentUser.membership.date}
             </p>
           </div>
           <div className="userPage__info-container-member-isMember-benefits">
@@ -85,23 +89,27 @@ export const Memberships: React.FC = () => {
                   <GivIcon />
                 </div>
                 <p className="userPage__info-container-member-isMember-benefits-text">
-                  1 Free Trainer-Led Workout
+                  {currentUser.membership.giveOne}
                 </p>
               </div>
               <div className="prices__grid-card-content">
-                <div>
-                  <GivIcon />
-                </div>
+                {currentUser.membership.giveTwo && (
+                  <div>
+                    <GivIcon />
+                  </div>
+                )}
                 <p className="userPage__info-container-member-isMember-benefits-text ">
-                  2 Trial Group Classes
+                  {currentUser.membership.giveTwo}
                 </p>
               </div>
               <div className="prices__grid-card-content">
-                <div>
-                  <GivIcon />
-                </div>
+                {currentUser.membership.giveThree && (
+                  <div>
+                    <GivIcon />
+                  </div>
+                )}
                 <p className="userPage__info-container-member-isMember-benefits-text ">
-                  2 Trial Days Gym Access
+                  {currentUser.membership.giveThree}
                 </p>
               </div>
             </div>

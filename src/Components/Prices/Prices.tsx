@@ -4,11 +4,12 @@ import { Theme } from '../Redux/Slices/themeMode';
 import './prices.scss';
 import { GivIcon, GroupIcon, GymIcon, LockerIcon } from './Helpers/priceIcons';
 import Footer from '../Footer/Footer';
-import pricesCard from './Helpers/priceCardInfo';
+import pricesCard, { Membership } from './Helpers/priceCardInfo';
 import useScrollToTop from '../../Hooks/location';
 import { useAppDispatch, useAppSelector } from '../../Hooks/hooks';
 import { setIsModal } from '../Redux/Slices/Modal';
 import { Auth } from '../Auth/Auth';
+import { updateUser, User } from '../Redux/Slices/User';
 
 interface Props {
   themeColor: Theme;
@@ -18,6 +19,60 @@ export const Prices: React.FC<Props> = ({ themeColor }) => {
   useScrollToTop();
   const dispatch = useAppDispatch();
   const isModalVisible = useAppSelector(state => state.modal.isModal);
+  const currentUser = useAppSelector(state => state.user.user);
+
+  const handleBuyMembership = (item: Membership): User | void => {
+    const currentDate = new Date();
+
+    const addMonths = (date: Date, months: number): Date => {
+      const result = new Date(date);
+
+      result.setMonth(result.getMonth() + months);
+
+      return result;
+    };
+
+    const endDate = addMonths(currentDate, parseInt(item.duration))
+      .toISOString()
+      .split('T')[0];
+
+    if (currentUser) {
+      if (currentUser.membership && currentUser.membership.duration) {
+        alert('You already have an active membership.');
+
+        return;
+      }
+
+      const updatedUser: User = {
+        firstName: currentUser.firstName,
+        lastName: currentUser.lastName,
+        email: currentUser.email,
+        password: currentUser.password,
+        membership: {
+          duration: item.duration,
+          date: endDate,
+          giveOne: item.giveOne,
+          giveTwo: item.giveTwo,
+          giveThree: item.giveThree,
+          slogan: item.slogan,
+          access: item.access,
+          unlimited: item.unlimited,
+          locker: item.locker,
+          price: item.price,
+          best: item.best,
+        },
+        workouts: currentUser.workouts,
+      };
+
+      dispatch(updateUser(updatedUser));
+
+      return updatedUser;
+    }
+
+    if (!currentUser) {
+      dispatch(setIsModal(true));
+    }
+  };
 
   return (
     <div className="wrapper bg-[#111115]">
@@ -26,14 +81,14 @@ export const Prices: React.FC<Props> = ({ themeColor }) => {
         <h2 className="prices__title">membership Prices</h2>
         <div className="prices__grid">
           {pricesCard.map(item => (
-            <div className="prices__grid-card" key={item.monts}>
+            <div className="prices__grid-card" key={item.duration}>
               <div className="prices__grid-card-container-top">
                 {item.best && (
                   <div className="prices__grid-card-top">Best offer</div>
                 )}
 
                 <p className="prices__grid-card-container-top-title">
-                  {item.monts} months
+                  {item.duration} months
                 </p>
                 <p className="prices__grid-card-container-top-text text-nowrap">
                   {item.slogan}
@@ -104,7 +159,8 @@ export const Prices: React.FC<Props> = ({ themeColor }) => {
                 </p>
                 <button
                   className="prices__grid-card-button"
-                  onClick={() => dispatch(setIsModal(true))}
+                  // onClick={() => dispatch(setIsModal(true))}
+                  onClick={() => handleBuyMembership(item)}
                 >
                   Get membership
                 </button>

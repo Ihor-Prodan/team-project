@@ -67,7 +67,7 @@
     }
   }
 
-  .isActive {
+  body .navigation .isActive {
     &::after, &:active::after {
       content: '';
       position: absolute;
@@ -219,7 +219,7 @@
   }
 } 
 
-.isActive {
+body .header .isActive {
   &::after, &:active::after {
     content: '';
     position: absolute;

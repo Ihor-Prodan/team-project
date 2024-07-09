@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from '../../Hooks/hooks';
 import { setIsConfirm, setIsModal } from '../Redux/Slices/Modal';
 import Joi from 'joi';
 import { useNavigate } from 'react-router-dom';
+import { userLoad } from '../Redux/Slices/User';
 
 interface FormData {
   fullName?: string;
@@ -62,7 +63,7 @@ export const Auth: React.FC = () => {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isVisiblePassword, setIsVisiblePassword] = useState(false);
   const navigate = useNavigate();
-
+  const currentUser = useAppSelector(state => state.user.user);
   const isConfirm = useAppSelector(state => state.modal.isConfirm);
 
   const handleFocus = (id: string) => {
@@ -120,7 +121,26 @@ export const Auth: React.FC = () => {
         lastName,
         email: formData.email,
         password: formData.password,
+        membership: {
+          duration: '',
+          date: '',
+          giveOne: '',
+          giveTwo: '',
+          giveThree: '',
+        },
+        workout: [
+          {
+            trainerName: '',
+            date: '',
+            time: '',
+            location: '',
+          },
+        ],
       };
+
+      if (user.email !== currentUser?.email) {
+        dispatch(userLoad(user));
+      }
 
       setFormData({
         email: '',

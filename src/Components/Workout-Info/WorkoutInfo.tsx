@@ -74,22 +74,34 @@ export const WorkoutInfo: React.FC<Props> = ({ themeColor }) => {
               </h3>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="60"
-                height="17"
-                viewBox="0 0 60 17"
+                width="30"
+                height="10"
+                viewBox="0 0 30 9"
                 fill="none"
               >
-                <path
-                  d="M8.33333 16.6647C12.9357 16.6647 16.6667 12.9338 16.6667 8.33138C16.6667 3.72901 12.9357 -0.00195312 8.33333 -0.00195312C3.73096 -0.00195312 0 3.72901 0 8.33138C0 12.9338 3.73096 16.6647 8.33333 16.6647Z"
-                  fill="#BEAFA9"
+                <circle
+                  cx="4.16667"
+                  cy="4.16667"
+                  r="4.16667"
+                  {...(workout?.hardLewel && parseInt(workout.hardLewel) >= 1
+                    ? { fill: '#BEAFA9' }
+                    : { stroke: '#BEAFA9' })}
                 />
-                <path
-                  d="M29.7611 16.6647C34.3634 16.6647 38.0944 12.9338 38.0944 8.33138C38.0944 3.72901 34.3634 -0.00195312 29.7611 -0.00195312C25.1587 -0.00195312 21.4277 3.72901 21.4277 8.33138C21.4277 12.9338 25.1587 16.6647 29.7611 16.6647Z"
-                  fill="#BEAFA9"
+                <circle
+                  cx="14.8815"
+                  cy="4.16667"
+                  r="4.16667"
+                  {...(workout?.hardLewel && parseInt(workout.hardLewel) >= 2
+                    ? { fill: '#BEAFA9' }
+                    : { stroke: '#BEAFA9' })}
                 />
-                <path
-                  d="M59.0241 8.33138C59.0241 12.6576 55.517 16.1647 51.1908 16.1647C46.8645 16.1647 43.3574 12.6576 43.3574 8.33138C43.3574 4.00515 46.8645 0.498047 51.1908 0.498047C55.517 0.498047 59.0241 4.00515 59.0241 8.33138Z"
-                  stroke="#BEAFA9"
+                <circle
+                  cx="25.5964"
+                  cy="4.16667"
+                  r="4.16667"
+                  {...(workout?.hardLewel && parseInt(workout.hardLewel) >= 3
+                    ? { fill: '#BEAFA9' }
+                    : { stroke: '#BEAFA9' })}
                 />
               </svg>
             </div>

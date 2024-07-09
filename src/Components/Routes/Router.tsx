@@ -124,7 +124,35 @@ export const Root: React.FC = () => {
 
           <Route
             path="profile"
-            element={<UserPage themeColor={Theme.light} />}
+            element={
+              <UserPage
+                themeColor={Theme.light}
+                isMyWorkout={false}
+                isMembership={false}
+              />
+            }
+          />
+
+          <Route
+            path="membership"
+            element={
+              <UserPage
+                themeColor={Theme.light}
+                isMyWorkout={false}
+                isMembership={true}
+              />
+            }
+          />
+
+          <Route
+            path="my-workout"
+            element={
+              <UserPage
+                themeColor={Theme.light}
+                isMyWorkout={true}
+                isMembership={false}
+              />
+            }
           />
 
           <Route path="*" element={<NotFoundPage />} />
