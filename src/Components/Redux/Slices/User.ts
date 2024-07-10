@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { PayloadAction, createSlice, Slice } from '@reduxjs/toolkit';
-import { Workouts } from './Workouts';
 import { Membership } from '../../Prices/Helpers/priceCardInfo';
+import { Class } from '../../Timetable/Helpers/timetableData';
 
 export const BASE_URL = 'http://localhost:8080';
 
@@ -23,7 +23,15 @@ export type User = {
   email: string | null;
   password: string | null;
   membership: Membership;
-  workouts: Workouts[];
+  workouts: Class[];
+  dataCard: CardData;
+};
+
+export type CardData = {
+  cardNumber: string | null;
+  cvv: string | null;
+  date: string | null;
+  phoneNumber: string | null;
 };
 
 export interface UserState {
@@ -55,6 +63,11 @@ export const userSlice: Slice<UserState> = createSlice({
       state.loading = false;
       state.error = null;
     },
+    removeUser: state => {
+      state.user = null;
+      state.loading = false;
+      state.error = null;
+    },
     setLoading: state => {
       state.loading = true;
     },
@@ -65,6 +78,7 @@ export const userSlice: Slice<UserState> = createSlice({
   },
 });
 
-export const { userLoad, setLoading, setError, updateUser } = userSlice.actions;
+export const { userLoad, setLoading, setError, updateUser, removeUser } =
+  userSlice.actions;
 
 export default userSlice.reducer;

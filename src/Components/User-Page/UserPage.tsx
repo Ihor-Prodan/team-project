@@ -1,13 +1,14 @@
 /* eslint-disable max-len */
-import React, { useState } from 'react';
+import React, { ChangeEvent, FormEvent, useState } from 'react';
 import './userPage.scss';
 import Header from '../Header/Header';
 import { Theme } from '../Redux/Slices/themeMode';
 import Footer from '../Footer/Footer';
 import MemberShips from './MemberShips';
 import MyWorkout from './MyWorkout';
-import { useAppSelector } from '../../Hooks/hooks';
+import { useAppDispatch, useAppSelector } from '../../Hooks/hooks';
 import { NavLink } from 'react-router-dom';
+import { removeUser, updateUser } from '../Redux/Slices/User';
 
 interface Props {
   themeColor: Theme;
@@ -25,12 +26,24 @@ type UserData = {
   cvv: string;
 };
 
+export const clearForm = (
+  field: keyof UserData,
+  setFormData: React.Dispatch<React.SetStateAction<UserData>>,
+) => {
+  setFormData(prevData => ({
+    ...prevData,
+    [field]: '',
+  }));
+};
+
 export const UserPage: React.FC<Props> = ({
   themeColor,
   isMembership,
   isMyWorkout,
 }) => {
+  const dispatch = useAppDispatch();
   const currentUser = useAppSelector(state => state.user.user);
+  const [activeInput, setActiveInput] = useState<string | null>(null);
   const [formData, setFormData] = useState<UserData>({
     fullName: '',
     email: '',
@@ -47,41 +60,44 @@ export const UserPage: React.FC<Props> = ({
     { name: 'Trainer-led workouts', path: '/my-workout' },
   ];
 
-  const clearForm = (em: string) => {
-    if (em === 'email') {
-      setFormData({
-        ...formData,
-        email: '',
-      });
-    }
+  const handleInputChange = (
+    e: ChangeEvent<HTMLInputElement>,
+    field: keyof UserData,
+  ) => {
+    setFormData(prevData => ({
+      ...prevData,
+      [field]: e.target.value,
+    }));
+  };
 
-    if (em === 'name') {
-      setFormData({
-        ...formData,
-        fullName: '',
-      });
-    }
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    dispatch(
+      updateUser({
+        ...currentUser,
+        firstName: formData.fullName.split(' ')[0] || currentUser?.firstName,
+        lastName: formData.fullName.split(' ')[1] || currentUser?.lastName,
+        email: formData.email || currentUser?.email,
+        dataCard: {
+          cardNumber: formData.card || currentUser?.dataCard.cardNumber,
+          date: formData.cardDate || currentUser?.dataCard.date,
+          cvv: formData.cvv || currentUser?.dataCard.cvv,
+          phoneNumber: formData.number || currentUser?.dataCard.phoneNumber,
+        },
+      }),
+    );
+  };
 
-    if (em === 'card') {
-      setFormData({
-        ...formData,
-        card: '',
-      });
-    }
+  const handleRemoveUser = () => {
+    dispatch(removeUser(currentUser));
+  };
 
-    if (em === 'cardDate') {
-      setFormData({
-        ...formData,
-        cardDate: '',
-      });
-    }
+  const handleFocus = (id: string) => {
+    setActiveInput(id);
+  };
 
-    if (em === 'cvv') {
-      setFormData({
-        ...formData,
-        cvv: '',
-      });
-    }
+  const handleBlur = () => {
+    setActiveInput(null);
   };
 
   return (
@@ -106,7 +122,10 @@ export const UserPage: React.FC<Props> = ({
                   </NavLink>
                 </li>
               ))}
-              <li className="userPage__info-container-menuItem mt-8">
+              <li
+                className="userPage__info-container-menuItem mt-8"
+                onClick={handleRemoveUser}
+              >
                 Log out
               </li>
             </ul>
@@ -117,19 +136,27 @@ export const UserPage: React.FC<Props> = ({
                 <h3 className="userPage__info-container-modalInfo-top-title">
                   Personal info
                 </h3>
-                <button className="userPage__info-container-modalInfo-top-save">
+                <button
+                  className="userPage__info-container-modalInfo-top-save"
+                  type="button"
+                >
                   Save
                 </button>
               </div>
-              <form className="userPage__info-container-modalInfo-forms">
+              <form
+                className="userPage__info-container-modalInfo-forms"
+                onSubmit={e => handleSubmit(e)}
+              >
                 <div className="userPage__info-container-modalInfo-forms-personal">
                   <div className="userPage__info-container-modalInfo-forms-personal-info">
                     <p className="userPage__info-container-modalInfo-forms-personal-name">
                       Full name
                     </p>
                     <svg
-                      onClick={() => clearForm('name')}
-                      className="userPage__info-container-modalInfo-forms-personal-input-clear"
+                      onClick={() => clearForm('fullName', setFormData)}
+                      className={`userPage__info-container-modalInfo-forms-personal-input-clear ${
+                        activeInput === 'fullName' ? 'active' : ''
+                      }`}
                       xmlns="http://www.w3.org/2000/svg"
                       width="18"
                       height="18"
@@ -142,6 +169,10 @@ export const UserPage: React.FC<Props> = ({
                       />
                     </svg>
                     <input
+                      onFocus={() => handleFocus('fullName')}
+                      onBlur={handleBlur}
+                      value={formData.fullName}
+                      onChange={e => handleInputChange(e, 'fullName')}
                       className="userPage__info-container-modalInfo-forms-personal-input"
                       placeholder={
                         currentUser
@@ -155,7 +186,10 @@ export const UserPage: React.FC<Props> = ({
                       Email
                     </p>
                     <svg
-                      className="userPage__info-container-modalInfo-forms-personal-input-clear"
+                      onClick={() => clearForm('email', setFormData)}
+                      className={`userPage__info-container-modalInfo-forms-personal-input-clear ${
+                        activeInput === 'email' ? 'active' : ''
+                      }`}
                       xmlns="http://www.w3.org/2000/svg"
                       width="18"
                       height="18"
@@ -168,6 +202,10 @@ export const UserPage: React.FC<Props> = ({
                       />
                     </svg>
                     <input
+                      onFocus={() => handleFocus('email')}
+                      onBlur={handleBlur}
+                      value={formData.email}
+                      onChange={e => handleInputChange(e, 'email')}
                       className="userPage__info-container-modalInfo-forms-personal-input"
                       placeholder={
                         currentUser
@@ -182,7 +220,10 @@ export const UserPage: React.FC<Props> = ({
                       Mobile number
                     </p>
                     <svg
-                      className="userPage__info-container-modalInfo-forms-personal-input-clear"
+                      onClick={() => clearForm('number', setFormData)}
+                      className={`userPage__info-container-modalInfo-forms-personal-input-clear ${
+                        activeInput === 'number' ? 'active' : ''
+                      }`}
                       xmlns="http://www.w3.org/2000/svg"
                       width="18"
                       height="18"
@@ -195,8 +236,16 @@ export const UserPage: React.FC<Props> = ({
                       />
                     </svg>
                     <input
+                      onFocus={() => handleFocus('number')}
+                      onBlur={handleBlur}
+                      value={formData.number}
+                      onChange={e => handleInputChange(e, 'number')}
                       className="userPage__info-container-modalInfo-forms-personal-input"
-                      placeholder="12 345 67 89"
+                      placeholder={
+                        currentUser?.dataCard.phoneNumber !== ''
+                          ? `${currentUser?.dataCard.phoneNumber}`
+                          : '12 345 67 89'
+                      }
                     ></input>
                   </div>
                 </div>
@@ -213,7 +262,10 @@ export const UserPage: React.FC<Props> = ({
                         Credit card number
                       </p>
                       <svg
-                        className="userPage__info-container-modalInfo-forms-personal-input-clear"
+                        onClick={() => clearForm('card', setFormData)}
+                        className={`userPage__info-container-modalInfo-forms-personal-input-clear ${
+                          activeInput === 'card' ? 'active' : ''
+                        }`}
                         xmlns="http://www.w3.org/2000/svg"
                         width="18"
                         height="18"
@@ -226,8 +278,16 @@ export const UserPage: React.FC<Props> = ({
                         />
                       </svg>
                       <input
+                        onFocus={() => handleFocus('card')}
+                        onBlur={handleBlur}
+                        value={formData.card}
+                        onChange={e => handleInputChange(e, 'card')}
                         className="userPage__info-container-modalInfo-forms-personal-input"
-                        placeholder="1234 1234 1234 1234"
+                        placeholder={
+                          currentUser?.dataCard.cardNumber !== ''
+                            ? `${currentUser?.dataCard.cardNumber}`
+                            : '1234 1234 1234 1234'
+                        }
                       ></input>
                     </div>
                     <div className="userPage__info-container-modalInfo-forms-cartInfo-info-cardData">
@@ -236,7 +296,10 @@ export const UserPage: React.FC<Props> = ({
                           Expiration Date
                         </p>
                         <svg
-                          className="userPage__info-container-modalInfo-forms-personal-input-clear"
+                          className={`userPage__info-container-modalInfo-forms-personal-input-clear ${
+                            activeInput === 'cardDate' ? 'active' : ''
+                          }`}
+                          onClick={() => clearForm('cardDate', setFormData)}
                           xmlns="http://www.w3.org/2000/svg"
                           width="18"
                           height="18"
@@ -249,8 +312,16 @@ export const UserPage: React.FC<Props> = ({
                           />
                         </svg>
                         <input
+                          onFocus={() => handleFocus('cardDate')}
+                          onBlur={handleBlur}
+                          value={formData.cardDate}
+                          onChange={e => handleInputChange(e, 'cardDate')}
                           className="userPage__info-container-modalInfo-forms-personal-input w-full"
-                          placeholder="MM/YY"
+                          placeholder={
+                            currentUser?.dataCard.date !== ''
+                              ? `${currentUser?.dataCard.date}`
+                              : 'MM/YY'
+                          }
                         ></input>
                       </div>
                       <div className="userPage__info-container-modalInfo-forms-personal-info">
@@ -258,7 +329,10 @@ export const UserPage: React.FC<Props> = ({
                           CVV
                         </p>
                         <svg
-                          className="userPage__info-container-modalInfo-forms-personal-input-clear"
+                          onClick={() => clearForm('cvv', setFormData)}
+                          className={`userPage__info-container-modalInfo-forms-personal-input-clear ${
+                            activeInput === 'cvv' ? 'active' : ''
+                          }`}
                           xmlns="http://www.w3.org/2000/svg"
                           width="18"
                           height="18"
@@ -271,8 +345,16 @@ export const UserPage: React.FC<Props> = ({
                           />
                         </svg>
                         <input
+                          onFocus={() => handleFocus('cvv')}
+                          onBlur={handleBlur}
+                          value={formData.cvv}
+                          onChange={e => handleInputChange(e, 'cvv')}
                           className="userPage__info-container-modalInfo-forms-personal-input w-full"
-                          placeholder="•••"
+                          placeholder={
+                            currentUser?.dataCard.cvv !== ''
+                              ? `${currentUser?.dataCard.cvv}`
+                              : '•••'
+                          }
                         ></input>
                       </div>
                     </div>

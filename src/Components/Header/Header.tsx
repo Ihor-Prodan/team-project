@@ -4,7 +4,7 @@ import { Navigation } from '../Navigation/Navigation';
 import './header.scss';
 import { useAppDispatch, useAppSelector } from '../../Hooks/hooks';
 import { Theme } from '../Redux/Slices/themeMode';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { setIsModal } from '../Redux/Slices/Modal';
 
 interface Props {
@@ -16,6 +16,8 @@ export const Header: React.FC<Props> = ({ themeColor }) => {
   const theme = useAppSelector(state => state.theme.theme);
   const [isScrolledUp, setIsScrolledUp] = useState(true);
   const [lastScrollTop, setLastScrollTop] = useState(0);
+  const currentUser = useAppSelector(state => state.user.user);
+  const navigate = useNavigate();
 
   //Header-scroll function
   useEffect(() => {
@@ -44,6 +46,16 @@ export const Header: React.FC<Props> = ({ themeColor }) => {
       : '';
 
     return `${baseClass} ${themeClass} ${activeClass}`;
+  };
+
+  const isUser = () => {
+    if (!currentUser) {
+      dispatch(setIsModal(true));
+
+      return;
+    }
+
+    navigate('/profile');
   };
 
   return (
@@ -119,7 +131,7 @@ export const Header: React.FC<Props> = ({ themeColor }) => {
         </NavLink>
 
         <button
-          onClick={() => dispatch(setIsModal(true))}
+          onClick={isUser}
           className={
             themeColor === Theme.dark ? 'header__button-dark' : 'header__button'
           }

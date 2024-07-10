@@ -1,43 +1,28 @@
 /* eslint-disable max-len */
-import React, { useState } from 'react';
+import React from 'react';
 import './userPage.scss';
 import './myworkout.scss';
+import { useAppDispatch, useAppSelector } from '../../Hooks/hooks';
+import { useNavigate } from 'react-router-dom';
+import { updateUser } from '../Redux/Slices/User';
 
 export const MyWorkout: React.FC = () => {
-  const [bookWorkout, setIsBookWorkout] = useState(false);
-  const myWorkoutList = [
-    {
-      trainerName: 'Daryna Milovska',
-      date: '01.06.2024',
-      time: '10:00 - 11:00',
-      location: 'Gym',
-      id: '1',
-    },
-    {
-      trainerName: 'Oleksandr Kovalchuk',
-      date: '01.06.2024',
-      time: '8:00 - 9:00',
-      location: 'Gym',
-      id: '2',
-    },
-    {
-      trainerName: 'Natalia Voloshyna',
-      date: '02.06.2024',
-      time: '11:00 - 12:00',
-      location: 'Gym',
-      id: '3',
-    },
-    {
-      trainerName: 'Yuliya Shevchenko',
-      date: '03.06.2024',
-      time: '17:00 - 18:00',
-      location: 'Gym',
-      id: '4',
-    },
-  ];
+  const currentUser = useAppSelector(state => state.user.user);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
-  const handleBookWorkout = () => {
-    setIsBookWorkout(false);
+  const removeWorkout = (workoutId: string) => {
+    if (currentUser) {
+      const updatedWorkouts = currentUser.workouts.filter(
+        workout => workout.id !== workoutId,
+      );
+      const updatedUser = {
+        ...currentUser,
+        workouts: updatedWorkouts,
+      };
+
+      dispatch(updateUser(updatedUser));
+    }
   };
 
   return (
@@ -46,16 +31,16 @@ export const MyWorkout: React.FC = () => {
         <h3 className="userPage__info-container-modalInfo-top-title">
           Trainer-led workouts
         </h3>
-        {!bookWorkout && (
+        {currentUser?.workouts && (
           <button
             className="my__workout-bookButton"
-            onClick={() => setIsBookWorkout(false)}
+            onClick={() => navigate('/timetable/trainer-led-workout')}
           >
             Book a workout
           </button>
         )}
       </div>
-      {bookWorkout && (
+      {(!currentUser?.workouts || currentUser.workouts.length === 0) && (
         <div className="userPage__info-container-member-content mt-8">
           <div className="userPage__info-container-member">
             <p className="userPage__info-container-member-text">
@@ -63,7 +48,7 @@ export const MyWorkout: React.FC = () => {
             </p>
             <button
               className="userPage__info-container-member-button"
-              onClick={handleBookWorkout}
+              onClick={() => navigate('/timetable/trainer-led-workout')}
             >
               Book a workout
             </button>
@@ -71,11 +56,11 @@ export const MyWorkout: React.FC = () => {
         </div>
       )}
 
-      {true && (
+      {currentUser?.workouts && currentUser.workouts.length > 0 && (
         <div className="my__workout-grid">
-          {myWorkoutList.map(item => (
+          {currentUser.workouts.map(item => (
             <div className="my__workout-grid-card" key={item.id}>
-              <p className="my__workout-grid-card-title">{item.trainerName}</p>
+              <p className="my__workout-grid-card-title">{item.trainer}</p>
               <div className="my__workout-grid-card-content">
                 <p className="my__workout-grid-card-content-name">
                   Date:
@@ -90,10 +75,13 @@ export const MyWorkout: React.FC = () => {
                 <p className="my__workout-grid-card-content-name">
                   Location:
                   <span className="my__workout-grid-card-content-info ml-2"></span>
-                  {item.location}
+                  {item.studio}
                 </p>
               </div>
-              <button className="my__workout-grid-card-cancel">
+              <button
+                className="my__workout-grid-card-cancel"
+                onClick={() => removeWorkout(item.id)}
+              >
                 Cancel workout
               </button>
             </div>

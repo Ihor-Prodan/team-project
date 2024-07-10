@@ -136,6 +136,12 @@ export const Auth: React.FC = () => {
             location: '',
           },
         ],
+        dataCard: {
+          cardNumber: '',
+          cvv: '',
+          date: '',
+          phoneNumber: '',
+        },
       };
 
       if (user.email !== currentUser?.email) {

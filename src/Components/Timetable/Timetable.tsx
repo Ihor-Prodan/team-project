@@ -10,9 +10,10 @@ import { Swiper as ReactSwiper, SwiperSlide } from 'swiper/react';
 import { useAppDispatch, useAppSelector } from '../../Hooks/hooks';
 import { setCurrentDayIndex, setDays } from '../Redux/Slices/Calendar';
 import useScrollToTop from '../../Hooks/location';
-import { studio, times, timetable } from './Helpers/timetableData';
+import { Class, studio, times, timetable } from './Helpers/timetableData';
 import { setIsModal } from '../Redux/Slices/Modal';
 import { Auth } from '../Auth/Auth';
+import { updateUser, User } from '../Redux/Slices/User';
 
 interface Props {
   themeColor: Theme;
@@ -28,6 +29,7 @@ export const Timetable: React.FC<Props> = ({
   useScrollToTop();
   const days = useAppSelector(state => state.calendar.days);
   const isModalVisible = useAppSelector(state => state.modal.isModal);
+  const currentUser = useAppSelector(state => state.user.user);
   const currentDayIndex = useAppSelector(
     state => state.calendar.currentDayIndex,
   );
@@ -86,6 +88,54 @@ export const Timetable: React.FC<Props> = ({
     }
   }, [days]);
   //swiper logic
+
+  const handleBookWorkout = (item: Class): User | void => {
+    const selectedDay = days[currentDayIndex];
+
+    if (!selectedDay) {
+      alert('No day selected from the timetable.');
+
+      return;
+    }
+
+    const currentYear = new Date().getFullYear();
+
+    const trainingDate = `${selectedDay.date}.${currentYear}`;
+
+    if (currentUser) {
+      const findUserWorkout = currentUser.workouts?.find(w => w.id === item.id);
+
+      if (findUserWorkout && findUserWorkout.date === trainingDate) {
+        alert('You already have this workout scheduled.');
+
+        return;
+      }
+
+      const updatedUser: User = {
+        ...currentUser,
+        workouts: [
+          ...(currentUser.workouts ?? []),
+          {
+            ...item,
+            id: item.id,
+            date: trainingDate,
+            time: item.time,
+            studio: item.studio,
+            trainer: item.trainer,
+            location: item.location,
+          },
+        ],
+      };
+
+      dispatch(updateUser(updatedUser));
+
+      return updatedUser;
+    }
+
+    if (!currentUser) {
+      dispatch(setIsModal(true));
+    }
+  };
 
   return (
     <div className="timetable-wrapper bg-[#111115]">
@@ -268,7 +318,10 @@ export const Timetable: React.FC<Props> = ({
                           <div className="timetable__grid-studioname-hover-button">
                             <button
                               className="timetable__grid-studioname-book-button"
-                              onClick={() => dispatch(setIsModal(true))}
+                              // onClick={() => dispatch(setIsModal(true))}
+                              onClick={() =>
+                                handleBookWorkout(studioClass.class)
+                              }
                             >
                               Book now
                             </button>

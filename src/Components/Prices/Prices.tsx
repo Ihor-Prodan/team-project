@@ -24,7 +24,7 @@ export const Prices: React.FC<Props> = ({ themeColor }) => {
   const handleBuyMembership = (item: Membership): User | void => {
     const currentDate = new Date();
 
-    const addMonths = (date: Date, months: number): Date => {
+    const addMonths = (date: Date, months: number) => {
       const result = new Date(date);
 
       result.setMonth(result.getMonth() + months);
@@ -32,9 +32,15 @@ export const Prices: React.FC<Props> = ({ themeColor }) => {
       return result;
     };
 
-    const endDate = addMonths(currentDate, parseInt(item.duration))
-      .toISOString()
-      .split('T')[0];
+    const formatDate = (date: Date) => {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+
+      return `${year}.${month}.${day}`;
+    };
+
+    const endDate = formatDate(addMonths(currentDate, parseInt(item.duration)));
 
     if (currentUser) {
       if (currentUser.membership && currentUser.membership.duration) {
@@ -62,6 +68,7 @@ export const Prices: React.FC<Props> = ({ themeColor }) => {
           best: item.best,
         },
         workouts: currentUser.workouts,
+        dataCard: currentUser.dataCard,
       };
 
       dispatch(updateUser(updatedUser));

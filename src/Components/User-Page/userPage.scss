@@ -78,7 +78,6 @@
       line-height: 140%;
       text-wrap: nowrap;
       cursor: pointer;
-      // border-bottom: 1px solid transparent;
 
       &:hover::after, &:active::after {
         content: '';
@@ -104,7 +103,6 @@
     &-modalInfo {
       display: flex;
       max-width: 848px;
-      // width: 100%;
       padding: 48px 56px;
       flex-direction: column;
       align-items: flex-start;
@@ -191,8 +189,14 @@
               position: absolute;
               right: 18px;
               bottom: 18px;
+              opacity: 0;
+              transition: opacity 0.3s ease;
             }
           }
+        }
+
+        .active {
+          opacity: 3;
         }
 
         &-cartInfo {
