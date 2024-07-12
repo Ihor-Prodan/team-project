@@ -75,7 +75,7 @@ export const MyWorkout: React.FC = () => {
                 <p className="my__workout-grid-card-content-name">
                   Location:
                   <span className="my__workout-grid-card-content-info ml-2"></span>
-                  {item.studio}
+                  {item.location}
                 </p>
               </div>
               <button

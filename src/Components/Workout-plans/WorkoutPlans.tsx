@@ -18,6 +18,7 @@ interface Props {
 export const WorkoutPlans: React.FC<Props> = ({ themeColor, workoutName }) => {
   useScrollToTop();
   const isModalVisible = useAppSelector(state => state.modal.isModal);
+  const currentUser = useAppSelector(state => state.user.user);
   const [cards, setCards] = useState<CardType[]>(initialStateCart);
 
   useEffect(() => {
@@ -52,7 +53,7 @@ export const WorkoutPlans: React.FC<Props> = ({ themeColor, workoutName }) => {
         ))}
       </section>
       <Footer />
-      {isModalVisible && <Auth />}
+      {isModalVisible && !currentUser && <Auth />}
     </div>
   );
 };

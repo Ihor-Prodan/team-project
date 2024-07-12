@@ -23,6 +23,7 @@ export const WorkoutInfo: React.FC<Props> = ({ themeColor }) => {
   const loaded = useLoadAnimation(workout?.image);
   const dispatch = useAppDispatch();
   const isModalVisible = useAppSelector(state => state.modal.isModal);
+  const currentUser = useAppSelector(state => state.user.user);
 
   const getWorkoutById = (cartId: string): CardType | undefined => {
     return initialStateCart.find(wor => wor.id === cartId);
@@ -169,7 +170,7 @@ export const WorkoutInfo: React.FC<Props> = ({ themeColor }) => {
         </div>
       </section>
       <Footer />
-      {isModalVisible && <Auth />}
+      {isModalVisible && !currentUser && <Auth />}
     </div>
   );
 };

@@ -16,6 +16,7 @@ interface Props {
 export const Contacts: React.FC<Props> = ({ themeColor }) => {
   useScrollToTop();
   const isModalVisible = useAppSelector(state => state.modal.isModal);
+  const currentUser = useAppSelector(state => state.user.user);
 
   return (
     <div className="wrapper">
@@ -70,7 +71,7 @@ export const Contacts: React.FC<Props> = ({ themeColor }) => {
         </div>
       </section>
       <Footer />
-      {isModalVisible && <Auth />}
+      {isModalVisible && !currentUser && <Auth />}
     </div>
   );
 };

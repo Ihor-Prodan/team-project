@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/indent */
 /* eslint-disable max-len */
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Header from '../Header/Header';
 import { Theme } from '../Redux/Slices/themeMode';
 import './timetable.scss';
@@ -10,7 +11,12 @@ import { Swiper as ReactSwiper, SwiperSlide } from 'swiper/react';
 import { useAppDispatch, useAppSelector } from '../../Hooks/hooks';
 import { setCurrentDayIndex, setDays } from '../Redux/Slices/Calendar';
 import useScrollToTop from '../../Hooks/location';
-import { Class, studio, times, timetable } from './Helpers/timetableData';
+import {
+  Class,
+  studio,
+  times,
+  WorkoutTimetable,
+} from './Helpers/timetableData';
 import { setIsModal } from '../Redux/Slices/Modal';
 import { Auth } from '../Auth/Auth';
 import { updateUser, User } from '../Redux/Slices/User';
@@ -19,12 +25,14 @@ interface Props {
   themeColor: Theme;
   workoutName: string;
   isLedWorkout: boolean;
+  timetableDate: WorkoutTimetable[];
 }
 
 export const Timetable: React.FC<Props> = ({
   themeColor,
   workoutName,
   isLedWorkout,
+  timetableDate,
 }) => {
   useScrollToTop();
   const days = useAppSelector(state => state.calendar.days);
@@ -35,6 +43,7 @@ export const Timetable: React.FC<Props> = ({
   );
   const dispatch = useAppDispatch();
   const swiperRef = useRef<Swiper | null>(null);
+  const [schedule, setSchedule] = useState(timetableDate);
 
   useEffect(() => {
     dispatch(setDays());
@@ -54,13 +63,46 @@ export const Timetable: React.FC<Props> = ({
     studios: studio.map(stud => ({
       studio: stud,
       class:
-        timetable
+        schedule
           .filter(slot => slot.time.startsWith(t))
           .flatMap(slot => slot.classes.filter(c => c.studio === stud))[0] ||
         null,
     })),
   }));
   //create grid-elements
+
+  // const updateCapacities = () => {
+  //   if (schedule) {
+  //     const newSchedule = schedule.map(day => ({
+  //       ...day,
+  //       classes: day.classes.map(item => ({
+  //         ...item,
+  //         capacity: Math.random() < 0.5 ? '0' : '1',
+  //       })),
+  //     }));
+
+  //     setSchedule(newSchedule);
+  //   }
+  // };
+
+  const getRandomElement = (arr: string | any[]) =>
+    arr[Math.floor(Math.random() * arr.length)];
+
+  const updateCapacities = () => {
+    if (schedule) {
+      const newSchedule = schedule.map(day => ({
+        ...day,
+        classes: day.classes.map(item => ({
+          ...item,
+          capacity: Math.random() < 0.5 ? '0' : '1',
+          time: getRandomElement(times),
+          studio: getRandomElement(studio),
+        })),
+      }));
+
+      setSchedule(newSchedule);
+    }
+  };
 
   //swiper logic
   const slideNext = () => {
@@ -79,6 +121,9 @@ export const Timetable: React.FC<Props> = ({
     if (swiperRef.current) {
       swiperRef.current.slideTo(dayIndex);
       dispatch(setCurrentDayIndex(dayIndex));
+      if (dayIndex !== currentDayIndex) {
+        updateCapacities();
+      }
     }
   };
 
@@ -252,7 +297,7 @@ export const Timetable: React.FC<Props> = ({
                 )}
                 {timetableGrid.map(({ time, studios }) => {
                   const studioClass = studios.find(s => s.studio === stud);
-                  const timeSlot = timetable.find(slot =>
+                  const timeSlot = schedule.find(slot =>
                     slot.classes.some(c => c.time === studioClass?.class?.time),
                   );
 
@@ -261,7 +306,13 @@ export const Timetable: React.FC<Props> = ({
                       {studioClass && studioClass.class ? (
                         <div className="timetable__grid-studioname-item">
                           <div className="timetable__grid-studioname-title-icon">
-                            <h3 className="timetable__grid-studioname-item-title">
+                            <h3
+                              className={
+                                studioClass.class.capacity === '0'
+                                  ? 'disabled-title'
+                                  : 'timetable__grid-studioname-item-title '
+                              }
+                            >
                               {isLedWorkout
                                 ? studioClass.class.name
                                 : studioClass.class.trainer}
@@ -270,21 +321,48 @@ export const Timetable: React.FC<Props> = ({
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="30"
-                                height="9"
+                                height="10"
                                 viewBox="0 0 30 9"
                                 fill="none"
                               >
-                                <path
-                                  d="M4.16667 8.33272C6.46785 8.33272 8.33333 6.46724 8.33333 4.16606C8.33333 1.86487 6.46785 -0.000610352 4.16667 -0.000610352C1.86548 -0.000610352 0 1.86487 0 4.16606C0 6.46724 1.86548 8.33272 4.16667 8.33272Z"
-                                  fill="#BEAFA9"
+                                <circle
+                                  cx="4.16667"
+                                  cy="4.16667"
+                                  r="4.16667"
+                                  {...(studioClass.class.hard &&
+                                  parseInt(studioClass.class.hard) >= 1
+                                    ? {
+                                        fill: `${studioClass.class.capacity === '0' ? '#716560' : '#BEAFA9'}`,
+                                      }
+                                    : {
+                                        stroke: `${studioClass.class.capacity === '0' ? '#716560' : '#BEAFA9'}`,
+                                      })}
                                 />
-                                <path
-                                  d="M14.881 8.33272C17.1822 8.33272 19.0477 6.46724 19.0477 4.16606C19.0477 1.86487 17.1822 -0.000610352 14.881 -0.000610352C12.5798 -0.000610352 10.7144 1.86487 10.7144 4.16606C10.7144 6.46724 12.5798 8.33272 14.881 8.33272Z"
-                                  fill="#BEAFA9"
+                                <circle
+                                  cx="14.8815"
+                                  cy="4.16667"
+                                  r="4.16667"
+                                  {...(studioClass.class.hard &&
+                                  parseInt(studioClass.class.hard) >= 2
+                                    ? {
+                                        fill: `${studioClass.class.capacity === '0' ? '#716560' : '#BEAFA9'}`,
+                                      }
+                                    : {
+                                        stroke: `${studioClass.class.capacity === '0' ? '#716560' : '#BEAFA9'}`,
+                                      })}
                                 />
-                                <path
-                                  d="M29.2623 4.16606C29.2623 6.1911 27.6207 7.83272 25.5956 7.83272C23.5706 7.83272 21.929 6.1911 21.929 4.16606C21.929 2.14101 23.5706 0.49939 25.5956 0.49939C27.6207 0.49939 29.2623 2.14101 29.2623 4.16606Z"
-                                  stroke="#BEAFA9"
+                                <circle
+                                  cx="25.5964"
+                                  cy="4.16667"
+                                  r="4.16667"
+                                  {...(studioClass.class.hard &&
+                                  parseInt(studioClass.class.hard) >= 3
+                                    ? {
+                                        fill: `${studioClass.class.capacity === '0' ? '#716560' : '#BEAFA9'}`,
+                                      }
+                                    : {
+                                        stroke: `${studioClass.class.capacity === '0' ? '#716560' : '#BEAFA9'}`,
+                                      })}
                                 />
                               </svg>
                             )}
@@ -293,32 +371,55 @@ export const Timetable: React.FC<Props> = ({
                             <div className="timetable__grid-studioname-atributs">
                               <p
                                 className={
-                                  isLedWorkout
-                                    ? 'timetable__grid-studioname-text pr-4'
-                                    : 'timetable__grid-studioname-text pr-7'
+                                  studioClass.class.capacity !== '0'
+                                    ? `timetable__grid-studioname-text ${isLedWorkout ? 'pr-4' : 'pr-7'}`
+                                    : `disabled-text ${isLedWorkout ? 'pr-4' : 'pr-7'}`
                                 }
                               >
                                 Time:
                               </p>
-                              <p className="timetable__grid-studioname-text">
-                                {timeSlot?.time ?? ''}
+                              <p
+                                className={
+                                  studioClass.class.capacity !== '0'
+                                    ? 'timetable__grid-studioname-text'
+                                    : 'disabled-text'
+                                }
+                              >
+                                {timeSlot?.time}
                               </p>
                             </div>
                             <div className="timetable__grid-studioname-atributs">
-                              <p className="timetable__grid-studioname-text">
+                              <p
+                                className={
+                                  studioClass.class.capacity !== '0'
+                                    ? 'timetable__grid-studioname-text'
+                                    : 'disabled-text'
+                                }
+                              >
                                 {isLedWorkout ? 'Trainer:' : 'Location:'}
                               </p>
-                              <p className="timetable__grid-studioname-text">
+                              <p
+                                className={
+                                  studioClass.class.capacity !== '0'
+                                    ? 'timetable__grid-studioname-text'
+                                    : 'disabled-text'
+                                }
+                              >
                                 {isLedWorkout
                                   ? studioClass.class.trainer
                                   : 'Gym'}
                               </p>
                             </div>
                           </div>
-                          <div className="timetable__grid-studioname-hover-button">
+                          <div
+                            className={
+                              studioClass.class.capacity === '0'
+                                ? 'hidden'
+                                : 'timetable__grid-studioname-hover-button'
+                            }
+                          >
                             <button
                               className="timetable__grid-studioname-book-button"
-                              // onClick={() => dispatch(setIsModal(true))}
                               onClick={() =>
                                 handleBookWorkout(studioClass.class)
                               }
@@ -339,7 +440,7 @@ export const Timetable: React.FC<Props> = ({
         </div>
       </section>
       <Footer />
-      {isModalVisible && <Auth />}
+      {isModalVisible && !currentUser && <Auth />}
     </div>
   );
 };

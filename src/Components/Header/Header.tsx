@@ -51,11 +51,9 @@ export const Header: React.FC<Props> = ({ themeColor }) => {
   const isUser = () => {
     if (!currentUser) {
       dispatch(setIsModal(true));
-
-      return;
+    } else {
+      navigate('/profile');
     }
-
-    navigate('/profile');
   };
 
   return (
@@ -119,7 +117,7 @@ export const Header: React.FC<Props> = ({ themeColor }) => {
           className={({ isActive }) => getLinkClass(isActive)}
         >
           <p
-            onClick={() => dispatch(setIsModal(true))}
+            onClick={isUser}
             className={
               theme === themeColor
                 ? 'navigation__nav-items'

@@ -228,16 +228,17 @@
           line-height: 140%;
           border-bottom: 1px solid var(--Gray-80, #F3F4F6);
 
+
           &:hover .timetable__grid-studioname-hover-button{
             opacity: 1;
             bottom: 0;
           }
         }
 
-        &-item-title:hover .timetable__grid-studioname-hover-button {
-          opacity: 1;
-          bottom: 0;
-        }
+        // &-item-title:hover .timetable__grid-studioname-hover-button {
+        //   opacity: 1;
+        //   bottom: 0;
+        // }
 
         &:hover .timetable__grid-studioname-hover-button {
           opacity: 1;
@@ -324,3 +325,25 @@
     }
   }
 }
+
+.disabled {
+  &-text {
+    color: var(--Gray-60, #575759);
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 140%;
+  }
+
+  &-title {
+    display: flex;
+    color: var(--Gray-0, #575759);
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 300;
+    text-wrap: nowrap;
+    line-height: 140%;
+    border-bottom: 1px solid var(--Gray-80, #575759);
+  }
+}
+
+

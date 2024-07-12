@@ -166,7 +166,6 @@ export const Prices: React.FC<Props> = ({ themeColor }) => {
                 </p>
                 <button
                   className="prices__grid-card-button"
-                  // onClick={() => dispatch(setIsModal(true))}
                   onClick={() => handleBuyMembership(item)}
                 >
                   Get membership
@@ -177,7 +176,7 @@ export const Prices: React.FC<Props> = ({ themeColor }) => {
         </div>
       </section>
       <Footer />
-      {isModalVisible && <Auth />}
+      {isModalVisible && !currentUser && <Auth />}
     </div>
   );
 };

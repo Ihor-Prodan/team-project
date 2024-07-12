@@ -23,6 +23,7 @@ export const InfoInstructors: React.FC<Props> = ({ themeColor }) => {
   const loaded = useLoadAnimation(trainer?.image);
   const dispatch = useAppDispatch();
   const isModalVisible = useAppSelector(state => state.modal.isModal);
+  const currentUser = useAppSelector(state => state.user.user);
 
   const getWorkoutById = (trainerId: string): TrainerType | undefined => {
     return trainers.find(t => t.id === trainerId);
@@ -146,7 +147,7 @@ export const InfoInstructors: React.FC<Props> = ({ themeColor }) => {
         </div>
       </section>
       <Footer />
-      {isModalVisible && <Auth />}
+      {isModalVisible && !currentUser && <Auth />}
     </div>
   );
 };

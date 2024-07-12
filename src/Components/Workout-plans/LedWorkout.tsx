@@ -26,6 +26,7 @@ export const LedWorkout: React.FC<Props> = ({
   useScrollToTop();
   const navigate = useNavigate();
   const isModalVisible = useAppSelector(state => state.modal.isModal);
+  const currentUser = useAppSelector(state => state.user.user);
   const cartData = isLedWorkout ? workoutPlansLed : selfGuidedWorkoutPlans;
 
   return (
@@ -90,7 +91,7 @@ export const LedWorkout: React.FC<Props> = ({
         </div>
       </section>
       <Footer />
-      {isModalVisible && <Auth />}
+      {isModalVisible && !currentUser && <Auth />}
     </div>
   );
 };

@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import React, { ChangeEvent, FormEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import './userPage.scss';
 import Header from '../Header/Header';
 import { Theme } from '../Redux/Slices/themeMode';
@@ -9,6 +9,12 @@ import MyWorkout from './MyWorkout';
 import { useAppDispatch, useAppSelector } from '../../Hooks/hooks';
 import { NavLink } from 'react-router-dom';
 import { removeUser, updateUser } from '../Redux/Slices/User';
+import {
+  formatCreditCardNumber,
+  formatCVV,
+  formatDateForm,
+  formatPhoneNumber,
+} from './Helpers/formatForm';
 
 interface Props {
   themeColor: Theme;
@@ -60,18 +66,8 @@ export const UserPage: React.FC<Props> = ({
     { name: 'Trainer-led workouts', path: '/my-workout' },
   ];
 
-  const handleInputChange = (
-    e: ChangeEvent<HTMLInputElement>,
-    field: keyof UserData,
-  ) => {
-    setFormData(prevData => ({
-      ...prevData,
-      [field]: e.target.value,
-    }));
-  };
-
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmit = () => {
+    // e.preventDefault();
     dispatch(
       updateUser({
         ...currentUser,
@@ -86,6 +82,59 @@ export const UserPage: React.FC<Props> = ({
         },
       }),
     );
+  };
+
+  useEffect(() => {
+    if (
+      formData.fullName ||
+      formData.email ||
+      formData.number ||
+      formData.card ||
+      formData.cardDate ||
+      formData.cvv
+    ) {
+      handleSubmit();
+    }
+  }, [formData]);
+
+  const handleInputChange = (
+    e: ChangeEvent<HTMLInputElement>,
+    field: keyof UserData,
+  ) => {
+    setFormData(prevData => ({
+      ...prevData,
+      [field]: e.target.value,
+    }));
+  };
+
+  const handlePhoneChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const formattedPhoneNumber = formatPhoneNumber(e.target.value);
+
+    setFormData(prevData => ({
+      ...prevData,
+      number: formattedPhoneNumber,
+    }));
+  };
+
+  const handleCardNumberChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const formattedCardNumber = formatCreditCardNumber(e.target.value);
+
+    setFormData(prevData => ({
+      ...prevData,
+      card: formattedCardNumber,
+    }));
+  };
+
+  const handleDateChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const formattedDate = formatDateForm(e.target.value);
+
+    setFormData({ ...formData, cardDate: formattedDate });
+  };
+
+  const handleCVVChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const formattedCVV = formatCVV(e.target.value);
+
+    setFormData({ ...formData, cvv: formattedCVV });
   };
 
   const handleRemoveUser = () => {
@@ -137,6 +186,7 @@ export const UserPage: React.FC<Props> = ({
                   Personal info
                 </h3>
                 <button
+                  onClick={handleSubmit}
                   className="userPage__info-container-modalInfo-top-save"
                   type="button"
                 >
@@ -145,7 +195,7 @@ export const UserPage: React.FC<Props> = ({
               </div>
               <form
                 className="userPage__info-container-modalInfo-forms"
-                onSubmit={e => handleSubmit(e)}
+                // onChange={e => handleSubmit(e)}
               >
                 <div className="userPage__info-container-modalInfo-forms-personal">
                   <div className="userPage__info-container-modalInfo-forms-personal-info">
@@ -239,7 +289,7 @@ export const UserPage: React.FC<Props> = ({
                       onFocus={() => handleFocus('number')}
                       onBlur={handleBlur}
                       value={formData.number}
-                      onChange={e => handleInputChange(e, 'number')}
+                      onChange={handlePhoneChange}
                       className="userPage__info-container-modalInfo-forms-personal-input"
                       placeholder={
                         currentUser?.dataCard.phoneNumber !== ''
@@ -281,7 +331,7 @@ export const UserPage: React.FC<Props> = ({
                         onFocus={() => handleFocus('card')}
                         onBlur={handleBlur}
                         value={formData.card}
-                        onChange={e => handleInputChange(e, 'card')}
+                        onChange={handleCardNumberChange}
                         className="userPage__info-container-modalInfo-forms-personal-input"
                         placeholder={
                           currentUser?.dataCard.cardNumber !== ''
@@ -315,7 +365,7 @@ export const UserPage: React.FC<Props> = ({
                           onFocus={() => handleFocus('cardDate')}
                           onBlur={handleBlur}
                           value={formData.cardDate}
-                          onChange={e => handleInputChange(e, 'cardDate')}
+                          onChange={handleDateChange}
                           className="userPage__info-container-modalInfo-forms-personal-input w-full"
                           placeholder={
                             currentUser?.dataCard.date !== ''
@@ -348,7 +398,7 @@ export const UserPage: React.FC<Props> = ({
                           onFocus={() => handleFocus('cvv')}
                           onBlur={handleBlur}
                           value={formData.cvv}
-                          onChange={e => handleInputChange(e, 'cvv')}
+                          onChange={handleCVVChange}
                           className="userPage__info-container-modalInfo-forms-personal-input w-full"
                           placeholder={
                             currentUser?.dataCard.cvv !== ''

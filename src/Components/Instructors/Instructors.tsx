@@ -17,6 +17,7 @@ interface Props {
 export const Instructors: React.FC<Props> = ({ themeColor }) => {
   useScrollToTop();
   const isModalVisible = useAppSelector(state => state.modal.isModal);
+  const currentUser = useAppSelector(state => state.user.user);
 
   return (
     <div className="wrapper bg-[#111115]">
@@ -53,7 +54,7 @@ export const Instructors: React.FC<Props> = ({ themeColor }) => {
         </div>
       </section>
       <Footer />
-      {isModalVisible && <Auth />}
+      {isModalVisible && !currentUser && <Auth />}
     </div>
   );
 };

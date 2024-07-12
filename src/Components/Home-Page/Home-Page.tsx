@@ -25,6 +25,7 @@ export const HomePage: React.FC<Props> = ({ themeColor }) => {
   const [headerDark, setHeaderDark] = useState(Theme.light);
   const darkSectionRef = useRef<HTMLDivElement>(null);
   const loaded = useLoadAnimation(poster);
+  const currentUser = useAppSelector(state => state.user.user);
 
   //header color change function
   useEffect(() => {
@@ -154,7 +155,7 @@ export const HomePage: React.FC<Props> = ({ themeColor }) => {
           </div>
         </section>
         <Footer />
-        {isModalVisible && <Auth />}
+        {isModalVisible && !currentUser && <Auth />}
       </div>
     </>
   );

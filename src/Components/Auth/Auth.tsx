@@ -9,6 +9,7 @@ import { setIsConfirm, setIsModal } from '../Redux/Slices/Modal';
 import Joi from 'joi';
 import { useNavigate } from 'react-router-dom';
 import { userLoad } from '../Redux/Slices/User';
+import ReactDOM from 'react-dom';
 
 interface FormData {
   fullName?: string;
@@ -180,7 +181,13 @@ export const Auth: React.FC = () => {
     }
   };
 
-  return (
+  const modalRoot = document.getElementById('modal-root');
+
+  if (!modalRoot) {
+    return null;
+  }
+
+  return ReactDOM.createPortal(
     <div className="wrapper">
       <section className="autorization">
         <div className="autorization__modal">
@@ -414,7 +421,8 @@ export const Auth: React.FC = () => {
           </div>
         </div>
       </section>
-    </div>
+    </div>,
+    modalRoot,
   );
 };
 
