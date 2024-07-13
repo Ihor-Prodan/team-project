@@ -9,6 +9,7 @@ import { CardType, initialStateCart } from './initialCartData';
 import useScrollToTop from '../../Hooks/location';
 import { Auth } from '../Auth/Auth';
 import { useAppSelector } from '../../Hooks/hooks';
+import useResponsive from '../../Hooks/sizing';
 
 interface Props {
   themeColor: Theme;
@@ -20,6 +21,7 @@ export const WorkoutPlans: React.FC<Props> = ({ themeColor, workoutName }) => {
   const isModalVisible = useAppSelector(state => state.modal.isModal);
   const currentUser = useAppSelector(state => state.user.user);
   const [cards, setCards] = useState<CardType[]>(initialStateCart);
+  const { isSmallScreen } = useResponsive();
 
   useEffect(() => {
     setCards(initialStateCart);
@@ -33,12 +35,17 @@ export const WorkoutPlans: React.FC<Props> = ({ themeColor, workoutName }) => {
       <section className="workout bg-[#111115]">
         <div className="workout__title-description-container">
           <h2 className="workout__title">Workout plans</h2>
+          {isSmallScreen && (
+            <h3 className="workout__title-group mb-6">{workoutName}</h3>
+          )}
           <p className="workout__descriptions">
             Join our group sessions led by experienced trainers who create
             dynamic workout programs designed to challenge and motivate.
           </p>
         </div>
-        <h3 className="workout__title-group">{workoutName}</h3>
+        {!isSmallScreen && (
+          <h3 className="workout__title-group">{workoutName}</h3>
+        )}
         {worcoutsBlock.map(workout => (
           <Fragment key={workout}>
             <h3 className="workout__workouts">{workout}</h3>

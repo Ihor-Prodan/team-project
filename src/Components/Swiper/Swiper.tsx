@@ -10,10 +10,12 @@ import four from './Pictures/Number=04.png';
 import five from './Pictures/Number=05.png';
 import six from './Pictures/Number=06.png';
 import seven from './Pictures/Number=07.png';
+import useResponsive from '../../Hooks/sizing';
 
 export const MySwiper: React.FC = () => {
   const swiperRef = useRef<Swiper | null>(null);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const { isSmallScreen } = useResponsive();
 
   const slideNext = () => {
     if (swiperRef.current) {
@@ -108,7 +110,7 @@ export const MySwiper: React.FC = () => {
           </div>
           <ReactSwiper
             loop={true}
-            spaceBetween={90}
+            spaceBetween={!isSmallScreen ? 90 : 10}
             slidesPerView={'auto'}
             speed={900}
             mousewheel={true}

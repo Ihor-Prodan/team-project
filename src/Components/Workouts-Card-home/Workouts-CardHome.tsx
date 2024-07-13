@@ -62,7 +62,7 @@ export const WorkoutsCard: React.FC<Props> = ({ cart }) => {
       <div className="workout__cart-text-container">
         <p className="workout__cart-description">{cart.description}</p>
       </div>
-      <Link to={`/workout/${cart.path}`}>
+      <Link to={`/workout/${cart.path}`} className="w-full flex">
         <button className="workout__cart-button">see more</button>
       </Link>
     </section>

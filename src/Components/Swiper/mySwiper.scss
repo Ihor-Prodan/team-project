@@ -17,6 +17,12 @@
     align-items: center;
     flex-direction: row;
     margin-bottom: 56px;
+
+    @media (min-width:320px) and (max-width: 782px) {
+      flex-direction: column;
+      align-items: flex-start;
+      margin-bottom: 24px;
+    }
   }
 
   &__title {
@@ -26,6 +32,14 @@
     line-height: 130%;
     letter-spacing: 3.2px;
     text-transform: uppercase;
+
+    @media (min-width:782px) and (max-width: 982px) {
+      font-size: 52px;
+    }
+
+    @media (min-width:320px) and (max-width: 782px) {
+      font-size: 32px;
+    }
   }
 
   &__buttons-container {

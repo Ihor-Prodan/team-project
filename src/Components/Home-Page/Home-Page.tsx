@@ -13,6 +13,7 @@ import useScrollToTop from '../../Hooks/location';
 import { useAppDispatch, useAppSelector } from '../../Hooks/hooks';
 import { setIsModal } from '../Redux/Slices/Modal';
 import { Auth } from '../Auth/Auth';
+import useResponsive from '../../Hooks/sizing';
 
 interface Props {
   themeColor: Theme;
@@ -26,6 +27,7 @@ export const HomePage: React.FC<Props> = ({ themeColor }) => {
   const darkSectionRef = useRef<HTMLDivElement>(null);
   const loaded = useLoadAnimation(poster);
   const currentUser = useAppSelector(state => state.user.user);
+  const { isSmallScreen } = useResponsive();
 
   //header color change function
   useEffect(() => {
@@ -89,10 +91,52 @@ export const HomePage: React.FC<Props> = ({ themeColor }) => {
           </div>
 
           <div className="home__page-bottom" ref={darkSectionRef}>
-            <div className="home__page-about-flex-container">
-              <div className="home__page-about-container">
-                <h2 className="home__page-about-title">about gym</h2>
-                <div className="home__page-description-container">
+            {!isSmallScreen ? (
+              <div className="home__page-about-flex-container">
+                <div className="home__page-about-container">
+                  <h2 className="home__page-about-title">about gym</h2>
+                  <div className="home__page-description-container">
+                    {aboutDescription.map(item => (
+                      <div className="home__page-about-items" key={item}>
+                        {item}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div className="home__page-descriptions">
+                  <p className="home__page-about-description">
+                    We created our gym to help you align your physical and
+                    mental well-being, providing a balanced approach to fitness.
+                  </p>
+                  <p className="home__page-about-description">
+                    Located in the heart of Kyiv, our sports club offers a
+                    comprehensive fitness experience, including group classes,
+                    personalized training sessions with professional coaches,
+                    and independent workouts, all featuring access to advanced
+                    fitness equipment.
+                  </p>
+                </div>
+              </div>
+            ) : (
+              <div className="home__page-about-flex-container">
+                <div className="home__page-about-container w-full">
+                  <h2 className="home__page-about-title">about gym</h2>
+                  <div className="home__page-description-container w-full mt-6">
+                    <p className="home__page-about-description w-full">
+                      We created our gym to help you align your physical and
+                      mental well-being, providing a balanced approach to
+                      fitness.
+                    </p>
+                    <p className="home__page-about-description w-full">
+                      Located in the heart of Kyiv, our sports club offers a
+                      comprehensive fitness experience, including group classes,
+                      personalized training sessions with professional coaches,
+                      and independent workouts, all featuring access to advanced
+                      fitness equipment.
+                    </p>
+                  </div>
+                </div>
+                <div className="home__page-descriptions mt-10">
                   {aboutDescription.map(item => (
                     <div className="home__page-about-items" key={item}>
                       {item}
@@ -100,20 +144,8 @@ export const HomePage: React.FC<Props> = ({ themeColor }) => {
                   ))}
                 </div>
               </div>
-              <div className="home__page-descriptions">
-                <p className="home__page-about-description">
-                  We created our gym to help you align your physical and mental
-                  well-being, providing a balanced approach to fitness.
-                </p>
-                <p className="home__page-about-description">
-                  Located in the heart of Kyiv, our sports club offers a
-                  comprehensive fitness experience, including group classes,
-                  personalized training sessions with professional coaches, and
-                  independent workouts, all featuring access to advanced fitness
-                  equipment.
-                </p>
-              </div>
-            </div>
+            )}
+
             <div className="home__page-workout-plans-container">
               <h2 className="home__page-workout-title">Workout plans</h2>
               <article className="home__page-workouts-list">
