@@ -417,9 +417,9 @@ export const UserPage: React.FC<Props> = ({
           {isMembership && <MemberShips />}
           {isMyWorkout && <MyWorkout />}
         </div>
+        <PageMenu themeColor={Theme.dark} />
       </section>
       <Footer />
-      <PageMenu themeColor={Theme.dark} />
     </div>
   );
 };

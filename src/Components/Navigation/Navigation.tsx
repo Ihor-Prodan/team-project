@@ -4,7 +4,6 @@ import './navigation.scss';
 import { useAppSelector } from '../../Hooks/hooks';
 import { Theme } from '../Redux/Slices/themeMode';
 import navItems from './Helpers/navItems';
-
 interface Props {
   themeColor: Theme;
 }
