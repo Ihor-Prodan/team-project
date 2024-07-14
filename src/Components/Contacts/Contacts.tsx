@@ -8,6 +8,7 @@ import Footer from '../Footer/Footer';
 import useScrollToTop from '../../Hooks/location';
 import { useAppSelector } from '../../Hooks/hooks';
 import { Auth } from '../Auth/Auth';
+import PageMenu from '../PageMenu/PageMenu';
 
 interface Props {
   themeColor: Theme;
@@ -67,11 +68,31 @@ export const Contacts: React.FC<Props> = ({ themeColor }) => {
               Curious to try our gym? Book a workout session and experience it
               firsthand!
             </p>
+            <button className="contacts__ready-button">
+              Book a workout
+              <svg
+                className="contacts__ready-button-arrow-white"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <path
+                  d="M3 12.013L20.789 12M14.013 19L21 12L14.012 5"
+                  strokeWidth="1"
+                  stroke="#111115"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
           </div>
         </div>
       </section>
       <Footer />
       {isModalVisible && !currentUser && <Auth />}
+      <PageMenu themeColor={Theme.dark} />
     </div>
   );
 };

@@ -6,6 +6,7 @@ import Footer from '../Footer/Footer';
 import useScrollToTop from '../../Hooks/location';
 import { useAppSelector } from '../../Hooks/hooks';
 import { Auth } from '../Auth/Auth';
+import PageMenu from '../PageMenu/PageMenu';
 
 interface Props {
   themeColor: Theme;
@@ -142,6 +143,7 @@ const PrivacyPolicy: React.FC<Props> = ({ themeColor }) => {
       </section>
       <Footer />
       {isModalVisible && <Auth />}
+      <PageMenu themeColor={Theme.dark} />
     </div>
   );
 };

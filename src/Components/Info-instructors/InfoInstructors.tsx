@@ -11,6 +11,7 @@ import useScrollToTop from '../../Hooks/location';
 import { setIsModal } from '../Redux/Slices/Modal';
 import { useAppDispatch, useAppSelector } from '../../Hooks/hooks';
 import { Auth } from '../Auth/Auth';
+import PageMenu from '../PageMenu/PageMenu';
 
 interface Props {
   themeColor: Theme;
@@ -148,6 +149,7 @@ export const InfoInstructors: React.FC<Props> = ({ themeColor }) => {
       </section>
       <Footer />
       {isModalVisible && !currentUser && <Auth />}
+      <PageMenu themeColor={Theme.dark} />
     </div>
   );
 };

@@ -10,6 +10,7 @@ import useScrollToTop from '../../Hooks/location';
 import { Auth } from '../Auth/Auth';
 import { useAppSelector } from '../../Hooks/hooks';
 import useResponsive from '../../Hooks/sizing';
+import PageMenu from '../PageMenu/PageMenu';
 
 interface Props {
   themeColor: Theme;
@@ -44,7 +45,7 @@ export const WorkoutPlans: React.FC<Props> = ({ themeColor, workoutName }) => {
           </p>
         </div>
         {!isSmallScreen && (
-          <h3 className="workout__title-group">{workoutName}</h3>
+          <h3 className="workout__title-group mt-6">{workoutName}</h3>
         )}
         {worcoutsBlock.map(workout => (
           <Fragment key={workout}>
@@ -61,6 +62,7 @@ export const WorkoutPlans: React.FC<Props> = ({ themeColor, workoutName }) => {
       </section>
       <Footer />
       {isModalVisible && !currentUser && <Auth />}
+      <PageMenu themeColor={Theme.dark} />
     </div>
   );
 };

@@ -7,6 +7,7 @@ import { Theme } from '../Redux/Slices/themeMode';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { setIsModal } from '../Redux/Slices/Modal';
 import useResponsive from '../../Hooks/sizing';
+import { setIsOpenMenu } from '../Redux/Slices/Menu';
 
 interface Props {
   themeColor: Theme;
@@ -20,6 +21,7 @@ export const Header: React.FC<Props> = ({ themeColor }) => {
   const [lastScrollTop, setLastScrollTop] = useState(0);
   const currentUser = useAppSelector(state => state.user.user);
   const navigate = useNavigate();
+  const isOpen = useAppSelector(state => state.menu.isOpen);
 
   //Header-scroll function
   useEffect(() => {
@@ -120,21 +122,38 @@ export const Header: React.FC<Props> = ({ themeColor }) => {
       </div>
       <div className="header__profile-and-button">
         {isSmallScreen ? (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="44"
-            height="44"
-            viewBox="0 0 44 44"
-            fill="none"
-          >
-            <path
-              d="M7.33398 27.5H36.6673M7.33398 16.5H36.6673"
-              stroke={themeColor === Theme.dark ? '#F3F4F6' : '#111115'}
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
+          isOpen ? (
+            <svg
+              onClick={() => dispatch(setIsOpenMenu(false))}
+              xmlns="http://www.w3.org/2000/svg"
+              width="44"
+              height="44"
+              viewBox="0 0 44 44"
+              fill="none"
+            >
+              <path
+                d="M23.2621 21.9947L32.739 12.5142C32.9062 12.3463 33 12.119 32.9998 11.8821C32.9997 11.6452 32.9056 11.418 32.7382 11.2503C32.4031 10.9171 31.8129 10.9154 31.4744 11.252L22 20.7326L12.5223 11.2495C12.1855 10.9171 11.5953 10.9188 11.2602 11.2512C11.177 11.334 11.1112 11.4325 11.0665 11.541C11.0218 11.6495 10.9992 11.7658 11 11.8831C11 12.1221 11.0926 12.3459 11.2602 12.5117L20.7371 21.9939L11.261 31.477C11.0938 31.6452 11.0002 31.8728 11.0006 32.1098C11.0011 32.3469 11.0957 32.5742 11.2635 32.7417C11.426 32.9024 11.6559 32.9949 11.8933 32.9949H11.8984C12.1366 32.9941 12.3665 32.9007 12.5256 32.7383L22 23.2577L31.4778 32.7408C31.6453 32.9074 31.8693 33 32.1067 33C32.2241 33.0003 32.3404 32.9775 32.4489 32.9327C32.5575 32.888 32.6561 32.8222 32.7391 32.7393C32.8221 32.6563 32.8879 32.5577 32.9327 32.4493C32.9775 32.3408 33.0003 32.2246 33 32.1072C33 31.8691 32.9074 31.6444 32.739 31.4787L23.2621 21.9947Z"
+                fill="#F3F4F6"
+              />
+            </svg>
+          ) : (
+            <svg
+              onClick={() => dispatch(setIsOpenMenu(true))}
+              xmlns="http://www.w3.org/2000/svg"
+              width="44"
+              height="44"
+              viewBox="0 0 44 44"
+              fill="none"
+            >
+              <path
+                d="M7.33398 27.5H36.6673M7.33398 16.5H36.6673"
+                stroke={themeColor === Theme.light ? '#111115' : '#F3F4F6'}
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          )
         ) : (
           <NavLink
             to={'/profile'}

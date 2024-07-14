@@ -11,6 +11,8 @@ import useScrollToTop from '../../Hooks/location';
 import { useAppSelector } from '../../Hooks/hooks';
 import { Auth } from '../Auth/Auth';
 import { useNavigate } from 'react-router-dom';
+import useResponsive from '../../Hooks/sizing';
+import PageMenu from '../PageMenu/PageMenu';
 
 interface Props {
   themeColor: Theme;
@@ -28,6 +30,7 @@ export const LedWorkout: React.FC<Props> = ({
   const isModalVisible = useAppSelector(state => state.modal.isModal);
   const currentUser = useAppSelector(state => state.user.user);
   const cartData = isLedWorkout ? workoutPlansLed : selfGuidedWorkoutPlans;
+  const { isSmallScreen } = useResponsive();
 
   return (
     <div className="wrapper bg-[#111115]">
@@ -35,13 +38,18 @@ export const LedWorkout: React.FC<Props> = ({
       <section className="LedWorkout bg-[#111115]">
         <div className="workout__title-description-container">
           <h2 className="workout__title">Workout plans</h2>
+          {isSmallScreen && (
+            <h3 className="workout__title-group mb-6 mt-6">{workoutName}</h3>
+          )}
           <p className="workout__descriptions">
             {isLedWorkout
               ? 'Join our personalized training sessions with experienced trainers who will help you develop a customized workout program.'
               : 'Discover the freedom of self-guided workouts, where you can create your own schedule and enjoy maximum flexibility.'}
           </p>
         </div>
-        <h3 className="workout__title-group">{workoutName}</h3>
+        {!isSmallScreen && (
+          <h3 className="workout__title-group mt-6">{workoutName}</h3>
+        )}
         <div className="workout__content-container">
           <div className="workout__content-info-container">
             {cartData.map((info, ind) => {
@@ -92,6 +100,7 @@ export const LedWorkout: React.FC<Props> = ({
       </section>
       <Footer />
       {isModalVisible && !currentUser && <Auth />}
+      <PageMenu themeColor={Theme.dark} />
     </div>
   );
 };

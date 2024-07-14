@@ -18,6 +18,10 @@
     line-height: 130%;
     letter-spacing: 2.88px;
     text-transform: uppercase;
+
+    @media (min-width: 320px) and (max-width: 900px) {
+      font-size: 32px;
+    }
   }
 
   &__grid {
@@ -26,6 +30,14 @@
     width: 100%;
     gap: 24px;
     margin: 48px 0 144px 0;
+
+    @media (min-width: 900px) and (max-width: 1225px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (min-width: 320px) and (max-width: 900px) {
+      grid-template-columns: repeat(1, 1fr);
+    }
 
     &-card {
       position: relative;
@@ -38,6 +50,20 @@
       gap: 40px;
       border-radius: 8px;
       border: 1px solid var(--Gray-80, #575759);
+
+      @media (min-width: 320px) and (max-width: 1225px) {
+        max-width: 100%;
+      }
+
+      @media (min-width: 500px) and (max-width: 900px) {
+        margin-inline: auto;
+        min-width: 437px;
+      }
+
+      @media (min-width: 320px) and (max-width: 500px) {
+        // margin-inline: auto;
+        min-width: 237px;
+      }
 
       &-top {
         width: 110px;
@@ -58,6 +84,18 @@
         font-weight: 300;
         line-height: 140%;
         z-index: 1;
+
+        @media (min-width: 420px) and (max-width: 500px) {
+          width: 80px;
+          height: 28px;
+          font-size: 11px;
+        }
+
+        @media (min-width: 320px) and (max-width: 420px) {
+          width: 50px;
+          height: 18px;
+          font-size: 8px;
+        }
       }
 
       &-container-top {
@@ -72,6 +110,11 @@
           font-size: 40px;
           font-weight: 500;
           line-height: 110%;
+
+          @media (min-width: 320px) and (max-width: 500px) {
+            font-size: 32px;
+          }
+    
         }
 
         &-text {
@@ -80,6 +123,11 @@
           font-weight: 300;
           line-height: 140%;
           text-shadow: 0 0 0.8px #F3F4F6;
+
+          @media (min-width: 320px) and (max-width: 500px) {
+            font-size: 16px;
+            text-wrap: wrap;
+          }
         }
       }
 
@@ -140,6 +188,14 @@
         font-weight: 500;
         line-height: 110%;
 
+        @media (min-width: 375px) and (max-width: 500px) {
+          font-size: 32px;
+        }
+
+        @media (min-width: 320px) and (max-width: 375px) {
+          font-size: 22px;
+        }
+
         &-month {
           margin-left: 5px;
           opacity: var(--sds-size-stroke-border);
@@ -147,6 +203,11 @@
           font-size: 24px;
           font-weight: 300;
           line-height: 140%;
+
+
+          @media (min-width: 320px) and (max-width: 500px) {
+            font-size: 20px;
+          }
         }
       }
 

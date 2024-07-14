@@ -14,6 +14,7 @@ import { useAppDispatch, useAppSelector } from '../../Hooks/hooks';
 import { setIsModal } from '../Redux/Slices/Modal';
 import { Auth } from '../Auth/Auth';
 import useResponsive from '../../Hooks/sizing';
+import PageMenu from '../PageMenu/PageMenu';
 
 interface Props {
   themeColor: Theme;
@@ -188,6 +189,7 @@ export const HomePage: React.FC<Props> = ({ themeColor }) => {
         </section>
         <Footer />
         {isModalVisible && !currentUser && <Auth />}
+        <PageMenu themeColor={Theme.dark} />
       </div>
     </>
   );

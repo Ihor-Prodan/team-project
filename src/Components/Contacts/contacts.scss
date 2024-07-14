@@ -15,6 +15,69 @@
   flex-direction: column;
   background: #111115;
 
+  @media (min-width:320px) and (max-width: 520px) {
+    padding-inline: 24px;
+  }
+
+  &__ready-button {
+    margin-top: 40px;
+    display: flex;
+    width: 221px;
+    height: 56px;
+    padding: 0 16px 0 40px;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    border-radius: 8px;
+    background: #E2DDDB;
+    text-transform: uppercase;
+    gap: 12px;
+    text-wrap: nowrap;
+    transition: width 0.7s ease, font-size 0.4s ease;
+
+    @media (min-width:320px) and (max-width: 520px) {
+      width: 100%;
+    }
+  
+    &:hover {
+      transition: width 0.7s ease, font-size 0.4s ease;
+      width: 241px;
+
+      @media (min-width:320px) and (max-width: 520px) {
+        width: 100%;
+      }
+    }
+  
+    .contacts__ready-button-arrow-white path {
+      stroke: #E2DDDB;
+    }
+  
+    &:active path {
+      stroke-width: 2px;
+    }
+  
+    .contacts__ready-button-arrow-white path {
+      transition: stroke-width 0.4s ease;
+    }
+  
+    &:hover .contacts__ready-button-arrow-white path {
+      stroke: #111115;
+    }
+  
+    &:active {
+      transition: width 0.6s ease, font-size 0.6s ease;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 600;
+      letter-spacing: 0.72px;
+      width: 245px;
+
+      @media (min-width:320px) and (max-width: 520px) {
+        width: 100%;
+      }
+    }
+  }
+
   &__poster {
     margin-top: 24px;
     width: 100%;
@@ -27,8 +90,13 @@
     margin: 56px 0 144px 0;
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
-    gap: 147px;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 34px;
+
+    @media (min-width:320px) and (max-width: 720px) {
+      margin: 32px 0 64px 0;
+    }
 
     &-contactUs {
       gap: 32px;
@@ -148,6 +216,7 @@
       display: flex;
       flex-direction: column;
       align-items: flex-start;
+      max-width: 344px;
 
       &-text {
         color: var(--Gray-60, #B0B1B5);

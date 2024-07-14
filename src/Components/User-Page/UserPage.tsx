@@ -15,6 +15,7 @@ import {
   formatDateForm,
   formatPhoneNumber,
 } from './Helpers/formatForm';
+import PageMenu from '../PageMenu/PageMenu';
 
 interface Props {
   themeColor: Theme;
@@ -418,6 +419,7 @@ export const UserPage: React.FC<Props> = ({
         </div>
       </section>
       <Footer />
+      <PageMenu themeColor={Theme.dark} />
     </div>
   );
 };

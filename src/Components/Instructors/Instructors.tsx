@@ -9,6 +9,7 @@ import Loader from '../Loader/Loader';
 import useScrollToTop from '../../Hooks/location';
 import { useAppSelector } from '../../Hooks/hooks';
 import { Auth } from '../Auth/Auth';
+import PageMenu from '../PageMenu/PageMenu';
 
 interface Props {
   themeColor: Theme;
@@ -55,6 +56,7 @@ export const Instructors: React.FC<Props> = ({ themeColor }) => {
       </section>
       <Footer />
       {isModalVisible && !currentUser && <Auth />}
+      <PageMenu themeColor={Theme.dark} />
     </div>
   );
 };

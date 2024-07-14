@@ -10,6 +10,7 @@ import { useAppDispatch, useAppSelector } from '../../Hooks/hooks';
 import { setIsModal } from '../Redux/Slices/Modal';
 import { Auth } from '../Auth/Auth';
 import { updateUser, User } from '../Redux/Slices/User';
+import PageMenu from '../PageMenu/PageMenu';
 
 interface Props {
   themeColor: Theme;
@@ -177,6 +178,7 @@ export const Prices: React.FC<Props> = ({ themeColor }) => {
       </section>
       <Footer />
       {isModalVisible && !currentUser && <Auth />}
+      <PageMenu themeColor={Theme.dark} />
     </div>
   );
 };
