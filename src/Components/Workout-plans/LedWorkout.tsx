@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Theme } from '../Redux/Slices/themeMode';
 import Header from '../Header/Header';
 import './workoutPlans.scss';
@@ -8,11 +8,12 @@ import sectionSelf from './Pictures/section-self.png';
 import { selfGuidedWorkoutPlans, workoutPlansLed } from './Helpers/cartData';
 import Footer from '../Footer/Footer';
 import useScrollToTop from '../../Hooks/location';
-import { useAppSelector } from '../../Hooks/hooks';
+import { useAppDispatch, useAppSelector } from '../../Hooks/hooks';
 import { Auth } from '../Auth/Auth';
 import { useNavigate } from 'react-router-dom';
 import useResponsive from '../../Hooks/sizing';
 import PageMenu from '../PageMenu/PageMenu';
+import { setIsOpenMenu } from '../Redux/Slices/Menu';
 
 interface Props {
   themeColor: Theme;
@@ -31,6 +32,11 @@ export const LedWorkout: React.FC<Props> = ({
   const currentUser = useAppSelector(state => state.user.user);
   const cartData = isLedWorkout ? workoutPlansLed : selfGuidedWorkoutPlans;
   const { isSmallScreen } = useResponsive();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(setIsOpenMenu(false));
+  }, [navigate]);
 
   return (
     <div className="wrapper bg-[#111115]">

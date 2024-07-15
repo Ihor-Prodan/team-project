@@ -7,7 +7,7 @@ import Footer from '../Footer/Footer';
 import MemberShips from './MemberShips';
 import MyWorkout from './MyWorkout';
 import { useAppDispatch, useAppSelector } from '../../Hooks/hooks';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { removeUser, updateUser } from '../Redux/Slices/User';
 import {
   formatCreditCardNumber,
@@ -16,6 +16,7 @@ import {
   formatPhoneNumber,
 } from './Helpers/formatForm';
 import PageMenu from '../PageMenu/PageMenu';
+import { setIsOpenMenu } from '../Redux/Slices/Menu';
 
 interface Props {
   themeColor: Theme;
@@ -60,6 +61,28 @@ export const UserPage: React.FC<Props> = ({
     cardDate: '',
     cvv: '',
   });
+
+  const [isMobilVersion, setIsMobilVersion] = useState<boolean>(
+    window.innerWidth <= 536,
+  );
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobilVersion(window.innerWidth <= 536);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [isMobilVersion, setIsMobilVersion]);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatch(setIsOpenMenu(false));
+  }, [navigate]);
 
   const list = [
     { name: 'Personal info', path: '/profile' },
@@ -154,12 +177,37 @@ export const UserPage: React.FC<Props> = ({
     <div className="wrapper-userPage">
       <Header themeColor={themeColor} />
       <section className="userPage">
+        {isMobilVersion && (
+          <div className="userPage__back">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+              <path
+                d="M14 7L9 12L14 17"
+                stroke="#716560"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            <p className="userPage__back-button" onClick={() => navigate(-1)}>
+              Back
+            </p>
+          </div>
+        )}
+
         <h2 className="userPage__title">Profile</h2>
         <div className="userPage__info-container">
           <div className="userPage__info-container-menu">
             <ul className="userPage__info-container-menuList">
               {list.map((item, ind) => (
-                <li key={ind}>
+                <li
+                  key={ind}
+                  className="userPage__info-container-menuList-icon"
+                >
                   <NavLink
                     to={item.path}
                     className={({ isActive }) =>
@@ -170,19 +218,57 @@ export const UserPage: React.FC<Props> = ({
                   >
                     {item.name}
                   </NavLink>
+                  {isMobilVersion && (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                    >
+                      <path
+                        d="M10 17L15 12L10 7"
+                        stroke="#111115"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  )}
                 </li>
               ))}
               <li
-                className="userPage__info-container-menuItem mt-8"
+                className="userPage__info-container-menuItem mt-8 flex w-full justify-between"
                 onClick={handleRemoveUser}
               >
                 Log out
+                {isMobilVersion && (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                  >
+                    <path
+                      d="M10 17L15 12L10 7"
+                      stroke="#111115"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                )}
               </li>
             </ul>
           </div>
-          {!isMembership && !isMyWorkout && (
+          {!isMembership && !isMyWorkout && !isMobilVersion && (
             <div className="userPage__info-container-modalInfo">
-              <div className="userPage__info-container-modalInfo-top">
+              <div
+                className={
+                  !isMyWorkout || !isMembership
+                    ? 'userPage__info-container-modalInfo-top'
+                    : 'userPage__info-container-modalInfo-top-workout'
+                }
+              >
                 <h3 className="userPage__info-container-modalInfo-top-title">
                   Personal info
                 </h3>
@@ -194,10 +280,7 @@ export const UserPage: React.FC<Props> = ({
                   Save
                 </button>
               </div>
-              <form
-                className="userPage__info-container-modalInfo-forms"
-                // onChange={e => handleSubmit(e)}
-              >
+              <form className="userPage__info-container-modalInfo-forms">
                 <div className="userPage__info-container-modalInfo-forms-personal">
                   <div className="userPage__info-container-modalInfo-forms-personal-info">
                     <p className="userPage__info-container-modalInfo-forms-personal-name">
@@ -414,8 +497,8 @@ export const UserPage: React.FC<Props> = ({
               </form>
             </div>
           )}
-          {isMembership && <MemberShips />}
-          {isMyWorkout && <MyWorkout />}
+          {isMembership && !isMobilVersion && <MemberShips />}
+          {isMyWorkout && !isMobilVersion && <MyWorkout />}
         </div>
         <PageMenu themeColor={Theme.dark} />
       </section>

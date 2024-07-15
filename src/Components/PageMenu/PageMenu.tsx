@@ -24,7 +24,7 @@ export const PageMenu: React.FC<Props> = ({ themeColor }) => {
         ? 'navigation__links-dark'
         : 'navigation__links';
     const activeClass = isActive
-      ? theme === themeColor
+      ? theme !== themeColor
         ? 'navigation-links-dark__isActive'
         : 'isActive'
       : '';

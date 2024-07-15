@@ -1,15 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Theme } from '../Redux/Slices/themeMode';
 import Header from '../Header/Header';
 import './instructors.scss';
 import { trainers } from './trainersList';
 import Footer from '../Footer/Footer';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import Loader from '../Loader/Loader';
 import useScrollToTop from '../../Hooks/location';
-import { useAppSelector } from '../../Hooks/hooks';
+import { useAppDispatch, useAppSelector } from '../../Hooks/hooks';
 import { Auth } from '../Auth/Auth';
 import PageMenu from '../PageMenu/PageMenu';
+import { setIsOpenMenu } from '../Redux/Slices/Menu';
 
 interface Props {
   themeColor: Theme;
@@ -19,6 +20,12 @@ export const Instructors: React.FC<Props> = ({ themeColor }) => {
   useScrollToTop();
   const isModalVisible = useAppSelector(state => state.modal.isModal);
   const currentUser = useAppSelector(state => state.user.user);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatch(setIsOpenMenu(false));
+  }, [navigate]);
 
   return (
     <div className="wrapper bg-[#111115]">

@@ -4,7 +4,7 @@ import { Theme } from '../Redux/Slices/themeMode';
 import Header from '../Header/Header';
 import './workoutInfo.scss';
 import Footer from '../Footer/Footer';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import useLoadAnimation from '../../Hooks/animation';
 import { CardType, initialStateCart } from '../Workout-plans/initialCartData';
 import useScrollToTop from '../../Hooks/location';
@@ -12,6 +12,7 @@ import { setIsModal } from '../Redux/Slices/Modal';
 import { useAppDispatch, useAppSelector } from '../../Hooks/hooks';
 import { Auth } from '../Auth/Auth';
 import PageMenu from '../PageMenu/PageMenu';
+import { setIsOpenMenu } from '../Redux/Slices/Menu';
 
 interface Props {
   themeColor: Theme;
@@ -25,6 +26,7 @@ export const WorkoutInfo: React.FC<Props> = ({ themeColor }) => {
   const dispatch = useAppDispatch();
   const isModalVisible = useAppSelector(state => state.modal.isModal);
   const currentUser = useAppSelector(state => state.user.user);
+  const navigate = useNavigate();
 
   const getWorkoutById = (cartId: string): CardType | undefined => {
     return initialStateCart.find(wor => wor.id === cartId);
@@ -41,6 +43,10 @@ export const WorkoutInfo: React.FC<Props> = ({ themeColor }) => {
       }
     }
   }, [id]);
+
+  useEffect(() => {
+    dispatch(setIsOpenMenu(false));
+  }, [id, navigate]);
 
   return (
     <div className="wrapper bg-[#111115]">

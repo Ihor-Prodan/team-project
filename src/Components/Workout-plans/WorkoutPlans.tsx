@@ -8,9 +8,11 @@ import Card from './Card';
 import { CardType, initialStateCart } from './initialCartData';
 import useScrollToTop from '../../Hooks/location';
 import { Auth } from '../Auth/Auth';
-import { useAppSelector } from '../../Hooks/hooks';
+import { useAppDispatch, useAppSelector } from '../../Hooks/hooks';
 import useResponsive from '../../Hooks/sizing';
 import PageMenu from '../PageMenu/PageMenu';
+import { useNavigate } from 'react-router-dom';
+import { setIsOpenMenu } from '../Redux/Slices/Menu';
 
 interface Props {
   themeColor: Theme;
@@ -23,6 +25,12 @@ export const WorkoutPlans: React.FC<Props> = ({ themeColor, workoutName }) => {
   const currentUser = useAppSelector(state => state.user.user);
   const [cards, setCards] = useState<CardType[]>(initialStateCart);
   const { isSmallScreen } = useResponsive();
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(setIsOpenMenu(false));
+  }, [navigate]);
 
   useEffect(() => {
     setCards(initialStateCart);

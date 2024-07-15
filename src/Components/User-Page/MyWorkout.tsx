@@ -1,15 +1,20 @@
 /* eslint-disable max-len */
-import React from 'react';
+import React, { useEffect } from 'react';
 import './userPage.scss';
 import './myworkout.scss';
 import { useAppDispatch, useAppSelector } from '../../Hooks/hooks';
 import { useNavigate } from 'react-router-dom';
 import { updateUser } from '../Redux/Slices/User';
+import { setIsOpenMenu } from '../Redux/Slices/Menu';
 
 export const MyWorkout: React.FC = () => {
   const currentUser = useAppSelector(state => state.user.user);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatch(setIsOpenMenu(false));
+  }, [navigate]);
 
   const removeWorkout = (workoutId: string) => {
     if (currentUser) {

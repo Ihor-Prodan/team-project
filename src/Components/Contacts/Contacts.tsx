@@ -1,14 +1,16 @@
 /* eslint-disable max-len */
-import React from 'react';
+import React, { useEffect } from 'react';
 import Header from '../Header/Header';
 import { Theme } from '../Redux/Slices/themeMode';
 import poster from './Pictures/posterContact.png';
 import './contacts.scss';
 import Footer from '../Footer/Footer';
 import useScrollToTop from '../../Hooks/location';
-import { useAppSelector } from '../../Hooks/hooks';
+import { useAppDispatch, useAppSelector } from '../../Hooks/hooks';
 import { Auth } from '../Auth/Auth';
 import PageMenu from '../PageMenu/PageMenu';
+import { useNavigate } from 'react-router-dom';
+import { setIsOpenMenu } from '../Redux/Slices/Menu';
 
 interface Props {
   themeColor: Theme;
@@ -18,6 +20,12 @@ export const Contacts: React.FC<Props> = ({ themeColor }) => {
   useScrollToTop();
   const isModalVisible = useAppSelector(state => state.modal.isModal);
   const currentUser = useAppSelector(state => state.user.user);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatch(setIsOpenMenu(false));
+  }, [navigate]);
 
   return (
     <div className="wrapper">

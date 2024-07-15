@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './policy.scss';
 import Header from '../Header/Header';
 import { Theme } from '../Redux/Slices/themeMode';
 import Footer from '../Footer/Footer';
 import useScrollToTop from '../../Hooks/location';
-import { useAppSelector } from '../../Hooks/hooks';
+import { useAppDispatch, useAppSelector } from '../../Hooks/hooks';
 import { Auth } from '../Auth/Auth';
 import PageMenu from '../PageMenu/PageMenu';
+import { useNavigate } from 'react-router-dom';
+import { setIsOpenMenu } from '../Redux/Slices/Menu';
 
 interface Props {
   themeColor: Theme;
@@ -15,6 +17,13 @@ interface Props {
 const TermsOfService: React.FC<Props> = ({ themeColor }) => {
   useScrollToTop();
   const isModalVisible = useAppSelector(state => state.modal.isModal);
+  const currentUser = useAppSelector(state => state.user.user);
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(setIsOpenMenu(false));
+  }, [navigate]);
 
   return (
     <div className="wrapper">
@@ -153,7 +162,7 @@ const TermsOfService: React.FC<Props> = ({ themeColor }) => {
         </ul>
       </section>
       <Footer />
-      {isModalVisible && <Auth />}
+      {isModalVisible && currentUser && <Auth />}
       <PageMenu themeColor={Theme.dark} />
     </div>
   );

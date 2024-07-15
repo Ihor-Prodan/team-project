@@ -15,6 +15,8 @@ import { setIsModal } from '../Redux/Slices/Modal';
 import { Auth } from '../Auth/Auth';
 import useResponsive from '../../Hooks/sizing';
 import PageMenu from '../PageMenu/PageMenu';
+import { useNavigate } from 'react-router-dom';
+import { setIsOpenMenu } from '../Redux/Slices/Menu';
 
 interface Props {
   themeColor: Theme;
@@ -29,6 +31,7 @@ export const HomePage: React.FC<Props> = ({ themeColor }) => {
   const loaded = useLoadAnimation(poster);
   const currentUser = useAppSelector(state => state.user.user);
   const { isSmallScreen } = useResponsive();
+  const navigate = useNavigate();
 
   //header color change function
   useEffect(() => {
@@ -50,6 +53,10 @@ export const HomePage: React.FC<Props> = ({ themeColor }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [themeColor]);
   //header color change function
+
+  useEffect(() => {
+    dispatch(setIsOpenMenu(false));
+  }, [navigate]);
 
   return (
     <>

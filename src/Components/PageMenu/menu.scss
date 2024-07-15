@@ -1,5 +1,6 @@
 .menu {
   background: rgba(17, 17, 21, 0.92);
+  // background: rgba(17, 17, 21);
   backdrop-filter: blur(8px);
   width: 100vw;
   height: 100%;
@@ -8,12 +9,13 @@
   opacity: 1;
   z-index: 3;
   position: fixed;
-  top: -100%;
+  top: -360%;
   left: 0;
  
   &__nav {
     display: flex;
     flex-direction: column;
+    // background: rgba(17, 17, 21, 0.92);
     padding-left: 24px;
   }
 
@@ -152,5 +154,5 @@
 
 .menu.open {
   top: 0;
-  transition: top 0.5s ease-in-out;
+  transition: top 0.3s ease-in-out;
 }

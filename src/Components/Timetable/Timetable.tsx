@@ -21,6 +21,8 @@ import { setIsModal } from '../Redux/Slices/Modal';
 import { Auth } from '../Auth/Auth';
 import { updateUser, User } from '../Redux/Slices/User';
 import PageMenu from '../PageMenu/PageMenu';
+import { useNavigate } from 'react-router-dom';
+import { setIsOpenMenu } from '../Redux/Slices/Menu';
 
 interface Props {
   themeColor: Theme;
@@ -45,6 +47,11 @@ export const Timetable: React.FC<Props> = ({
   const dispatch = useAppDispatch();
   const swiperRef = useRef<Swiper | null>(null);
   const [schedule, setSchedule] = useState(timetableDate);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatch(setIsOpenMenu(false));
+  }, [navigate]);
 
   useEffect(() => {
     dispatch(setDays());

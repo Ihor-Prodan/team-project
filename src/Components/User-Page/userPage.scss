@@ -17,6 +17,10 @@
   cursor: pointer;
   transition: color 0.5s ease;
 
+  @media (min-width: 320px) and (max-width: 750px) {
+    font-size: 16px;
+  }
+
   &::after, &:active::after {
     content: '';
     position: absolute;
@@ -34,6 +38,24 @@
   padding-inline: 32px;
   background-color: #D6D0CE;
 
+  @media (min-width: 320px) and (max-width: 536px) {
+    padding-inline: 24px;
+  }
+
+  &__back {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
+
+    &-button {
+      color: var(--Primary-160, #716560);
+      font-size: 16px;
+      font-weight: 300;
+      line-height: 140%;
+    }
+  }
+
   &__title {
     display: flex;
     margin-top: 56px;
@@ -43,6 +65,12 @@
     line-height: 130%;
     letter-spacing: 2.56px;
     text-transform: uppercase;
+
+    @media (min-width: 320px) and (max-width: 750px) {
+      font-size: 32px;
+      margin-top: 16px;
+    }
+    
   }
 
   &__info-container {
@@ -52,12 +80,25 @@
     align-items: center;
     gap: 97px;
 
+    @media (min-width: 320px) and (max-width: 885px) {
+      gap: 27px;
+    }
+
     &-menu {
       display: flex;
       align-items: flex-start;
       gap: 72px;
       align-self: stretch;
       border-right: solid 1px #575759;
+
+      @media (min-width: 320px) and (max-width: 750px) {
+        padding: 0;
+      }
+
+      @media (min-width: 320px) and (max-width: 536px) {
+        width: 100%;
+        border: none;
+      }
     }
 
     &-menuList {
@@ -68,6 +109,24 @@
       align-items: flex-start;
       gap: 16px;
       align-self: stretch;
+
+      @media (min-width: 536px) and (max-width: 750px) {
+        padding-right: 12px;
+        width: 165px;
+      }
+
+      @media (min-width: 320px) and (max-width: 536px) {
+        width: 100%;
+        padding: 0;
+      }
+
+      &-icon {
+        @media (min-width: 320px) and (max-width: 536px) {
+          display: flex;
+          justify-content: space-between;
+          width: 100%;
+        }
+      }
     }
 
     &-menuItem {
@@ -78,6 +137,10 @@
       line-height: 140%;
       text-wrap: nowrap;
       cursor: pointer;
+
+      @media (min-width: 320px) and (max-width: 750px) {
+        font-size: 16px;
+      }
 
       &:hover::after, &:active::after {
         content: '';
@@ -111,6 +174,15 @@
       opacity: 1;
       background: var(--Gray-0, #F3F4F6);
 
+      @media (min-width: 885px) and (max-width: 1310px) {
+        max-width: 748px;
+      }
+
+      @media (min-width: 320px) and (max-width: 885px) {
+        max-width: 748px;
+        padding: 24px 16px;
+      }
+
       &-top {
         width: 100%;
         display: flex;
@@ -119,11 +191,34 @@
         align-items: center;
         align-self: stretch;
 
+        &-workout {
+          width: 100%;
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+          align-self: stretch;
+
+          @media (min-width: 320px) and (max-width: 1005px) {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 15px;
+          }
+        }
+
         &-title {
           color: var(--Gray-100, #111115);
           font-size: 40px;
           font-weight: 500;
           line-height: 110%;
+
+          @media (min-width: 625px) and (max-width: 1170px) {
+            font-size: 32px;
+          }
+
+          @media (min-width: 320px) and (max-width: 625px) {
+            font-size: 24px;
+          }
         }
 
         &-save {
@@ -149,12 +244,29 @@
         flex-direction: row;
         gap: 48px;
 
+        @media (min-width: 320px) and (max-width: 1170px) {
+          flex-direction: column;
+        }
+
+
         &-personal {
           display: flex;
           width: 344px;
           flex-direction: column;
           align-items: flex-start;
           gap: 24px;
+
+          @media (min-width: 1170px) and (max-width: 1310px) {
+            width: 244px;
+          }
+
+          @media (min-width: 625px) and (max-width: 1170px) {
+            width: 300px;
+          }
+
+          @media (min-width: 320px) and (max-width: 625px) {
+            width: 240px;
+          }
 
           &-info {
             display: flex;
@@ -171,6 +283,10 @@
             font-size: 16px;
             font-weight: 300;
             line-height: 140%;
+
+            @media (min-width: 320px) and (max-width: 625px) {
+              font-size: 12px;
+            }
           }
 
           &-input {
@@ -207,11 +323,23 @@
           align-items: flex-start;
           gap: 12px;
 
+          @media (min-width: 625px) and (max-width: 1310px) {
+            width: 300px;
+          }
+
+          @media (min-width: 320px) and (max-width: 625px) {
+            width: 240px;
+          }
+
           &-description {
             color: var(--Gray-80, #575759);
             font-size: 14px;
             font-weight: 300;
             line-height: 140%;
+
+            @media (min-width: 320px) and (max-width: 625px) {
+              font-size: 12px;
+            }
           }
 
           &-info {
@@ -224,6 +352,7 @@
             border: 1px solid var(--Gray-60, #B0B1B5);
             opacity: 1;
             gap: 24px;
+
 
             &-cardData {
               display: flex;
@@ -310,11 +439,21 @@
           align-items: center;
           align-self: stretch;
 
+          @media (min-width: 320px) and (max-width: 1140px) {
+            flex-direction: column;
+            align-items: flex-start;
+          }
+
           &-months {
             color: var(--Gray-90, #28282C);
             font-size: 40px;
             font-weight: 500;
             line-height: 110%;
+
+                   
+            @media (min-width: 320px) and (max-width: 625px) {
+              font-size: 34px;
+            }
           }
 
           &-data {
@@ -330,6 +469,10 @@
           display: flex;
           flex-direction: row;
           gap: 32px;
+
+          @media (min-width: 320px) and (max-width: 1140px) {
+            flex-direction: column;
+          }
 
           &-container {
             display: flex;

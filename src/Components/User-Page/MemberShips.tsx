@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import React from 'react';
+import React, { useEffect } from 'react';
 import './userPage.scss';
 import {
   GivIcon,
@@ -7,17 +7,18 @@ import {
   GymIcon,
   LockerIcon,
 } from '../Prices/Helpers/priceIcons';
-import { useAppSelector } from '../../Hooks/hooks';
+import { useAppDispatch, useAppSelector } from '../../Hooks/hooks';
 import { useNavigate } from 'react-router-dom';
+import { setIsOpenMenu } from '../Redux/Slices/Menu';
 
 export const Memberships: React.FC = () => {
-  // const [haveMember, setHaveMember] = useState(false);
   const currentUser = useAppSelector(state => state.user.user);
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
-  // const handleMemberChange = () => {
-  //   setHaveMember(prev => !prev);
-  // };
+  useEffect(() => {
+    dispatch(setIsOpenMenu(false));
+  }, [navigate]);
 
   return (
     <div className="userPage__info-container-modalInfo">

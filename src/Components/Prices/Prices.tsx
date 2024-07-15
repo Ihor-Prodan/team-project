@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Header from '../Header/Header';
 import { Theme } from '../Redux/Slices/themeMode';
 import './prices.scss';
@@ -11,6 +11,8 @@ import { setIsModal } from '../Redux/Slices/Modal';
 import { Auth } from '../Auth/Auth';
 import { updateUser, User } from '../Redux/Slices/User';
 import PageMenu from '../PageMenu/PageMenu';
+import { useNavigate } from 'react-router-dom';
+import { setIsOpenMenu } from '../Redux/Slices/Menu';
 
 interface Props {
   themeColor: Theme;
@@ -21,6 +23,11 @@ export const Prices: React.FC<Props> = ({ themeColor }) => {
   const dispatch = useAppDispatch();
   const isModalVisible = useAppSelector(state => state.modal.isModal);
   const currentUser = useAppSelector(state => state.user.user);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatch(setIsOpenMenu(false));
+  }, [navigate]);
 
   const handleBuyMembership = (item: Membership): User | void => {
     const currentDate = new Date();
