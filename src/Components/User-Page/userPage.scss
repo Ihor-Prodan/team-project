@@ -74,6 +74,7 @@
   }
 
   &__info-container {
+    position: relative;
     display: flex;
     margin: 48px 0 223px 0;
     flex-direction: row;
@@ -178,7 +179,7 @@
         max-width: 748px;
       }
 
-      @media (min-width: 320px) and (max-width: 885px) {
+      @media (min-width: 536px) and (max-width: 885px) {
         max-width: 748px;
         padding: 24px 16px;
       }

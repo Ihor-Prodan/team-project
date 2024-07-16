@@ -23,6 +23,11 @@
   white-space: nowrap;
   background-color: #F3F4F6;
   outline: none;
+
+  @media (min-width:320px) and (max-width: 1060px) {
+    font-size: 10px;
+    height: 28px;
+  }
 }
 
 .errorMessage {
@@ -32,6 +37,10 @@
   font-size: 14px;
   font-weight: 100;
   line-height: 140%;
+
+  @media (min-width:320px) and (max-width: 1060px) {
+    font-size: 12px;
+  }
 }
 
 .autorization {
@@ -58,6 +67,10 @@
     border-radius: 16px;
     background: var(--Gray-0, #F3F4F6);
 
+    @media (min-width: 320px) and (max-width: 815px) {
+      padding: 18px 42px 42px 42px;
+    }
+
     &-buttons {
       height: 30px;
       position: relative;
@@ -81,6 +94,10 @@
       font-weight: 400;
       line-height: 100%;
 
+      @media (min-width: 320px) and (max-width: 815px) {
+        font-size: 12px;
+      }
+
       &:hover {
         font-weight: 500;
       }
@@ -103,6 +120,10 @@
       font-weight: 400;
       line-height: 100%;
 
+      @media (min-width: 320px) and (max-width: 815px) {
+        font-size: 12px;
+      }
+
       &:hover {
         font-weight: 500;
       }
@@ -121,11 +142,23 @@
       align-items: center;
       gap: 72px;
 
+      @media (min-width: 320px) and (max-width: 815px) {
+        gap: 42px;
+      }
+
       &-imageWraper {
         display: flex;
         align-items: center;
         max-width: 472px;
         height: 100%;
+
+        @media (min-width:320px) and (max-width: 1060px) {
+          max-width: 276px;
+        }
+
+        @media (min-width: 320px) and (max-width: 660px) {
+          display: none;
+        }
       }
 
       &-image {
@@ -133,10 +166,36 @@
         max-width: 472px;
         max-height: 625px;
 
+        @media (min-width: 815px) and (max-width: 1060px) {
+          max-width: 276px;
+          height: auto;
+        }
+
+        @media (min-width: 320px) and (max-width: 815px) {
+          max-width: 256px;
+        }
+
+        @media (min-width: 320px) and (max-width: 660px) {
+          display: none;
+        }
+
         &-confirm {
           object-fit: contain;
           max-width: 482px;
           max-height: 527px;
+
+          @media (min-width: 815px) and (max-width: 1060px) {
+            max-width: 276px;
+            height: auto;
+          }
+  
+          @media (min-width: 320px) and (max-width: 815px) {
+            max-width: 256px;
+          }
+  
+          @media (min-width: 320px) and (max-width: 660px) {
+            display: none;
+          }
         }
       }
 
@@ -148,6 +207,15 @@
         justify-content: space-between;
         gap: 24px;
 
+        @media (min-width: 815px) and (max-width: 1060px) {
+          width: 276px;
+        }
+
+        @media (min-width:320px) and (max-width: 815px) {
+          width: 220px;
+          gap: 14px;
+        }
+
         &-title {
           color: var(--Gray-100, #111115);
           font-size: 64px;
@@ -155,6 +223,14 @@
           line-height: 100%;
           letter-spacing: 2.88px;
           text-transform: uppercase;
+
+          @media (min-width: 815px) and (max-width: 1060px) {
+            font-size: 34px;
+          }
+
+          @media (min-width: 320px) and (max-width: 815px) {
+            font-size: 22px;
+          }
         }
       }
     }
@@ -164,6 +240,10 @@
       width: 100%;
       flex-direction: column;
       gap: 20px;
+
+      @media (min-width:320px) and (max-width: 1060px) {
+        gap: 10px;
+      }
 
       &-container {
         position: relative;
@@ -177,6 +257,10 @@
         font-size: 16px;
         font-weight: 300;
         line-height: 140%;
+
+        @media (min-width:320px) and (max-width: 1060px) {
+          font-size: 12px;
+        }
       }
 
       &-input {
@@ -195,32 +279,37 @@
         background-color: #F3F4F6;
         outline: none;
 
+        @media (min-width:320px) and (max-width: 1060px) {
+          font-size: 10px;
+          height: 28px;
+        }
+
         &:focus {
           border: 1px solid #575759;
         }
 
           &-close {
             &--1 {
-            position: absolute;
-            right: 3%;
-            bottom: 22%;
-            opacity: 0;
-            transition: opacity 0.3s ease 
-          }
-            &--2 {
-            position: absolute;
-            right: 5%;
-            bottom: 37%;
-            opacity: 0;
-            transition: opacity 0.3s ease 
-          }
-            &--3 {
-            position: absolute;
-            right: 5%;
-            bottom: 41%; 
-            opacity: 1;
-            transition: opacity 0.3s ease;
+              position: absolute;
+              right: 3%;
+              bottom: 22%;
+              opacity: 0;
+              transition: opacity 0.3s ease 
+            }
 
+            &--2 {
+              position: absolute;
+              right: 3%;
+              bottom: 23%;
+              opacity: 0;
+              transition: opacity 0.3s ease 
+            }
+              &--3 {
+              position: absolute;
+              right: 5%;
+              bottom: 41%; 
+              opacity: 1;
+              transition: opacity 0.3s ease;
           }
         }
       }
@@ -236,6 +325,10 @@
         font-size: 14px;
         font-weight: 300;
         line-height: 140%;
+
+        @media (min-width:320px) and (max-width: 1060px) {
+          font-size: 10px;
+        }
       }
 
       &-resendCode {
@@ -249,6 +342,10 @@
         align-self: flex-end;
         gap: 8px;
         text-wrap: nowrap;
+
+        @media (min-width:320px) and (max-width: 1060px) {
+          font-size: 12px;
+        }
 
         &:hover {
           font-weight: 500;
@@ -284,6 +381,12 @@
         letter-spacing: 0.64px;
         text-transform: uppercase;
 
+        @media (min-width:320px) and (max-width: 1060px) {
+          font-size: 12px;
+          max-width: 100%;
+          height: 36px;
+        }
+
         &:hover {
           border: 1px solid var(--Gray-60, #A7A7A7);
         }
@@ -313,6 +416,12 @@
         letter-spacing: 0.64px;
         text-transform: uppercase;
 
+        @media (min-width:320px) and (max-width: 1060px) {
+          font-size: 12px;
+          max-width: 100%;
+          height: 36px;
+        }
+
         &:hover {
           border-radius: 8px;
           border: solid var(--Gray-80, #575759);
@@ -339,6 +448,10 @@
       font-size: 16px;
       font-weight: 300;
       line-height: 140%;
+
+      @media (min-width:320px) and (max-width: 1060px) {
+        font-size: 12px;
+      }
     }
 
     &-login {
@@ -347,6 +460,10 @@
       font-size: 16px;
       font-weight: 400;
       line-height: 100%;
+
+      @media (min-width:320px) and (max-width: 1060px) {
+        font-size: 12px;
+      }
 
       &:hover {
         font-weight: 500;

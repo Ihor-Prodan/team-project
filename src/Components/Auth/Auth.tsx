@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/indent */
 /* eslint-disable max-len */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './auth.scss';
 import pictures from './Pictures/Sign-up.png';
 import picturesLogin from './Pictures/login.png';
@@ -66,6 +66,19 @@ export const Auth: React.FC = () => {
   const navigate = useNavigate();
   const currentUser = useAppSelector(state => state.user.user);
   const isConfirm = useAppSelector(state => state.modal.isConfirm);
+  const [newScreen, setNewScreen] = useState(window.innerWidth <= 1060);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setNewScreen(window.innerWidth <= 1060);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [newScreen, setNewScreen]);
 
   const handleFocus = (id: string) => {
     setActiveInput(id);
@@ -238,8 +251,8 @@ export const Auth: React.FC = () => {
                           activeInput === 'fullName' ? 'active' : ''
                         }`}
                         xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
+                        width={newScreen ? '16' : '24'}
+                        height={newScreen ? '16' : '24'}
                         viewBox="0 0 24 24"
                         fill="none"
                       >
@@ -282,9 +295,9 @@ export const Auth: React.FC = () => {
                         activeInput === 'email' ? 'active' : ''
                       }`}
                       xmlns="http://www.w3.org/2000/svg"
-                      width="18"
-                      height="18"
-                      viewBox="0 0 18 18"
+                      width={newScreen ? '16' : '24'}
+                      height={newScreen ? '16' : '24'}
+                      viewBox="0 0 24 24"
                       fill="none"
                     >
                       <path
@@ -326,8 +339,8 @@ export const Auth: React.FC = () => {
                         activeInput === 'password' ? 'active' : ''
                       }`}
                       xmlns="http://www.w3.org/2000/svg"
-                      width="18"
-                      height="10"
+                      width={newScreen ? '14' : '18'}
+                      height={newScreen ? '6' : '10'}
                       viewBox="0 0 18 10"
                       fill="none"
                     >
