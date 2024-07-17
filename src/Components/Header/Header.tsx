@@ -62,10 +62,6 @@ export const Header: React.FC<Props> = ({ themeColor }) => {
     }
   };
 
-  //adaptive header function
-
-  //adaptive header function
-
   return (
     <header
       className={`header ${isScrolledUp ? '' : 'sticky'} ${theme === themeColor ? 'header' : 'header-dark'}`}

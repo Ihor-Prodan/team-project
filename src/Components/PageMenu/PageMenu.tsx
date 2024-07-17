@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import './menu.scss';
 import { Theme } from '../Redux/Slices/themeMode';
 import Header from '../Header/Header';
-import { useAppSelector } from '../../Hooks/hooks';
+import { useAppDispatch, useAppSelector } from '../../Hooks/hooks';
 import navItems from '../Navigation/Helpers/navItems';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { setIsModal } from '../Redux/Slices/Modal';
 
 interface Props {
   themeColor: Theme;
@@ -15,7 +16,10 @@ export const PageMenu: React.FC<Props> = ({ themeColor }) => {
     null,
   );
   const isOpen = useAppSelector(state => state.menu.isOpen);
+  const currentUser = useAppSelector(state => state.user.user);
+  const dispatch = useAppDispatch();
   const theme = Theme.light;
+  const navigate = useNavigate();
 
   const getLinkClass = (isActive: boolean) => {
     const baseClass = 'navigation__links';
@@ -45,6 +49,14 @@ export const PageMenu: React.FC<Props> = ({ themeColor }) => {
 
   const handleIsDropdown = (index: number) => {
     setActiveDropdownIndex(prevIndex => (prevIndex === index ? null : index));
+  };
+
+  const isUser = () => {
+    if (!currentUser) {
+      dispatch(setIsModal(true));
+    } else {
+      navigate('/profile');
+    }
   };
 
   return (
@@ -129,6 +141,7 @@ export const PageMenu: React.FC<Props> = ({ themeColor }) => {
         </div>
         <div className="menu__profileAndButton">
           <p
+            onClick={isUser}
             className={
               themeColor
                 ? 'navigation__nav-items-dark mt-0.5'

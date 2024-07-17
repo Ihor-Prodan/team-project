@@ -48,6 +48,14 @@ export const InfoInstructors: React.FC<Props> = ({ themeColor }) => {
     dispatch(setIsOpenMenu(false));
   }, [id, navigate]);
 
+  const isUser = () => {
+    if (!currentUser) {
+      dispatch(setIsModal(true));
+    } else {
+      navigate('/timetable/trainer-led-workout');
+    }
+  };
+
   return (
     <div className="wrapper bg-[#111115]">
       <Header themeColor={themeColor} />
@@ -116,7 +124,7 @@ export const InfoInstructors: React.FC<Props> = ({ themeColor }) => {
             </div>
             <button
               className="workout__detail-grid-content-button"
-              onClick={() => dispatch(setIsModal(true))}
+              onClick={isUser}
             >
               <span className="workout__button-text">
                 book a Trainer-Led Workout

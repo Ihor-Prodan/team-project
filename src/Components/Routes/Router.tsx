@@ -131,35 +131,50 @@ export const Root: React.FC = () => {
 
           <Route element={<ProtectedRoute />}>
             <Route
-              path="profile"
+              path="/profile"
               element={
                 <UserPage
                   themeColor={Theme.light}
                   isMyWorkout={false}
                   isMembership={false}
+                  isUserInfo={false}
                 />
               }
             />
           </Route>
 
           <Route
-            path="membership"
+            path="/profile/user-info"
             element={
               <UserPage
                 themeColor={Theme.light}
                 isMyWorkout={false}
-                isMembership={true}
+                isMembership={false}
+                isUserInfo={true}
               />
             }
           />
 
           <Route
-            path="my-workout"
+            path="/profile/membership"
+            element={
+              <UserPage
+                themeColor={Theme.light}
+                isMyWorkout={false}
+                isMembership={true}
+                isUserInfo={false}
+              />
+            }
+          />
+
+          <Route
+            path="/profile/my-workout"
             element={
               <UserPage
                 themeColor={Theme.light}
                 isMyWorkout={true}
                 isMembership={false}
+                isUserInfo={false}
               />
             }
           />

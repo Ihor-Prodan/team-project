@@ -58,6 +58,18 @@ export const HomePage: React.FC<Props> = ({ themeColor }) => {
     dispatch(setIsOpenMenu(false));
   }, [navigate]);
 
+  const isUser = () => {
+    if (!currentUser) {
+      dispatch(setIsModal(true));
+    }
+
+    if (!currentUser?.membership.date) {
+      navigate('/prices');
+    } else {
+      navigate('/timetable/trainer-led-workout');
+    }
+  };
+
   return (
     <>
       <div className="home__page-wrapper">
@@ -68,10 +80,7 @@ export const HomePage: React.FC<Props> = ({ themeColor }) => {
             <p className="home__page-slogan">
               Experience harmony of body and mind at Pulse Gym
             </p>
-            <button
-              className="home__page-top-button"
-              onClick={() => dispatch(setIsModal(true))}
-            >
+            <button className="home__page-top-button" onClick={isUser}>
               <span className="home__page-top-button-text">Book a workout</span>
               <svg
                 className="home__page-button-arrow"
@@ -170,10 +179,7 @@ export const HomePage: React.FC<Props> = ({ themeColor }) => {
           </div>
           <div className="home__page-ready-container">
             <h2 className="home__page-ready-title">ready to rock?</h2>
-            <button
-              className="home__page-ready-button"
-              onClick={() => dispatch(setIsModal(true))}
-            >
+            <button className="home__page-ready-button" onClick={isUser}>
               Book a workout
               <svg
                 className="home__page-ready-button-arrow-white"
@@ -195,7 +201,7 @@ export const HomePage: React.FC<Props> = ({ themeColor }) => {
           </div>
         </section>
         <Footer />
-        {isModalVisible && currentUser && <Auth />}
+        {isModalVisible && !currentUser && <Auth />}
         <PageMenu themeColor={Theme.dark} />
       </div>
     </>

@@ -19,7 +19,7 @@ const useResponsive = () => {
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, []);
+  }, [isSmallScreen, setIsSmallScreen]);
 
   return { isLargeScreen, isSmallScreen };
 };

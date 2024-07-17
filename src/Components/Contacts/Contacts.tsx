@@ -11,6 +11,7 @@ import { Auth } from '../Auth/Auth';
 import PageMenu from '../PageMenu/PageMenu';
 import { useNavigate } from 'react-router-dom';
 import { setIsOpenMenu } from '../Redux/Slices/Menu';
+import { setIsModal } from '../Redux/Slices/Modal';
 
 interface Props {
   themeColor: Theme;
@@ -26,6 +27,18 @@ export const Contacts: React.FC<Props> = ({ themeColor }) => {
   useEffect(() => {
     dispatch(setIsOpenMenu(false));
   }, [navigate]);
+
+  const isUser = () => {
+    if (!currentUser) {
+      dispatch(setIsModal(true));
+    }
+
+    if (!currentUser?.membership.date) {
+      navigate('/prices');
+    } else {
+      navigate('/timetable/trainer-led-workout');
+    }
+  };
 
   return (
     <div className="wrapper">
@@ -76,7 +89,7 @@ export const Contacts: React.FC<Props> = ({ themeColor }) => {
               Curious to try our gym? Book a workout session and experience it
               firsthand!
             </p>
-            <button className="contacts__ready-button">
+            <button className="contacts__ready-button" onClick={isUser}>
               Book a workout
               <svg
                 className="contacts__ready-button-arrow-white"

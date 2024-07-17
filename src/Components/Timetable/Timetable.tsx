@@ -23,6 +23,7 @@ import { updateUser, User } from '../Redux/Slices/User';
 import PageMenu from '../PageMenu/PageMenu';
 import { useNavigate } from 'react-router-dom';
 import { setIsOpenMenu } from '../Redux/Slices/Menu';
+import useResponsive from '../../Hooks/sizing';
 
 interface Props {
   themeColor: Theme;
@@ -48,6 +49,7 @@ export const Timetable: React.FC<Props> = ({
   const swiperRef = useRef<Swiper | null>(null);
   const [schedule, setSchedule] = useState(timetableDate);
   const navigate = useNavigate();
+  const { isSmallScreen } = useResponsive();
 
   useEffect(() => {
     dispatch(setIsOpenMenu(false));
@@ -228,8 +230,8 @@ export const Timetable: React.FC<Props> = ({
               }}
               centeredSlides={false}
               spaceBetween={0}
-              slidesPerView={7}
-              slidesPerGroup={7}
+              slidesPerView={isSmallScreen ? 4 : 7}
+              slidesPerGroup={isSmallScreen ? 4 : 7}
               speed={900}
               mousewheel={true}
               style={{ width: '100%' }}

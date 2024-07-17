@@ -81,6 +81,10 @@
     align-items: center;
     gap: 97px;
 
+    @media (min-width: 885px) and (max-width: 1200px) {
+      gap: 47px;
+    }
+
     @media (min-width: 320px) and (max-width: 885px) {
       gap: 27px;
     }
@@ -179,7 +183,7 @@
         max-width: 748px;
       }
 
-      @media (min-width: 536px) and (max-width: 885px) {
+      @media (min-width: 320px) and (max-width: 885px) {
         max-width: 748px;
         padding: 24px 16px;
       }

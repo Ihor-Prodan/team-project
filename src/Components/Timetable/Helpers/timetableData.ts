@@ -341,7 +341,7 @@ export const timetable = [
         time: '20:00 - 21:00',
         studio: 'Power studio',
         name: 'Powerlifting',
-        trainer: 'Oleksandr Kovalchuk',
+        trainer: 'Oleksandr Koval',
         id: '23',
         location: 'Gym',
         date: '',
