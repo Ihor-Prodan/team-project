@@ -18,6 +18,7 @@ import { workoutsSlice } from '../Slices/Workouts';
 import { trainersSlice } from '../Slices/Trainers';
 import { userSlice } from '../Slices/User';
 import { menuSlice } from '../Slices/Menu';
+import { alertSlice } from '../Slices/Alert';
 
 const rootReducer = combineReducers({
   theme: themeSlice.reducer,
@@ -27,6 +28,7 @@ const rootReducer = combineReducers({
   trainers: trainersSlice.reducer,
   user: userSlice.reducer,
   menu: menuSlice.reducer,
+  alertMessage: alertSlice.reducer,
 });
 
 const persistConfig = {

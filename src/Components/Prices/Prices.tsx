@@ -13,6 +13,8 @@ import { updateUser, User } from '../Redux/Slices/User';
 import PageMenu from '../PageMenu/PageMenu';
 import { useNavigate } from 'react-router-dom';
 import { setIsOpenMenu } from '../Redux/Slices/Menu';
+import CustomAlert from '../CustomAlert/CustomAlert';
+import { showAlert } from '../Redux/Slices/Alert';
 
 interface Props {
   themeColor: Theme;
@@ -52,7 +54,12 @@ export const Prices: React.FC<Props> = ({ themeColor }) => {
 
     if (currentUser) {
       if (currentUser.membership && currentUser.membership.duration) {
-        alert('You already have an active membership.');
+        dispatch(
+          showAlert({
+            message: 'You already have an active membership.',
+            type: 'Active Membership Notice',
+          }),
+        );
 
         return;
       }
@@ -95,6 +102,7 @@ export const Prices: React.FC<Props> = ({ themeColor }) => {
       <section className="prices">
         <h2 className="prices__title">membership Prices</h2>
         <div className="prices__grid">
+          <CustomAlert />
           {pricesCard.map(item => (
             <div className="prices__grid-card" key={item.duration}>
               <div className="prices__grid-card-container-top">

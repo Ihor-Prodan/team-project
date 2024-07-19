@@ -23,7 +23,8 @@ import { updateUser, User } from '../Redux/Slices/User';
 import PageMenu from '../PageMenu/PageMenu';
 import { useNavigate } from 'react-router-dom';
 import { setIsOpenMenu } from '../Redux/Slices/Menu';
-import useResponsive from '../../Hooks/sizing';
+import { showAlert } from '../Redux/Slices/Alert';
+import CustomAlert from '../CustomAlert/CustomAlert';
 
 interface Props {
   themeColor: Theme;
@@ -39,6 +40,12 @@ export const Timetable: React.FC<Props> = ({
   timetableDate,
 }) => {
   useScrollToTop();
+  const [adaptiveTimetable, setAdaptiveTimetable] = useState<boolean>(
+    window.innerWidth <= 1100,
+  );
+  const [isMobileVersion, setIsMobilVersion] = useState<boolean>(
+    window.innerWidth <= 765,
+  );
   const days = useAppSelector(state => state.calendar.days);
   const isModalVisible = useAppSelector(state => state.modal.isModal);
   const currentUser = useAppSelector(state => state.user.user);
@@ -49,7 +56,8 @@ export const Timetable: React.FC<Props> = ({
   const swiperRef = useRef<Swiper | null>(null);
   const [schedule, setSchedule] = useState(timetableDate);
   const navigate = useNavigate();
-  const { isSmallScreen } = useResponsive();
+  const [showFirstSet, setShowFirstSet] = useState(true);
+  const [visiblePart, setVisiblePart] = useState(0);
 
   useEffect(() => {
     dispatch(setIsOpenMenu(false));
@@ -149,6 +157,12 @@ export const Timetable: React.FC<Props> = ({
 
     if (!selectedDay) {
       alert('No day selected from the timetable.');
+      dispatch(
+        showAlert({
+          message: 'Please select a day from the timetable.',
+          type: 'No day selected from the timetable.',
+        }),
+      );
 
       return;
     }
@@ -161,7 +175,13 @@ export const Timetable: React.FC<Props> = ({
       const findUserWorkout = currentUser.workouts?.find(w => w.id === item.id);
 
       if (findUserWorkout && findUserWorkout.date === trainingDate) {
-        alert('You already have this workout scheduled.');
+        // alert('You already have this workout scheduled.');
+        dispatch(
+          showAlert({
+            message: 'You already registered for this workout.',
+            type: 'Duplicate Booking Notice',
+          }),
+        );
 
         return;
       }
@@ -192,6 +212,47 @@ export const Timetable: React.FC<Props> = ({
     }
   };
 
+  useEffect(() => {
+    const handleResize = () => {
+      const windowWidth = window.innerWidth;
+
+      setAdaptiveTimetable(windowWidth <= 1100);
+      setIsMobilVersion(windowWidth <= 765);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [adaptiveTimetable, setAdaptiveTimetable]);
+
+  const toggleShowSet = () => {
+    setShowFirstSet(!showFirstSet);
+  };
+
+  const studioParts = [
+    studio.slice(0, 1),
+    studio.slice(1, 2),
+    studio.slice(2, 3),
+    studio.slice(3, 4),
+    studio.slice(4, 5),
+  ];
+
+  const visibleStudiosMobil = studioParts[visiblePart];
+  const adaptiveStudiosMobil = isMobileVersion ? visibleStudiosMobil : studio;
+
+  const handleNextPart = () => {
+    setVisiblePart(prevPart => (prevPart + 1) % studioParts.length);
+  };
+
+  const visibleStudios = showFirstSet ? studio.slice(0, 3) : studio.slice(3);
+  const adaptiveStudios = adaptiveTimetable ? visibleStudios : studio;
+  const adaptive = isMobileVersion ? adaptiveStudiosMobil : adaptiveStudios;
+
+  const slidesPerView = isMobileVersion ? 3 : adaptiveTimetable ? 4 : 7;
+  const slidesPerGroup = isMobileVersion ? 3 : adaptiveTimetable ? 4 : 7;
+
   return (
     <div className="timetable-wrapper bg-[#111115]">
       <Header themeColor={themeColor} />
@@ -207,31 +268,33 @@ export const Timetable: React.FC<Props> = ({
         <h3 className="timetable__title-group">{workoutName}</h3>
         <div className="timetable__calendar">
           <div className="timetable__calendar-header">
-            <svg
-              className="timetable__calendar-header-sliderButton"
-              onClick={() => slidePrev()}
-              xmlns="http://www.w3.org/2000/svg"
-              width="40"
-              height="40"
-              viewBox="0 0 40 40"
-              fill="none"
-            >
-              <path
-                d="M35 20.0217L5.35167 20M16.6467 31.6667L5 20L16.6467 8.33337"
-                stroke="#B0B1B5"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+            {!isMobileVersion && (
+              <svg
+                className="timetable__calendar-header-sliderButton"
+                onClick={() => slidePrev()}
+                xmlns="http://www.w3.org/2000/svg"
+                width="40"
+                height="40"
+                viewBox="0 0 40 40"
+                fill="none"
+              >
+                <path
+                  d="M35 20.0217L5.35167 20M16.6467 31.6667L5 20L16.6467 8.33337"
+                  stroke="#B0B1B5"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            )}
             <ReactSwiper
               onSwiper={(swiper: any) => {
                 swiperRef.current = swiper;
               }}
               centeredSlides={false}
               spaceBetween={0}
-              slidesPerView={isSmallScreen ? 4 : 7}
-              slidesPerGroup={isSmallScreen ? 4 : 7}
+              slidesPerView={slidesPerView}
+              slidesPerGroup={slidesPerGroup}
               speed={900}
               mousewheel={true}
               style={{ width: '100%' }}
@@ -271,28 +334,75 @@ export const Timetable: React.FC<Props> = ({
                 </SwiperSlide>
               ))}
             </ReactSwiper>
-            <svg
-              className="timetable__calendar-header-sliderButton"
-              onClick={() => slideNext()}
-              xmlns="http://www.w3.org/2000/svg"
-              width="40"
-              height="40"
-              viewBox="0 0 40 40"
-              fill="none"
-            >
-              <path
-                d="M5 20.0217L34.6483 20M23.355 31.6667L35 20L23.3533 8.33337"
-                stroke="#B0B1B5"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+            {!isMobileVersion && (
+              <svg
+                className="timetable__calendar-header-sliderButton"
+                onClick={() => slideNext()}
+                xmlns="http://www.w3.org/2000/svg"
+                width="40"
+                height="40"
+                viewBox="0 0 40 40"
+                fill="none"
+              >
+                <path
+                  d="M5 20.0217L34.6483 20M23.355 31.6667L35 20L23.3533 8.33337"
+                  stroke="#B0B1B5"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            )}
           </div>
+          {!isLedWorkout && adaptiveTimetable && (
+            <li
+              className="timetable__grid-time-item-1"
+              onClick={isMobileVersion ? handleNextPart : toggleShowSet}
+            >
+              <svg
+                className="timetable__calendar-header-sliderButton"
+                onClick={isMobileVersion ? handleNextPart : toggleShowSet}
+                xmlns="http://www.w3.org/2000/svg"
+                width="30"
+                height="30"
+                viewBox="0 0 40 40"
+                fill="none"
+              >
+                <path
+                  d="M5 20.0217L34.6483 20M23.355 31.6667L35 20L23.3533 8.33337"
+                  stroke="#B0B1B5"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </li>
+          )}
+
           <div className="timetable__grid">
             <ul className="timetable__grid-time">
               {isLedWorkout && (
-                <li className="timetable__grid-time-item-1"></li>
+                <li className="timetable__grid-time-item-1">
+                  {adaptiveTimetable && (
+                    <svg
+                      className="timetable__calendar-header-sliderButton"
+                      onClick={isMobileVersion ? handleNextPart : toggleShowSet}
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="30"
+                      height="30"
+                      viewBox="0 0 40 40"
+                      fill="none"
+                    >
+                      <path
+                        d="M5 20.0217L34.6483 20M23.355 31.6667L35 20L23.3533 8.33337"
+                        stroke="#B0B1B5"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  )}
+                </li>
               )}
               {times.map(t => (
                 <li className="timetable__grid-time-item" key={t}>
@@ -300,7 +410,7 @@ export const Timetable: React.FC<Props> = ({
                 </li>
               ))}
             </ul>
-            {studio.map(stud => (
+            {adaptive.map(stud => (
               <div className="wrap" key={stud}>
                 {isLedWorkout && (
                   <ul className="timetable__grid-studioname">{stud}</ul>
@@ -330,8 +440,8 @@ export const Timetable: React.FC<Props> = ({
                             {isLedWorkout && (
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
-                                width="30"
-                                height="10"
+                                width={adaptiveTimetable ? '20' : '30'}
+                                height={adaptiveTimetable ? '8' : '10'}
                                 viewBox="0 0 30 9"
                                 fill="none"
                               >
@@ -448,6 +558,7 @@ export const Timetable: React.FC<Props> = ({
             ))}
           </div>
         </div>
+        <CustomAlert />
       </section>
       <Footer />
       {isModalVisible && !currentUser && <Auth />}

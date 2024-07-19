@@ -7,7 +7,7 @@ import Footer from '../Footer/Footer';
 import MemberShips from './MemberShips';
 import MyWorkout from './MyWorkout';
 import { useAppDispatch, useAppSelector } from '../../Hooks/hooks';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate, useParams } from 'react-router-dom';
 import { removeUser } from '../Redux/Slices/User';
 import './Helpers/formatForm';
 import PageMenu from '../PageMenu/PageMenu';
@@ -41,19 +41,16 @@ export const clearForm = (
   }));
 };
 
-export const UserPage: React.FC<Props> = ({
-  themeColor,
-  isMembership,
-  isMyWorkout,
-  isUserInfo,
-}) => {
-  // const [selectedMenu, setSelectedMenu] = useState<string>('user-info');
+export const UserPage: React.FC<Props> = ({ themeColor }) => {
+  const [selectedMenu, setSelectedMenu] = useState<string>('');
   const dispatch = useAppDispatch();
   const currentUser = useAppSelector(state => state.user.user);
 
   const [isMobilVersion, setIsMobilVersion] = useState<boolean>(
     window.innerWidth <= 536,
   );
+
+  useParams();
 
   useEffect(() => {
     const handleResize = () => {
@@ -84,11 +81,41 @@ export const UserPage: React.FC<Props> = ({
     navigate('/');
   };
 
+  const handleMenuClick = (menu: string) => {
+    setSelectedMenu(menu);
+    if (isMobilVersion) {
+      navigate(`/profile${menu}`);
+    }
+  };
+
+  const renderSelectedComponent = () => {
+    switch (selectedMenu) {
+      case '/user-info':
+        return (
+          <UserInfo
+            isMyWorkout={false}
+            isMembership={false}
+            isUserInfo={true}
+          />
+        );
+      case '/membership':
+        return <MemberShips />;
+      case '/my-workout':
+        return <MyWorkout />;
+      default:
+        return null;
+    }
+  };
+
+  const { id } = useParams();
+
+  // console.log(selectedMenu);
+
   return (
     <div className="wrapper-userPage">
       <Header themeColor={themeColor} />
       <section className="userPage">
-        {isMobilVersion && (
+        {isMobilVersion && id && (
           <div className="userPage__back">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -104,7 +131,10 @@ export const UserPage: React.FC<Props> = ({
                 strokeLinejoin="round"
               />
             </svg>
-            <p className="userPage__back-button" onClick={() => navigate(-1)}>
+            <p
+              className="userPage__back-button"
+              onClick={() => navigate('/profile')}
+            >
               Back
             </p>
           </div>
@@ -113,16 +143,13 @@ export const UserPage: React.FC<Props> = ({
         <h2 className="userPage__title">Profile</h2>
         <div className="userPage__info-container">
           <div className="userPage__info-container-menu">
-            {isMobilVersion && isUserInfo ? (
-              <UserInfo
-                isMyWorkout={false}
-                isMembership={false}
-                isUserInfo={false}
-              />
+            {isMobilVersion && id ? (
+              <>{renderSelectedComponent()}</>
             ) : (
               <ul className="userPage__info-container-menuList">
                 {list.map((item, ind) => (
                   <li
+                    onClick={() => handleMenuClick(item.path)}
                     key={ind}
                     className="userPage__info-container-menuList-icon"
                   >
@@ -179,15 +206,16 @@ export const UserPage: React.FC<Props> = ({
               </ul>
             )}
           </div>
-          {isUserInfo && !isMembership && !isMyWorkout && !isMobilVersion && (
+          {!isMobilVersion && renderSelectedComponent()}
+          {/* {isUserInfo && !isMembership && !isMyWorkout && !isMobilVersion && (
             <UserInfo
               isMyWorkout={false}
               isMembership={false}
               isUserInfo={false}
             />
           )}
-          {isMembership && !isMobilVersion && !isMyWorkout && <MemberShips />}
-          {isMyWorkout && !isMobilVersion && !isMembership && <MyWorkout />}
+          {id && !isMobilVersion && <MemberShips />}
+          {isMyWorkout && !isMobilVersion && !isMembership && <MyWorkout />} */}
         </div>
         <PageMenu themeColor={Theme.dark} />
       </section>

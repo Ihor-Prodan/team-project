@@ -143,7 +143,21 @@ export const Root: React.FC = () => {
             />
           </Route>
 
-          <Route
+          <Route element={<ProtectedRoute />}>
+            <Route
+              path="/profile/:id"
+              element={
+                <UserPage
+                  themeColor={Theme.light}
+                  isMyWorkout={false}
+                  isMembership={false}
+                  isUserInfo={false}
+                />
+              }
+            />
+          </Route>
+
+          {/* <Route
             path="/profile/user-info"
             element={
               <UserPage
@@ -153,9 +167,9 @@ export const Root: React.FC = () => {
                 isUserInfo={true}
               />
             }
-          />
+          /> */}
 
-          <Route
+          {/* <Route
             path="/profile/membership"
             element={
               <UserPage
@@ -165,9 +179,9 @@ export const Root: React.FC = () => {
                 isUserInfo={false}
               />
             }
-          />
+          /> */}
 
-          <Route
+          {/* <Route
             path="/profile/my-workout"
             element={
               <UserPage
@@ -177,7 +191,7 @@ export const Root: React.FC = () => {
                 isUserInfo={false}
               />
             }
-          />
+          /> */}
 
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
