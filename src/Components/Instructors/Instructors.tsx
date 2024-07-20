@@ -11,6 +11,7 @@ import { useAppDispatch, useAppSelector } from '../../Hooks/hooks';
 import { Auth } from '../Auth/Auth';
 import PageMenu from '../PageMenu/PageMenu';
 import { setIsOpenMenu } from '../Redux/Slices/Menu';
+import useLoader from '../../Hooks/loading';
 
 interface Props {
   themeColor: Theme;
@@ -22,6 +23,7 @@ export const Instructors: React.FC<Props> = ({ themeColor }) => {
   const currentUser = useAppSelector(state => state.user.user);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const isLoading = useLoader(1000);
 
   useEffect(() => {
     dispatch(setIsOpenMenu(false));
@@ -39,7 +41,7 @@ export const Instructors: React.FC<Props> = ({ themeColor }) => {
                 <div className="trainers__grid-card-image-top">Top trainer</div>
               )}
               <NavLink to={`/trainers/${trainer.id}`} className="w-full h-full">
-                {!trainer.image ? (
+                {isLoading ? (
                   <div className="loader-container">
                     <Loader />
                   </div>

@@ -42,13 +42,15 @@ export const clearForm = (
 };
 
 export const UserPage: React.FC<Props> = ({ themeColor }) => {
-  const [selectedMenu, setSelectedMenu] = useState<string>('');
+  const [selectedMenu, setSelectedMenu] = useState<string>('/user-info');
   const dispatch = useAppDispatch();
   const currentUser = useAppSelector(state => state.user.user);
 
   const [isMobilVersion, setIsMobilVersion] = useState<boolean>(
     window.innerWidth <= 536,
   );
+
+  const { id } = useParams();
 
   useParams();
 
@@ -106,10 +108,6 @@ export const UserPage: React.FC<Props> = ({ themeColor }) => {
         return null;
     }
   };
-
-  const { id } = useParams();
-
-  // console.log(selectedMenu);
 
   return (
     <div className="wrapper-userPage">
@@ -207,15 +205,6 @@ export const UserPage: React.FC<Props> = ({ themeColor }) => {
             )}
           </div>
           {!isMobilVersion && renderSelectedComponent()}
-          {/* {isUserInfo && !isMembership && !isMyWorkout && !isMobilVersion && (
-            <UserInfo
-              isMyWorkout={false}
-              isMembership={false}
-              isUserInfo={false}
-            />
-          )}
-          {id && !isMobilVersion && <MemberShips />}
-          {isMyWorkout && !isMobilVersion && !isMembership && <MyWorkout />} */}
         </div>
         <PageMenu themeColor={Theme.dark} />
       </section>

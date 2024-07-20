@@ -175,7 +175,6 @@ export const Timetable: React.FC<Props> = ({
       const findUserWorkout = currentUser.workouts?.find(w => w.id === item.id);
 
       if (findUserWorkout && findUserWorkout.date === trainingDate) {
-        // alert('You already have this workout scheduled.');
         dispatch(
           showAlert({
             message: 'You already registered for this workout.',

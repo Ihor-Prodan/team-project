@@ -9,6 +9,7 @@ import {
   formatDateForm,
   formatPhoneNumber,
 } from './Helpers/formatForm';
+import { showAlert } from '../Redux/Slices/Alert';
 
 interface Props {
   isMyWorkout: boolean;
@@ -57,18 +58,34 @@ const UserInfo: React.FC<Props> = ({
 
   const handleSubmit = () => {
     // e.preventDefault();
+    if (
+      formData.fullName.trim() !== '' ||
+      formData.email.trim() !== '' ||
+      formData.card.trim() !== '' ||
+      formData.cardDate.trim() !== '' ||
+      formData.cvv.trim() !== '' ||
+      formData.number.trim() !== ''
+    ) {
+      dispatch(
+        updateUser({
+          ...currentUser,
+          firstName: formData.fullName.split(' ')[0] || currentUser?.firstName,
+          lastName: formData.fullName.split(' ')[1] || currentUser?.lastName,
+          email: formData.email || currentUser?.email,
+          dataCard: {
+            cardNumber: formData.card || currentUser?.dataCard.cardNumber,
+            date: formData.cardDate || currentUser?.dataCard.date,
+            cvv: formData.cvv || currentUser?.dataCard.cvv,
+            phoneNumber: formData.number || currentUser?.dataCard.phoneNumber,
+          },
+        }),
+      );
+    }
+
     dispatch(
-      updateUser({
-        ...currentUser,
-        firstName: formData.fullName.split(' ')[0] || currentUser?.firstName,
-        lastName: formData.fullName.split(' ')[1] || currentUser?.lastName,
-        email: formData.email || currentUser?.email,
-        dataCard: {
-          cardNumber: formData.card || currentUser?.dataCard.cardNumber,
-          date: formData.cardDate || currentUser?.dataCard.date,
-          cvv: formData.cvv || currentUser?.dataCard.cvv,
-          phoneNumber: formData.number || currentUser?.dataCard.phoneNumber,
-        },
+      showAlert({
+        message: 'You already have an active membership.',
+        type: 'Active Membership Notice',
       }),
     );
   };
@@ -130,8 +147,10 @@ const UserInfo: React.FC<Props> = ({
     setActiveInput(id);
   };
 
-  const handleBlur = () => {
-    setActiveInput(null);
+  const handleBlur = (field: keyof UserData) => {
+    if (formData[field].trim() !== '') {
+      clearForm(field, setFormData);
+    }
   };
 
   return (
@@ -178,7 +197,7 @@ const UserInfo: React.FC<Props> = ({
             </svg>
             <input
               onFocus={() => handleFocus('fullName')}
-              onBlur={handleBlur}
+              onBlur={() => handleBlur('fullName')}
               value={formData.fullName}
               onChange={e => handleInputChange(e, 'fullName')}
               className="userPage__info-container-modalInfo-forms-personal-input"
@@ -211,7 +230,7 @@ const UserInfo: React.FC<Props> = ({
             </svg>
             <input
               onFocus={() => handleFocus('email')}
-              onBlur={handleBlur}
+              onBlur={() => handleBlur('email')}
               value={formData.email}
               onChange={e => handleInputChange(e, 'email')}
               className="userPage__info-container-modalInfo-forms-personal-input"
@@ -243,7 +262,7 @@ const UserInfo: React.FC<Props> = ({
             </svg>
             <input
               onFocus={() => handleFocus('number')}
-              onBlur={handleBlur}
+              onBlur={() => handleBlur('number')}
               value={formData.number}
               onChange={handlePhoneChange}
               className="userPage__info-container-modalInfo-forms-personal-input"
@@ -285,7 +304,7 @@ const UserInfo: React.FC<Props> = ({
               </svg>
               <input
                 onFocus={() => handleFocus('card')}
-                onBlur={handleBlur}
+                onBlur={() => handleBlur('card')}
                 value={formData.card}
                 onChange={handleCardNumberChange}
                 className="userPage__info-container-modalInfo-forms-personal-input"
@@ -319,7 +338,7 @@ const UserInfo: React.FC<Props> = ({
                 </svg>
                 <input
                   onFocus={() => handleFocus('cardDate')}
-                  onBlur={handleBlur}
+                  onBlur={() => handleBlur('cardDate')}
                   value={formData.cardDate}
                   onChange={handleDateChange}
                   className="userPage__info-container-modalInfo-forms-personal-input w-full"
@@ -352,7 +371,7 @@ const UserInfo: React.FC<Props> = ({
                 </svg>
                 <input
                   onFocus={() => handleFocus('cvv')}
-                  onBlur={handleBlur}
+                  onBlur={() => handleBlur('cvv')}
                   value={formData.cvv}
                   onChange={handleCVVChange}
                   className="userPage__info-container-modalInfo-forms-personal-input w-full"
