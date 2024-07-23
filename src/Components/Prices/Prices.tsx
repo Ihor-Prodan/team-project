@@ -120,13 +120,13 @@ export const Prices: React.FC<Props> = ({ themeColor }) => {
               <div className="prices__grid-card-container-content">
                 <div className="prices__grid-card-content">
                   <div>
-                    <GymIcon />
+                    <GymIcon isMember={currentUser?.membership.duration} />
                   </div>
                   <p className="prices__grid-card-content-text">Gym Access</p>
                 </div>
                 <div className="prices__grid-card-content">
                   <div className="ml-1">
-                    <GroupIcon />
+                    <GroupIcon isMember={currentUser?.membership.duration} />
                   </div>
                   <p className="prices__grid-card-content-text ml-0.5">
                     Unlimited Group Classes
@@ -134,7 +134,7 @@ export const Prices: React.FC<Props> = ({ themeColor }) => {
                 </div>
                 <div className="prices__grid-card-content">
                   <div className="ml-1">
-                    <LockerIcon />
+                    <LockerIcon isMember={currentUser?.membership.duration} />
                   </div>
                   <p className="prices__grid-card-content-text ml-1">
                     Locker Room Facilities
@@ -148,7 +148,11 @@ export const Prices: React.FC<Props> = ({ themeColor }) => {
                     className="prices__grid-card-benefits"
                     key={item.giveOne}
                   >
-                    <div>{item.giveOne && <GivIcon />}</div>
+                    <div>
+                      {item.giveOne && (
+                        <GivIcon isMember={currentUser?.membership.duration} />
+                      )}
+                    </div>
                     <p className="prices__grid-card-benefits-container-text">
                       {item.giveOne}
                     </p>
@@ -156,7 +160,7 @@ export const Prices: React.FC<Props> = ({ themeColor }) => {
                   <div className="prices__grid-card-benefits">
                     {item.giveTwo && (
                       <div>
-                        <GivIcon />
+                        <GivIcon isMember={currentUser?.membership.duration} />
                       </div>
                     )}
                     <p className="prices__grid-card-benefits-container-text">
@@ -166,7 +170,7 @@ export const Prices: React.FC<Props> = ({ themeColor }) => {
                   <div className="prices__grid-card-benefits">
                     {item.giveThree && (
                       <div>
-                        <GivIcon />
+                        <GivIcon isMember={currentUser?.membership.duration} />
                       </div>
                     )}
                     <p className="prices__grid-card-benefits-container-text">

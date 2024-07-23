@@ -222,7 +222,7 @@
       border-radius: 8px;
       background: var(--Primary-100, #D6D0CE);
       text-transform: uppercase;
-      transition: width 0.6s ease, font-size 0.6s ease;
+      transition: max-width 0.6s ease, font-size 0.6s ease;
 
       @media (min-width: 320px) and (max-width: 790px) {
         max-width: 100%;
@@ -240,15 +240,16 @@
       }
     
       &:active {
-        transition: width 0.6s ease, font-weight 0.6s ease;
+        transition: max-width 0.6s ease, font-weight 0.6s ease;
         font-size: 16px;
         font-style: normal;
         font-weight: 600;
         letter-spacing: 0.72px;
-        width: 370px;
+        max-width: 370px;
 
         @media (min-width: 320px) and (max-width: 700px) {
           font-size: 14px;
+          max-width: 100%;
         }
       }
 

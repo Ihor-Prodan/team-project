@@ -123,7 +123,7 @@ export const InfoInstructors: React.FC<Props> = ({ themeColor }) => {
               </div>
             </div>
             <button
-              className="workout__detail-grid-content-button"
+              className="workout__detail-grid-content-button mt-14"
               onClick={isUser}
             >
               <span className="workout__button-text">

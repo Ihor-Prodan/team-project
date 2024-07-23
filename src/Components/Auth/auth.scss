@@ -35,7 +35,7 @@
   margin-top: -7px;
   display: flex;
   font-size: 14px;
-  font-weight: 100;
+  font-weight: 300;
   line-height: 140%;
 
   @media (min-width:320px) and (max-width: 1060px) {
@@ -288,6 +288,10 @@
           border: 1px solid #575759;
         }
 
+        &:active {
+          border: 1px solid #575759;
+        }
+
           &-close {
             &--1 {
               position: absolute;
@@ -476,4 +480,7 @@
   }
 }
 
+input:focus, textarea:focus, select:focus {
+  outline: none;
+}
 

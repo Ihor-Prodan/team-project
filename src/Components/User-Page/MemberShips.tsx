@@ -60,7 +60,7 @@ export const Memberships: React.FC = () => {
             <div className="userPage__info-container-member-isMember-benefits-container">
               <div className="prices__grid-card-content">
                 <div>
-                  <GymIcon />
+                  <GymIcon isMember={currentUser.membership.duration} />
                 </div>
                 <p className="userPage__info-container-member-isMember-benefits-text">
                   Gym Access
@@ -68,7 +68,7 @@ export const Memberships: React.FC = () => {
               </div>
               <div className="prices__grid-card-content">
                 <div className="ml-1">
-                  <GroupIcon />
+                  <GroupIcon isMember={currentUser.membership.duration} />
                 </div>
                 <p className="userPage__info-container-member-isMember-benefits-text ml-0.5">
                   Unlimited Group Classes
@@ -76,7 +76,7 @@ export const Memberships: React.FC = () => {
               </div>
               <div className="prices__grid-card-content">
                 <div className="ml-1">
-                  <LockerIcon />
+                  <LockerIcon isMember={currentUser.membership.duration} />
                 </div>
                 <p className="userPage__info-container-member-isMember-benefits-text ml-1">
                   Locker Room Facilities
@@ -87,7 +87,7 @@ export const Memberships: React.FC = () => {
             <div className="userPage__info-container-member-isMember-benefits-container">
               <div className="prices__grid-card-content">
                 <div>
-                  <GivIcon />
+                  <GivIcon isMember={currentUser.membership.duration} />
                 </div>
                 <p className="userPage__info-container-member-isMember-benefits-text">
                   {currentUser.membership.giveOne}
@@ -96,7 +96,7 @@ export const Memberships: React.FC = () => {
               <div className="prices__grid-card-content">
                 {currentUser.membership.giveTwo && (
                   <div>
-                    <GivIcon />
+                    <GivIcon isMember={currentUser.membership.duration} />
                   </div>
                 )}
                 <p className="userPage__info-container-member-isMember-benefits-text ">
@@ -106,7 +106,7 @@ export const Memberships: React.FC = () => {
               <div className="prices__grid-card-content">
                 {currentUser.membership.giveThree && (
                   <div>
-                    <GivIcon />
+                    <GivIcon isMember={currentUser.membership.duration} />
                   </div>
                 )}
                 <p className="userPage__info-container-member-isMember-benefits-text ">

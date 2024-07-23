@@ -8,7 +8,6 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import useLoadAnimation from '../../Hooks/animation';
 import { CardType, initialStateCart } from '../Workout-plans/initialCartData';
 import useScrollToTop from '../../Hooks/location';
-import { setIsModal } from '../Redux/Slices/Modal';
 import { useAppDispatch, useAppSelector } from '../../Hooks/hooks';
 import { Auth } from '../Auth/Auth';
 import PageMenu from '../PageMenu/PageMenu';
@@ -144,7 +143,7 @@ export const WorkoutInfo: React.FC<Props> = ({ themeColor }) => {
             </div>
             <button
               className="workout__detail-grid-content-button"
-              onClick={() => dispatch(setIsModal(true))}
+              onClick={() => navigate('/timetable/trainer-led-workout')}
             >
               <span className="workout__button-text">
                 book a Trainer-Led Workout

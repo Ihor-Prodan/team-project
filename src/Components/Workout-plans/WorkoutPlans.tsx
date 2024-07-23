@@ -45,7 +45,7 @@ export const WorkoutPlans: React.FC<Props> = ({ themeColor, workoutName }) => {
         <div className="workout__title-description-container">
           <h2 className="workout__title">Workout plans</h2>
           {isSmallScreen && (
-            <h3 className="workout__title-group mb-6">{workoutName}</h3>
+            <h3 className="workout__title-group">{workoutName}</h3>
           )}
           <p className="workout__descriptions">
             Join our group sessions led by experienced trainers who create
@@ -53,7 +53,7 @@ export const WorkoutPlans: React.FC<Props> = ({ themeColor, workoutName }) => {
           </p>
         </div>
         {!isSmallScreen && (
-          <h3 className="workout__title-group mt-6">{workoutName}</h3>
+          <h3 className="workout__title-group">{workoutName}</h3>
         )}
         {worcoutsBlock.map(workout => (
           <Fragment key={workout}>

@@ -45,7 +45,7 @@ export const LedWorkout: React.FC<Props> = ({
         <div className="workout__title-description-container">
           <h2 className="workout__title">Workout plans</h2>
           {isSmallScreen && (
-            <h3 className="workout__title-group mb-6 mt-6">{workoutName}</h3>
+            <h3 className="workout__title-group">{workoutName}</h3>
           )}
           <p className="workout__descriptions">
             {isLedWorkout
@@ -54,7 +54,7 @@ export const LedWorkout: React.FC<Props> = ({
           </p>
         </div>
         {!isSmallScreen && (
-          <h3 className="workout__title-group mt-6">{workoutName}</h3>
+          <h3 className="workout__title-group">{workoutName}</h3>
         )}
         <div className="workout__content-container">
           <div className="workout__content-info-container">

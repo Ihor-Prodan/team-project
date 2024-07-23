@@ -37,15 +37,15 @@
     line-height: 100%;
     text-transform: uppercase;
     // animation: slideInFromBottom 1s ease-out;
-    animation: slideInFromBottom 0.6s cubic-bezier(0.2, 1, 0.3, 2) forwards;
+    animation: slideInFromBottom 1.2s cubic-bezier(0.3, 0.2, 0.1, 2) forwards;
   
     @keyframes slideInFromBottom {
       0% {
-        transform: translateY(100%);
+        transform: translateY(10%);
         opacity: 0;
       }
       70% {
-        transform: translateY(-30px);
+        transform: translateY(-15px);
         opacity: 1;
       }
       100% {
@@ -68,7 +68,8 @@
     font-weight: 200;
     line-height: 130%;
     // animation: slideInFromBottom 1s ease-out;
-    animation: slideInFromBottom 0.6s cubic-bezier(0.2, 1, 0.3, 2) forwards;
+    // animation: slideInFromBottom 1.2s cubic-bezier(0.2, 1, 0.3, 2) forwards;
+    animation: slideInFromBottom 1.2s cubic-bezier(0.3, 0.2, 0.1, 2) forwards;
 
     @media (min-width:320px) and (max-width: 782px) {
       font-size: 24px;
@@ -97,7 +98,8 @@
     overflow: hidden;
     transition: width 0.4s ease-in, font-size 0.4s ease;
     // animation: slideInFromBottom 1s ease-out;
-    animation: slideInFromBottom 0.6s cubic-bezier(0.2, 1, 0.3, 2) forwards;
+    // animation: slideInFromBottom 1.2s cubic-bezier(0.2, 1, 0.3, 2) forwards;
+    animation: slideInFromBottom 1.2s cubic-bezier(0.3, 0.2, 0.1, 2) forwards;
 
     &:hover {
       transition: width 0.4s ease, font-size 0.4s ease;
@@ -138,7 +140,7 @@
     background: var(--Gray-100-Gradient, linear-gradient(0deg, #111115 0%, rgba(17, 17, 21, 0.00) 100%));
     opacity: 0;
     transition: opacity 2s ease-in-out;
-    animation: slideInFromBottomRight 1s ease-out;
+    animation: slideInFromBottomRight 1.4s ease-out;
 
     @keyframes slideInFromBottomRight {
       0% {
