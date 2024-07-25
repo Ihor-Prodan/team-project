@@ -306,6 +306,19 @@
             background-color: #F3F4F6;
             outline: none;
 
+            &-tel {
+              display: flex;
+              height: 48px;
+              padding: 0px 16px 0 56px;
+              align-items: center;
+              gap: 8px;
+              align-self: stretch;
+              border-radius: 8px;
+              border: 1px solid var(--Gray-60, #B0B1B5);
+              background-color: #F3F4F6;
+              outline: none;
+            }
+
             &-clear {
               position: absolute;
               right: 18px;

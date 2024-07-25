@@ -41,6 +41,12 @@ export const clearForm = (
   }));
 };
 
+export const list = [
+  { name: 'Personal info', path: '/user-info' },
+  { name: 'Membership', path: '/membership' },
+  { name: 'Trainer-led workouts', path: '/my-workout' },
+];
+
 export const UserPage: React.FC<Props> = ({ themeColor }) => {
   const [selectedMenu, setSelectedMenu] = useState<string>('/user-info');
   const dispatch = useAppDispatch();
@@ -71,12 +77,6 @@ export const UserPage: React.FC<Props> = ({ themeColor }) => {
   useEffect(() => {
     dispatch(setIsOpenMenu(false));
   }, [navigate]);
-
-  const list = [
-    { name: 'Personal info', path: '/user-info' },
-    { name: 'Membership', path: '/membership' },
-    { name: 'Trainer-led workouts', path: '/my-workout' },
-  ];
 
   const handleRemoveUser = () => {
     dispatch(removeUser(currentUser));
@@ -147,11 +147,11 @@ export const UserPage: React.FC<Props> = ({ themeColor }) => {
               <ul className="userPage__info-container-menuList">
                 {list.map((item, ind) => (
                   <li
-                    onClick={() => handleMenuClick(item.path)}
                     key={ind}
                     className="userPage__info-container-menuList-icon"
                   >
                     <NavLink
+                      onClick={() => handleMenuClick(item.path)}
                       to={`/profile${item.path}`}
                       className={({ isActive }) =>
                         isActive

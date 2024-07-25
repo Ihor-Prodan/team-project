@@ -4,7 +4,7 @@ import { Navigation } from '../Navigation/Navigation';
 import './header.scss';
 import { useAppDispatch, useAppSelector } from '../../Hooks/hooks';
 import { Theme } from '../Redux/Slices/themeMode';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { setIsModal } from '../Redux/Slices/Modal';
 import useResponsive from '../../Hooks/sizing';
 import { setIsOpenMenu } from '../Redux/Slices/Menu';
@@ -37,6 +37,9 @@ export const Header: React.FC<Props> = ({ themeColor }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [lastScrollTop]);
   //Header-scroll function
+
+  const location = useLocation();
+  const isProfilePage = location.pathname.includes('profile');
 
   //link-class function (after, before, hover)
   const getLinkClass = (isActive: boolean) => {
@@ -152,8 +155,8 @@ export const Header: React.FC<Props> = ({ themeColor }) => {
           )
         ) : (
           <NavLink
-            to={'/profile'}
-            className={({ isActive }) => getLinkClass(isActive)}
+            to={'/profile/user-info'}
+            className={() => getLinkClass(isProfilePage)}
           >
             <p
               onClick={isUser}
