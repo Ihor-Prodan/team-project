@@ -151,7 +151,7 @@ const PrivacyPolicy: React.FC<Props> = ({ themeColor }) => {
         </ul>
       </section>
       <Footer />
-      {isModalVisible && currentUser && <Auth />}
+      {isModalVisible && !currentUser && <Auth />}
       <PageMenu themeColor={Theme.dark} />
     </div>
   );

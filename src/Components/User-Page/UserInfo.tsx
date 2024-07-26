@@ -52,7 +52,7 @@ const UserInfo: React.FC<Props> = ({
     cardDate: currentUser?.dataCard.date || '',
     cvv: currentUser?.dataCard.cvv || '',
   });
-  const [isVisiblePassword, setIsVisiblePassword] = useState(false);
+  const [isVisiblePassword, setIsVisiblePassword] = useState(true);
 
   const dispatch = useAppDispatch();
 
@@ -147,14 +147,6 @@ const UserInfo: React.FC<Props> = ({
   const visiblePassword = () => {
     setIsVisiblePassword(prev => !prev);
   };
-
-  // const handleBlur = (field: keyof UserData) => {
-  //   if (formData[field].trim() !== '') {
-  //     clearForm(field, setFormData);
-  //   }
-  // };
-
-  // console.log(userFullName.split(' ').join(''));
 
   return (
     <div className="userPage__info-container-modalInfo">
@@ -377,12 +369,9 @@ const UserInfo: React.FC<Props> = ({
                 <input
                   onFocus={() => handleFocus('cvv')}
                   onBlur={handleBlur}
-                  value={formData.cvv}
+                  value={isVisiblePassword ? '•••' : formData.cvv}
                   onChange={handleCVVChange}
                   className="userPage__info-container-modalInfo-forms-personal-input w-full"
-                  placeholder={
-                    isVisiblePassword ? `${currentUser?.dataCard.cvv}` : '•••'
-                  }
                 ></input>
               </div>
             </div>

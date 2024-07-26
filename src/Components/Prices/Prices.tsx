@@ -181,7 +181,7 @@ export const Prices: React.FC<Props> = ({ themeColor }) => {
                 <p className="prices__grid-card-price">
                   {item.price}
                   <span className="prices__grid-card-price-month">
-                    / 3 months
+                    / {item.duration} months
                   </span>
                 </p>
                 <button

@@ -56,7 +56,7 @@ export const HomePage: React.FC<Props> = ({ themeColor }) => {
 
   useEffect(() => {
     dispatch(setIsOpenMenu(false));
-  }, [navigate]);
+  }, [navigate, dispatch]);
 
   const isUser = () => {
     if (!currentUser) {

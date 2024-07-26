@@ -14,7 +14,7 @@ export const MyWorkout: React.FC = () => {
 
   useEffect(() => {
     dispatch(setIsOpenMenu(false));
-  }, [navigate]);
+  }, [dispatch, navigate]);
 
   const removeWorkout = (workoutId: string) => {
     if (currentUser) {

@@ -58,6 +58,9 @@ export const Timetable: React.FC<Props> = ({
   const navigate = useNavigate();
   const [showFirstSet, setShowFirstSet] = useState(true);
   const [visiblePart, setVisiblePart] = useState(0);
+  const timeTableHeader = useRef<HTMLDivElement>(null);
+  const [lastScrollTop, setLastScrollTop] = useState(0);
+  const [isScrolledUp, setIsScrolledUp] = useState(true);
 
   useEffect(() => {
     dispatch(setIsOpenMenu(false));
@@ -202,6 +205,12 @@ export const Timetable: React.FC<Props> = ({
       };
 
       dispatch(updateUser(updatedUser));
+      dispatch(
+        showAlert({
+          type: 'Workout Booked!',
+          message: 'We look forward to seeing you.',
+        }),
+      );
 
       return updatedUser;
     }
@@ -229,6 +238,19 @@ export const Timetable: React.FC<Props> = ({
   const toggleShowSet = () => {
     setShowFirstSet(!showFirstSet);
   };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+
+      setIsScrolledUp(scrollTop < lastScrollTop);
+      setLastScrollTop(scrollTop <= 0 ? 0 : scrollTop);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollTop]);
 
   const studioParts = [
     studio.slice(0, 1),
@@ -266,7 +288,12 @@ export const Timetable: React.FC<Props> = ({
         </div>
         <h3 className="timetable__title-group">{workoutName}</h3>
         <div className="timetable__calendar">
-          <div className="timetable__calendar-header">
+          <div
+            className={`timetable__calendar-header ${
+              isScrolledUp ? 'sticky' : ''
+            }`}
+            ref={timeTableHeader}
+          >
             {!isMobileVersion && (
               <svg
                 className="timetable__calendar-header-sliderButton"

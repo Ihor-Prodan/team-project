@@ -125,7 +125,7 @@ const RefundPolicy: React.FC<Props> = ({ themeColor }) => {
         </div>
       </section>
       <Footer />
-      {isModalVisible && currentUser && <Auth />}
+      {isModalVisible && !currentUser && <Auth />}
       <PageMenu themeColor={Theme.dark} />
     </div>
   );

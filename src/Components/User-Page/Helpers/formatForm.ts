@@ -31,20 +31,10 @@ export const formatDateForm = (value: string) => {
 
   if (match) {
     let month = match[1];
-    let year = match[2] || '';
+    const year = match[2] || '';
 
     if (parseInt(month, 10) > 12) {
       month = '12';
-    }
-
-    if (year) {
-      const parsedYear = parseInt(year, 10);
-
-      if (parsedYear < 24) {
-        year = '24';
-      } else if (parsedYear > 34) {
-        year = '34';
-      }
     }
 
     return [month, year].filter(Boolean).join('/');

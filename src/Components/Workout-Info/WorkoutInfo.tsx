@@ -45,7 +45,7 @@ export const WorkoutInfo: React.FC<Props> = ({ themeColor }) => {
 
   useEffect(() => {
     dispatch(setIsOpenMenu(false));
-  }, [id, navigate]);
+  }, [dispatch, id, navigate]);
 
   return (
     <div className="wrapper bg-[#111115]">
@@ -145,9 +145,7 @@ export const WorkoutInfo: React.FC<Props> = ({ themeColor }) => {
               className="workout__detail-grid-content-button"
               onClick={() => navigate('/timetable/trainer-led-workout')}
             >
-              <span className="workout__button-text">
-                book a Trainer-Led Workout
-              </span>
+              <span className="workout__button-text">Book a workout</span>
               <svg
                 className="workout__ready-button-arrow-white"
                 xmlns="http://www.w3.org/2000/svg"
