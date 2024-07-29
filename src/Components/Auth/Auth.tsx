@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/indent */
 /* eslint-disable max-len */
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import './auth.scss';
 import pictures from './Pictures/Sign-up.png';
 import picturesLogin from './Pictures/login.png';
@@ -80,103 +80,110 @@ export const Auth: React.FC = () => {
     };
   }, [newScreen, setNewScreen]);
 
-  const handleFocus = (id: string) => {
+  const handleFocus = useCallback((id: string) => {
     setActiveInput(id);
-  };
+  }, []);
 
-  const handleBlur = () => {
+  const handleBlur = useCallback(() => {
     setActiveInput(null);
-  };
+  }, []);
 
-  const validateForm = (data: FormData) => {
-    const schema = isConfirm ? schemaLogin : schemaSignUp;
-    const { error } = schema.validate(data, { abortEarly: false });
+  const validateForm = useCallback(
+    (data: FormData) => {
+      const schema = isConfirm ? schemaLogin : schemaSignUp;
+      const { error } = schema.validate(data, { abortEarly: false });
 
-    if (!error) {
-      return {};
-    }
-
-    const findErrors: Record<string, string> = {};
-
-    error.details.forEach(detail => {
-      findErrors[detail.path[0]] = detail.message;
-    });
-
-    return findErrors;
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-
-    setFormData({ ...formData, [name]: value });
-
-    const formErrors = validateForm({ ...formData, [name]: value });
-
-    setErrors(formErrors);
-  };
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const formErrors = validateForm(formData);
-
-    setErrors(formErrors);
-    if (Object.keys(formErrors).length === 0) {
-      const fullNameArray = formData.fullName?.split(' ');
-      let firstName = '';
-      let lastName = '';
-
-      if (fullNameArray && fullNameArray.length > 0) {
-        firstName = fullNameArray[0];
-        lastName = fullNameArray.slice(1).join(' ');
+      if (!error) {
+        return {};
       }
 
-      const user = {
-        firstName,
-        lastName,
-        email: formData.email,
-        password: formData.password,
-        membership: {
-          duration: '',
-          date: '',
-          giveOne: '',
-          giveTwo: '',
-          giveThree: '',
-        },
-        workout: [
-          {
-            trainerName: '',
-            date: '',
-            time: '',
-            location: '',
-          },
-        ],
-        dataCard: {
-          cardNumber: '',
-          cvv: '',
-          date: '',
-          phoneNumber: '',
-        },
-      };
+      const findErrors: Record<string, string> = {};
 
-      if (user.email !== currentUser?.email) {
-        dispatch(userLoad(user));
-      }
-
-      setFormData({
-        email: '',
-        password: '',
+      error.details.forEach(detail => {
+        findErrors[detail.path[0]] = detail.message;
       });
 
-      navigate('/profile');
+      return findErrors;
+    },
+    [isConfirm],
+  );
 
-      // eslint-disable-next-line no-console
-      console.log('Form submitted', user);
-    }
-  };
+  const handleChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { name, value } = e.target;
 
-  const visiblePassword = () => {
+      setFormData(prevFormData => {
+        const updatedFormData = { ...prevFormData, [name]: value };
+        const formErrors = validateForm(updatedFormData);
+
+        setErrors(formErrors);
+
+        return updatedFormData;
+      });
+    },
+    [validateForm],
+  );
+
+  const handleSubmit = useCallback(
+    (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      const formErrors = validateForm(formData);
+
+      setErrors(formErrors);
+      if (Object.keys(formErrors).length === 0) {
+        const fullNameArray = formData.fullName?.split(' ');
+        const firstName = fullNameArray?.[0] || '';
+        const lastName = fullNameArray?.slice(1).join(' ') || '';
+
+        const user = {
+          firstName,
+          lastName,
+          email: formData.email,
+          password: formData.password,
+          membership: {
+            duration: '',
+            date: '',
+            giveOne: '',
+            giveTwo: '',
+            giveThree: '',
+          },
+          workout: [
+            {
+              trainerName: '',
+              date: '',
+              time: '',
+              location: '',
+            },
+          ],
+          dataCard: {
+            cardNumber: '',
+            cvv: '',
+            date: '',
+            phoneNumber: '',
+          },
+        };
+
+        if (user.email !== currentUser?.email) {
+          dispatch(userLoad(user));
+        }
+
+        setFormData({
+          email: '',
+          password: '',
+        });
+
+        navigate('/profile');
+
+        // eslint-disable-next-line no-console
+        console.log('Form submitted', user);
+      }
+    },
+    [formData, currentUser?.email, dispatch, navigate, validateForm],
+  );
+
+  const visiblePassword = useCallback(() => {
     setIsVisiblePassword(prev => !prev);
-  };
+  }, []);
 
   const clearForm = (em: string) => {
     if (em === 'email') {

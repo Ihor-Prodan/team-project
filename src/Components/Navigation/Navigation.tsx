@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import './navigation.scss';
 import { useAppSelector } from '../../Hooks/hooks';
@@ -14,34 +14,40 @@ export const Navigation: React.FC<Props> = ({ themeColor }) => {
   );
   const theme = useAppSelector(state => state.theme.theme);
 
-  const getLinkClass = (isActive: boolean) => {
-    const baseClass = 'navigation__links';
-    const themeClass = themeColor
-      ? 'navigation__links-dark'
-      : 'navigation__links';
-    const activeClass = isActive
-      ? theme === themeColor
-        ? 'isActive'
-        : 'navigation-links-dark__isActive'
-      : '';
+  const getLinkClass = useCallback(
+    (isActive: boolean) => {
+      const baseClass = 'navigation__links';
+      const themeClass = themeColor
+        ? 'navigation__links-dark'
+        : 'navigation__links';
+      const activeClass = isActive
+        ? theme === themeColor
+          ? 'isActive'
+          : 'navigation-links-dark__isActive'
+        : '';
 
-    return `${baseClass} ${themeClass} ${activeClass}`;
-  };
+      return `${baseClass} ${themeClass} ${activeClass}`;
+    },
+    [theme, themeColor],
+  );
 
-  const getIconClass = (index: number) => {
-    const baseIconClass =
-      theme === themeColor
-        ? 'navigation__nav-items-icon'
-        : 'navigation__nav-items-icon-dark';
+  const getIconClass = useCallback(
+    (index: number) => {
+      const baseIconClass =
+        theme === themeColor
+          ? 'navigation__nav-items-icon'
+          : 'navigation__nav-items-icon-dark';
 
-    const rotateClass = activeDropdownIndex === index ? 'rotate-180' : '';
+      const rotateClass = activeDropdownIndex === index ? 'rotate-180' : '';
 
-    return `${baseIconClass} ${rotateClass}`;
-  };
+      return `${baseIconClass} ${rotateClass}`;
+    },
+    [activeDropdownIndex, theme, themeColor],
+  );
 
-  const handleIsDropdown = (index: number) => {
+  const handleIsDropdown = useCallback((index: number) => {
     setActiveDropdownIndex(prevIndex => (prevIndex === index ? null : index));
-  };
+  }, []);
 
   return (
     <section className="navigation">

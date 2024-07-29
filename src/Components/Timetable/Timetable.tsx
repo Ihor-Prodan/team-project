@@ -1,6 +1,12 @@
 /* eslint-disable @typescript-eslint/indent */
 /* eslint-disable max-len */
-import React, { useEffect, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import Header from '../Header/Header';
 import { Theme } from '../Redux/Slices/themeMode';
 import './timetable.scss';
@@ -79,17 +85,19 @@ export const Timetable: React.FC<Props> = ({
   }, [dispatch]);
 
   //create grid-elements
-  const timetableGrid = times.map(t => ({
-    time: t,
-    studios: studio.map(stud => ({
-      studio: stud,
-      class:
-        schedule
-          .filter(slot => slot.time.startsWith(t))
-          .flatMap(slot => slot.classes.filter(c => c.studio === stud))[0] ||
-        null,
-    })),
-  }));
+  const timetableGrid = useMemo(() => {
+    return times.map(t => ({
+      time: t,
+      studios: studio.map(stud => ({
+        studio: stud,
+        class:
+          schedule
+            .filter(slot => slot.time.startsWith(t))
+            .flatMap(slot => slot.classes.filter(c => c.studio === stud))[0] ||
+          null,
+      })),
+    }));
+  }, [schedule]);
   //create grid-elements
 
   // const updateCapacities = () => {
@@ -106,10 +114,12 @@ export const Timetable: React.FC<Props> = ({
   //   }
   // };
 
-  const getRandomElement = (arr: string | any[]) =>
-    arr[Math.floor(Math.random() * arr.length)];
+  const getRandomElement = useCallback(
+    (arr: string | any[]) => arr[Math.floor(Math.random() * arr.length)],
+    [],
+  );
 
-  const updateCapacities = () => {
+  const updateCapacities = useCallback(() => {
     if (schedule) {
       const newSchedule = schedule.map(day => ({
         ...day,
@@ -123,20 +133,20 @@ export const Timetable: React.FC<Props> = ({
 
       setSchedule(newSchedule);
     }
-  };
+  }, [schedule, getRandomElement]);
 
   //swiper logic
-  const slideNext = () => {
+  const slideNext = useCallback(() => {
     if (swiperRef.current) {
       swiperRef.current.slideNext();
     }
-  };
+  }, []);
 
-  const slidePrev = () => {
+  const slidePrev = useCallback(() => {
     if (swiperRef.current) {
       swiperRef.current.slidePrev();
     }
-  };
+  }, []);
 
   const handleCurrentDay = (dayIndex: number) => {
     if (swiperRef.current) {
@@ -235,9 +245,9 @@ export const Timetable: React.FC<Props> = ({
     };
   }, [adaptiveTimetable, setAdaptiveTimetable]);
 
-  const toggleShowSet = () => {
-    setShowFirstSet(!showFirstSet);
-  };
+  const toggleShowSet = useCallback(() => {
+    setShowFirstSet(prevShowFirstSet => !prevShowFirstSet);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {

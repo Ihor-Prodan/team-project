@@ -1,39 +1,28 @@
 import axios from 'axios';
 import { User } from '../Components/Redux/Slices/User';
+import { Trainers } from '../Components/Redux/Slices/Trainers';
+import { Workouts } from '../Components/Redux/Slices/Workouts';
 
 axios.defaults.baseURL = 'http://localhost:8080/';
 
-export function getUser(): Promise<User> {
-  return axios.get('/users').then((res: { data: User }) => res.data);
+export function getTrainers(): Promise<Trainers> {
+  return axios.get('/couch').then((res: { data: Trainers }) => res.data);
 }
 
-// export function getAllMesages(): Promise<Message[]> {
-//   return axios.get('/messages').then((res: { data: Message[] }) => res.data);
-// }
+export function getWorkout(): Promise<Workouts> {
+  return axios.get('/webinars').then((res: { data: Workouts }) => res.data);
+}
 
-// export async function getOneUser(userId: string): Promise<UserType[]> {
-//   const response = await axios.get(`/users/${userId}`);
+export async function getUser(userId: string): Promise<User> {
+  const response = await axios.get(`/users/${userId}`);
 
-//   return response.data;
-// }
-
-// export async function removeUser(userId: string): Promise<string> {
-//   const response = await axios.delete(`/users/${userId}`);
-
-//   return response.statusText;
-// }
-
-// export async function deleteMessage(messageId: string): Promise<string> {
-//   const response = await axios.delete(`/messages/${messageId}`);
-
-//   return response.statusText;
-// }
+  return response.data;
+}
 
 // export async function addNewUser(newUser: {
 //   firstName: string;
 //   lastName: string;
 //   fullName: string;
-//   avatar: string;
 //   id: string;
 //   email: string;
 //   status: boolean;

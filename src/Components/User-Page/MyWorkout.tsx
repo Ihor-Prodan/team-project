@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import './userPage.scss';
 import './myworkout.scss';
 import { useAppDispatch, useAppSelector } from '../../Hooks/hooks';
@@ -16,19 +16,22 @@ export const MyWorkout: React.FC = () => {
     dispatch(setIsOpenMenu(false));
   }, [dispatch, navigate]);
 
-  const removeWorkout = (workoutId: string) => {
-    if (currentUser) {
-      const updatedWorkouts = currentUser.workouts.filter(
-        workout => workout.id !== workoutId,
-      );
-      const updatedUser = {
-        ...currentUser,
-        workouts: updatedWorkouts,
-      };
+  const removeWorkout = useCallback(
+    (workoutId: string) => {
+      if (currentUser) {
+        const updatedWorkouts = currentUser.workouts.filter(
+          workout => workout.id !== workoutId,
+        );
+        const updatedUser = {
+          ...currentUser,
+          workouts: updatedWorkouts,
+        };
 
-      dispatch(updateUser(updatedUser));
-    }
-  };
+        dispatch(updateUser(updatedUser));
+      }
+    },
+    [currentUser, dispatch],
+  );
 
   return (
     <div className="userPage__info-container-modalInfo">

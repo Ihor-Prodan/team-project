@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import './menu.scss';
 import { Theme } from '../Redux/Slices/themeMode';
 import Header from '../Header/Header';
@@ -22,34 +22,29 @@ export const PageMenu: React.FC<Props> = ({ themeColor }) => {
   const navigate = useNavigate();
 
   const getLinkClass = (isActive: boolean) => {
-    const baseClass = 'navigation__links';
-    const themeClass =
-      themeColor === Theme.dark
-        ? 'navigation__links-dark'
-        : 'navigation__links';
-    const activeClass = isActive
-      ? theme !== themeColor
-        ? 'navigation-links-dark__isActive'
-        : 'isActive'
-      : '';
+    const baseClass = 'menu__menu-item-dark';
+    const activeClass = isActive ? 'isActiveLink' : '';
 
-    return `${baseClass} ${themeClass} ${activeClass}`;
+    return `${baseClass} ${activeClass}`;
   };
 
-  const getIconClass = (index: number) => {
-    const baseIconClass =
-      theme === themeColor
-        ? 'navigation__nav-items-icon-dark'
-        : 'navigation__nav-items-icon';
+  const getIconClass = useCallback(
+    (index: number) => {
+      const baseIconClass =
+        theme === themeColor
+          ? 'navigation__nav-items-icon-dark'
+          : 'navigation__nav-items-icon';
 
-    const rotateClass = activeDropdownIndex === index ? 'rotate-180' : '';
+      const rotateClass = activeDropdownIndex === index ? 'rotate-180' : '';
 
-    return `${baseIconClass} ${rotateClass}`;
-  };
+      return `${baseIconClass} ${rotateClass}`;
+    },
+    [activeDropdownIndex, theme, themeColor],
+  );
 
-  const handleIsDropdown = (index: number) => {
+  const handleIsDropdown = useCallback((index: number) => {
     setActiveDropdownIndex(prevIndex => (prevIndex === index ? null : index));
-  };
+  }, []);
 
   const isUser = () => {
     if (!currentUser) {
