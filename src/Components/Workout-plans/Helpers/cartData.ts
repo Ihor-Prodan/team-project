@@ -81,6 +81,6 @@ export const workoutPlansLed = [
     title: 'Preparation Tips',
     description:
       'Bring a water bottle and a face towel to enhance your comfort and productivity.',
-    icon: TechniqueIcon,
+    icon: TipsIcon,
   },
 ];
