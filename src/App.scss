@@ -7,3 +7,30 @@ body {
   display: none;
 }
 
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px #F3F4F6 inset;
+    -webkit-text-fill-color: #575759;
+}
+
+input:-moz-autofill {
+    box-shadow: 0 0 0 1000px #F3F4F6 inset;
+    -moz-text-fill-color: #575759;
+}
+
+input:-webkit-autofill,
+input:-moz-autofill,
+input:-ms-autofill,
+input:-o-autofill {
+    box-shadow: 0 0 0 1000px #F3F4F6 inset !important;
+    -webkit-box-shadow: 0 0 0 1000px #F3F4F6 inset !important;
+    -moz-box-shadow: 0 0 0 1000px #F3F4F6 inset !important;
+    -ms-box-shadow: 0 0 0 1000px #F3F4F6 inset !important;
+    -o-box-shadow: 0 0 0 1000px #F3F4F6 inset !important;
+    -webkit-text-fill-color: #575759 !important;
+    -moz-text-fill-color: #575759 !important;
+    -ms-text-fill-color: #575759 !important;
+    -o-text-fill-color: #575759 !important;
+    color: #575759 !important;
+}
+
+

@@ -2,7 +2,7 @@
 import React from 'react';
 
 interface Props {
-  isMember: string | undefined;
+  isMember: boolean;
 }
 
 export const GymIcon: React.FC<Props> = ({ isMember }) => (

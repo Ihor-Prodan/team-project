@@ -77,7 +77,13 @@ export const LedWorkout: React.FC<Props> = ({
             })}
             <button
               className="workout__content-info-bookButton"
-              onClick={() => navigate('/timetable/trainer-led-workout')}
+              onClick={() =>
+                navigate(
+                  isLedWorkout
+                    ? '/timetable/trainer-led-workout'
+                    : '/timetable/group-workout',
+                )
+              }
             >
               <span className="workout__button-text">Book a Workout</span>
               <svg
