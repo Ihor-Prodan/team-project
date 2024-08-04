@@ -108,10 +108,20 @@ export const Footer: React.FC = () => {
                 />
               </svg>
             )}
-            {contacts.map(contact => (
-              <a className="footer__contact-link" key={contact}>
-                <p className="footer__contact">{contact}</p>
-              </a>
+            {contacts.map(({ type, value, url }) => (
+              <div
+                key={value}
+                className={`footer__contact-item footer__contact-item--${type}`}
+              >
+                <a
+                  className="footer__contact-link"
+                  href={url}
+                  target={type === 'phone' ? '_self' : '_blank'}
+                  rel="noopener noreferrer"
+                >
+                  <p className="footer__contact">{value}</p>
+                </a>
+              </div>
             ))}
           </div>
           <div className="footer__block-nav">
@@ -134,9 +144,15 @@ export const Footer: React.FC = () => {
             </section>
             {isSmallScreen && (
               <div className="footer__block-social">
-                {social.map(soc => (
-                  <a className="footer__social-link" key={soc}>
-                    <p className="footer__social">{soc}</p>
+                {social.map(({ name, url }) => (
+                  <a
+                    className="footer__social-link"
+                    key={name}
+                    href={url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <p className="footer__social">{name}</p>
                   </a>
                 ))}
               </div>
@@ -144,9 +160,15 @@ export const Footer: React.FC = () => {
           </div>
           {!isSmallScreen && (
             <div className="footer__block-social">
-              {social.map(soc => (
-                <a className="footer__social-link" key={soc}>
-                  <p className="footer__social">{soc}</p>
+              {social.map(({ name, url }) => (
+                <a
+                  className="footer__social-link"
+                  key={name}
+                  href={url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <p className="footer__social">{name}</p>
                 </a>
               ))}
             </div>

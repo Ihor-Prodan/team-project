@@ -49,10 +49,15 @@ export const Contacts: React.FC<Props> = ({ themeColor }) => {
           <div className="contacts__container-visitUs">
             <h4 className="contacts__container-title">Visit us</h4>
             <p className="contacts__container-visitUs-content">
-              Adress:
-              <span className="contacts__container-visitUs-content-text">
-                Kyiv, Velyka Vasylkivska Street, 72
-              </span>
+              Address:
+              <a
+                href="https://www.google.com/maps/search/?api=1&query=Velyka+Vasylkivska+Street,+72,+Kyiv,+Ukraine"
+                className="contacts__container-visitUs-content-text"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Velyka Vasylkivska Street, 72, Kyiv
+              </a>
             </p>
             <div className="contacts__container-visitUs-content-opening">
               <p className="contacts__container-visitUs-content-opening-hours">
@@ -70,15 +75,21 @@ export const Contacts: React.FC<Props> = ({ themeColor }) => {
             <h4 className="contacts__container-title">Contact us</h4>
             <p className="contacts__container-content">
               Telephone number:
-              <span className="contacts__container-content-text">
+              <a
+                href="tel:+380441234567"
+                className="contacts__container-content-text"
+              >
                 +380 (44) 123-4567
-              </span>
+              </a>
             </p>
             <p className="contacts__container-content">
               Email:
-              <span className="contacts__container-content-text">
+              <a
+                className="contacts__container-content-text"
+                href="mailto:info@pulsegym.ua"
+              >
                 info@pulsegym.ua
-              </span>
+              </a>
             </p>
           </div>
           <div className="contacts__container-description">

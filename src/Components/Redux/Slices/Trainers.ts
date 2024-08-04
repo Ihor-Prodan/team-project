@@ -1,21 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { PayloadAction, createSlice, Slice } from '@reduxjs/toolkit';
-import axios from 'axios'; // Імпорт Axios
-import { AppDispatch } from '../Store/store';
-
 export const BASE_URL = 'http://localhost:8080';
-
-export const fetchTrainers = () => async (dispatch: AppDispatch) => {
-  try {
-    const response = await axios.get(`${BASE_URL}/couch/find`);
-
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    dispatch(trainersLoaded(response.data.workouts));
-  } catch (error) {
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    setError('Enable to load trainers');
-  }
-};
 
 export interface Trainers {
   id: string;

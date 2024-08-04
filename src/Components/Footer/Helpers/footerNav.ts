@@ -1,10 +1,28 @@
 export const contacts = [
-  'Kyiv, Velyka Vasylkivska Street, 72',
-  '+380 (44) 123-4567',
-  'info@pulsegym.ua',
+  {
+    type: 'address',
+    value: 'Kyiv, Velyka Vasylkivska Street, 72',
+    // eslint-disable-next-line max-len
+    url: 'https://www.google.com/maps/search/?api=1&query=Velyka+Vasylkivska+Street,+72,+Kyiv,+Ukraine',
+  },
+  { type: 'phone', value: '+380 (44) 123-4567', url: 'tel:+380441234567' },
+  { type: 'email', value: 'info@pulsegym.ua', url: 'mailto:info@pulsegym.ua' },
 ];
 
-export const social = ['Instagram', 'Facebook', 'YouTube'];
+export const social = [
+  {
+    name: 'Instagram',
+    url: 'https://www.instagram.com',
+  },
+  {
+    name: 'Facebook',
+    url: 'https://www.facebook.com',
+  },
+  {
+    name: 'YouTube',
+    url: 'https://www.youtube.com',
+  },
+];
 
 export const navItems = [
   { name: 'Timetable', path: '/timetable/group-workout' },
