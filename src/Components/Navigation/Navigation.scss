@@ -18,6 +18,7 @@
   &__links {
     padding-block: 16px;
     position: relative;
+    cursor: pointer;
 
     &:hover::after, &:active::after {
       content: '';

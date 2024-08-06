@@ -3,14 +3,8 @@ import { Swiper as ReactSwiper, SwiperSlide } from 'swiper/react';
 import Swiper from 'swiper';
 import 'swiper/css';
 import './mySwiper.scss';
-import one from './Pictures/Number=01.png';
-import two from './Pictures/Number=02.png';
-import three from './Pictures/Number=03.png';
-import four from './Pictures/Number=04.png';
-import five from './Pictures/Number=05.png';
-import six from './Pictures/Number=06.png';
-import seven from './Pictures/Number=07.png';
 import useResponsive from '../../Hooks/sizing';
+import { slides } from './Helpers/Slides';
 
 export const MySwiper: React.FC = () => {
   const swiperRef = useRef<Swiper | null>(null);
@@ -28,8 +22,6 @@ export const MySwiper: React.FC = () => {
       swiperRef.current.slidePrev();
     }
   };
-
-  const slides = [one, two, three, four, five, six, seven];
 
   const startInterval = () => {
     intervalRef.current = setInterval(() => {

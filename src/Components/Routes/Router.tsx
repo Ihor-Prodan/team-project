@@ -63,6 +63,7 @@ export const Root: React.FC = () => {
               />
             }
           />
+
           <Route
             path="workout/group-workout"
             element={
@@ -72,7 +73,6 @@ export const Root: React.FC = () => {
               />
             }
           />
-
           <Route
             path="workout/trainer-led-workout"
             element={
@@ -93,6 +93,7 @@ export const Root: React.FC = () => {
               />
             }
           />
+
           <Route
             path="workout/group-workout/:id"
             element={<WorkoutInfo themeColor={Theme.dark} />}

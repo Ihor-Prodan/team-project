@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import './navigation.scss';
 import { useAppSelector } from '../../Hooks/hooks';
 import { Theme } from '../Redux/Slices/themeMode';
@@ -13,6 +13,9 @@ export const Navigation: React.FC<Props> = ({ themeColor }) => {
     null,
   );
   const theme = useAppSelector(state => state.theme.theme);
+
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const getLinkClass = useCallback(
     (isActive: boolean) => {
@@ -49,21 +52,33 @@ export const Navigation: React.FC<Props> = ({ themeColor }) => {
     setActiveDropdownIndex(prevIndex => (prevIndex === index ? null : index));
   }, []);
 
+  const handleNavigate = useCallback(
+    (path: string) => {
+      navigate(path);
+      setActiveDropdownIndex(null);
+    },
+    [navigate],
+  );
+
   return (
     <section className="navigation">
       <nav className="navigation__nav">
         <ul className="navigation__nav-list">
           {navItems.map((item, index) => (
-            <NavLink
-              onClick={e =>
-                (item.dropdownItems?.length && e?.preventDefault()) ||
-                handleIsDropdown(index)
-              }
-              to={`/${item.path}`}
+            <div
+              onClick={e => {
+                if (item.dropdownItems?.length) {
+                  e.preventDefault();
+                  handleIsDropdown(index);
+                } else {
+                  handleNavigate(`/${item.path}`);
+                }
+              }}
               key={item.path}
-              className={({ isActive }) =>
-                getLinkClass(isActive || activeDropdownIndex === index)
-              }
+              className={getLinkClass(
+                location.pathname.includes('/' + item.path) ||
+                  activeDropdownIndex === index,
+              )}
             >
               <div className="navigation__nav-items-drobdown-conteiner">
                 <li
@@ -123,7 +138,7 @@ export const Navigation: React.FC<Props> = ({ themeColor }) => {
                   </>
                 )}
               </div>
-            </NavLink>
+            </div>
           ))}
         </ul>
       </nav>

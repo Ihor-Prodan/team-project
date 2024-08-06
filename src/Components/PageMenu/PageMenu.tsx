@@ -4,7 +4,7 @@ import { Theme } from '../Redux/Slices/themeMode';
 import Header from '../Header/Header';
 import { useAppDispatch, useAppSelector } from '../../Hooks/hooks';
 import navItems from '../Navigation/Helpers/navItems';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { setIsModal } from '../Redux/Slices/Modal';
 
 interface Props {
@@ -20,6 +20,7 @@ export const PageMenu: React.FC<Props> = ({ themeColor }) => {
   const dispatch = useAppDispatch();
   const theme = Theme.light;
   const navigate = useNavigate();
+  const location = useLocation();
 
   const getLinkClass = (isActive: boolean) => {
     const baseClass = 'menu__menu-item-dark';
@@ -54,6 +55,14 @@ export const PageMenu: React.FC<Props> = ({ themeColor }) => {
     }
   };
 
+  const handleNavigate = useCallback(
+    (path: string) => {
+      navigate(path);
+      setActiveDropdownIndex(null);
+    },
+    [navigate],
+  );
+
   return (
     <div className="wrapper-menu">
       <section className={`menu ${isOpen ? 'open' : ''}`}>
@@ -61,16 +70,20 @@ export const PageMenu: React.FC<Props> = ({ themeColor }) => {
         <div className="menu__nav">
           <ul className="menu__nav-list">
             {navItems.map((item, index) => (
-              <NavLink
-                onClick={e =>
-                  (item.dropdownItems?.length && e?.preventDefault()) ||
-                  handleIsDropdown(index)
-                }
-                to={`/${item.path}`}
+              <div
+                onClick={e => {
+                  if (item.dropdownItems?.length) {
+                    e.preventDefault();
+                    handleIsDropdown(index);
+                  } else {
+                    handleNavigate(`/${item.path}`);
+                  }
+                }}
                 key={item.path}
-                className={({ isActive }) =>
-                  getLinkClass(isActive || activeDropdownIndex === index)
-                }
+                className={getLinkClass(
+                  location.pathname.includes('/' + item.path) ||
+                    activeDropdownIndex === index,
+                )}
               >
                 <div className="navigation__nav-items-drobdown-conteiner">
                   <li
@@ -130,7 +143,7 @@ export const PageMenu: React.FC<Props> = ({ themeColor }) => {
                     </>
                   )}
                 </div>
-              </NavLink>
+              </div>
             ))}
           </ul>
         </div>
