@@ -24,7 +24,7 @@ export const times = [
   '21:00',
 ];
 
-export type Class = {
+export type Training = {
   time: string;
   name: string;
   studio: string;
@@ -38,7 +38,7 @@ export type Class = {
 
 export type WorkoutTimetable = {
   time: string;
-  classes: Class[];
+  classes: Training[];
 };
 
 export const timetable = [

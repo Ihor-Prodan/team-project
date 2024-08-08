@@ -173,9 +173,6 @@ export const Auth: React.FC = () => {
         });
 
         navigate('/profile');
-
-        // eslint-disable-next-line no-console
-        console.log('Form submitted', user);
       }
     },
     [formData, currentUser?.email, dispatch, navigate, validateForm],

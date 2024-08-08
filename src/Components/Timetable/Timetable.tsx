@@ -18,7 +18,7 @@ import { useAppDispatch, useAppSelector } from '../../Hooks/hooks';
 import { setCurrentDayIndex, setDays } from '../Redux/Slices/Calendar';
 import useScrollToTop from '../../Hooks/location';
 import {
-  Class,
+  Training,
   studio,
   times,
   WorkoutTimetable,
@@ -165,7 +165,7 @@ export const Timetable: React.FC<Props> = ({
   }, [days]);
   //swiper logic
 
-  const handleBookWorkout = (item: Class): User | void => {
+  const handleBookWorkout = (item: Training): User | void => {
     const selectedDay = days[currentDayIndex];
 
     if (!selectedDay) {

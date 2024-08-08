@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { PayloadAction, createSlice, Slice } from '@reduxjs/toolkit';
 import { Membership } from '../../Prices/Helpers/priceCardInfo';
-import { Class } from '../../Timetable/Helpers/timetableData';
+import { Training } from '../../Timetable/Helpers/timetableData';
 
 export const BASE_URL = 'http://localhost:8080';
 
@@ -23,7 +23,7 @@ export type User = {
   email: string | null;
   password: string | null;
   membership: Membership;
-  workouts: Class[];
+  workouts: Training[];
   dataCard: CardData;
 };
 
