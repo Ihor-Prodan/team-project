@@ -8,7 +8,7 @@ import { Trainers } from '../Types/TrainerType';
 import { Membership } from '../Types/Membership';
 
 axios.defaults.baseURL =
-  'http://pulse-gym-servernode-production.up.railway.app';
+  'https://pulse-gym-servernode-production.up.railway.app';
 
 export function getTrainers(): Promise<Trainers[]> {
   return axios.get('/trainers').then((res: { data: Trainers[] }) => res.data);
