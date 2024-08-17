@@ -17,35 +17,37 @@ import { Swiper as ReactSwiper, SwiperSlide } from 'swiper/react';
 import { useAppDispatch, useAppSelector } from '../../Hooks/hooks';
 import { setCurrentDayIndex, setDays } from '../Redux/Slices/Calendar';
 import useScrollToTop from '../../Hooks/location';
-import {
-  Training,
-  studio,
-  times,
-  WorkoutTimetable,
-} from './Helpers/timetableData';
+import { groupTrainingsByTime, studio, times } from './Helpers/timetableData';
 import { setIsModal } from '../Redux/Slices/Modal';
 import { Auth } from '../Auth/Auth';
-import { updateUser, User } from '../Redux/Slices/User';
 import PageMenu from '../PageMenu/PageMenu';
 import { useNavigate } from 'react-router-dom';
 import { setIsOpenMenu } from '../Redux/Slices/Menu';
 import { showAlert } from '../Redux/Slices/Alert';
 import CustomAlert from '../CustomAlert/CustomAlert';
+import { BookWorkout } from '../../Types/BookWorcouts';
+import {
+  getAllTrainings,
+  getBookWorkout,
+  getUserById,
+} from '../../FechAPI/fechData';
+import { userLoad } from '../Redux/Slices/User';
+import { Training } from '../../Types/TrainingsType';
+import { WorkoutTimetable } from '../../Types/TimeTableType';
 
 interface Props {
   themeColor: Theme;
   workoutName: string;
   isLedWorkout: boolean;
-  timetableDate: WorkoutTimetable[];
 }
 
 export const Timetable: React.FC<Props> = ({
   themeColor,
   workoutName,
   isLedWorkout,
-  timetableDate,
 }) => {
   useScrollToTop();
+  const [trainings, setTrainings] = useState<Training[]>([]);
   const [adaptiveTimetable, setAdaptiveTimetable] = useState<boolean>(
     window.innerWidth <= 1100,
   );
@@ -60,7 +62,7 @@ export const Timetable: React.FC<Props> = ({
   );
   const dispatch = useAppDispatch();
   const swiperRef = useRef<Swiper | null>(null);
-  const [schedule, setSchedule] = useState(timetableDate);
+  const [schedule, setSchedule] = useState<WorkoutTimetable[]>([]);
   const navigate = useNavigate();
   const [showFirstSet, setShowFirstSet] = useState(true);
   const [visiblePart, setVisiblePart] = useState(0);
@@ -69,8 +71,24 @@ export const Timetable: React.FC<Props> = ({
   const [isScrolledUp, setIsScrolledUp] = useState(true);
 
   useEffect(() => {
+    getAllTrainings().then(data => setTrainings(data));
+  }, []);
+
+  const filtredWorkouts = useMemo(() => {
+    if (isLedWorkout) {
+      return trainings.filter(item => item.name !== '');
+    } else {
+      return trainings.filter(item => item.name === '');
+    }
+  }, [trainings, isLedWorkout]);
+
+  useEffect(() => {
     dispatch(setIsOpenMenu(false));
   }, [navigate]);
+
+  useEffect(() => {
+    setSchedule(groupTrainingsByTime(filtredWorkouts));
+  }, [filtredWorkouts, trainings]);
 
   useEffect(() => {
     dispatch(setDays());
@@ -100,20 +118,6 @@ export const Timetable: React.FC<Props> = ({
   }, [schedule]);
   //create grid-elements
 
-  // const updateCapacities = () => {
-  //   if (schedule) {
-  //     const newSchedule = schedule.map(day => ({
-  //       ...day,
-  //       classes: day.classes.map(item => ({
-  //         ...item,
-  //         capacity: Math.random() < 0.5 ? '0' : '1',
-  //       })),
-  //     }));
-
-  //     setSchedule(newSchedule);
-  //   }
-  // };
-
   const getRandomElement = useCallback(
     (arr: string | any[]) => arr[Math.floor(Math.random() * arr.length)],
     [],
@@ -125,8 +129,7 @@ export const Timetable: React.FC<Props> = ({
         ...day,
         classes: day.classes.map(item => ({
           ...item,
-          capacity: Math.random() < 0.5 ? '0' : '1',
-          time: getRandomElement(times),
+          capacity: Math.random() < 0.5 ? 0 : 1,
           studio: getRandomElement(studio),
         })),
       }));
@@ -165,7 +168,7 @@ export const Timetable: React.FC<Props> = ({
   }, [days]);
   //swiper logic
 
-  const handleBookWorkout = (item: Training): User | void => {
+  const handleBookWorkout = async (item: Training): Promise<void> => {
     const selectedDay = days[currentDayIndex];
 
     if (!selectedDay) {
@@ -181,7 +184,6 @@ export const Timetable: React.FC<Props> = ({
     }
 
     const currentYear = new Date().getFullYear();
-
     const trainingDate = `${selectedDay.date}.${currentYear}`;
 
     if (currentUser) {
@@ -198,31 +200,38 @@ export const Timetable: React.FC<Props> = ({
         return;
       }
 
-      const updatedUser: User = {
-        ...currentUser,
-        workouts: [
-          ...(currentUser.workouts ?? []),
-          {
-            ...item,
-            id: item.id,
-            date: trainingDate,
-            time: item.time,
-            studio: item.studio,
-            trainer: item.trainer,
-            location: item.location,
-          },
-        ],
+      const bookWorkout: BookWorkout = {
+        time: item.time,
+        name: item.name,
+        studio: item.studio,
+        trainer: item.trainer,
+        id: item.id,
+        location: item.location,
+        date: trainingDate,
+        hard: item.hard,
+        userId: currentUser.userId,
       };
 
-      dispatch(updateUser(updatedUser));
-      dispatch(
-        showAlert({
-          type: 'Workout Booked!',
-          message: 'We look forward to seeing you.',
-        }),
-      );
+      try {
+        await getBookWorkout(bookWorkout);
+        const updatedUserData = await getUserById(currentUser.userId);
 
-      return updatedUser;
+        dispatch(userLoad(updatedUserData));
+        dispatch(
+          showAlert({
+            type: 'Workout Booked!',
+            message: 'We look forward to seeing you.',
+          }),
+        );
+      } catch (error) {
+        dispatch(
+          showAlert({
+            type: 'Error',
+            message:
+              'There was a problem booking your workout. Please try again.',
+          }),
+        );
+      }
     }
 
     if (!currentUser) {
@@ -464,7 +473,7 @@ export const Timetable: React.FC<Props> = ({
                           <div className="timetable__grid-studioname-title-icon">
                             <h3
                               className={
-                                studioClass.class.capacity === '0'
+                                studioClass.class.capacity === 0
                                   ? 'disabled-title'
                                   : 'timetable__grid-studioname-item-title '
                               }
@@ -488,10 +497,10 @@ export const Timetable: React.FC<Props> = ({
                                   {...(studioClass.class.hard &&
                                   parseInt(studioClass.class.hard) >= 1
                                     ? {
-                                        fill: `${studioClass.class.capacity === '0' ? '#716560' : '#BEAFA9'}`,
+                                        fill: `${studioClass.class.capacity === 0 ? '#716560' : '#BEAFA9'}`,
                                       }
                                     : {
-                                        stroke: `${studioClass.class.capacity === '0' ? '#716560' : '#BEAFA9'}`,
+                                        stroke: `${studioClass.class.capacity === 0 ? '#716560' : '#BEAFA9'}`,
                                       })}
                                 />
                                 <circle
@@ -501,10 +510,10 @@ export const Timetable: React.FC<Props> = ({
                                   {...(studioClass.class.hard &&
                                   parseInt(studioClass.class.hard) >= 2
                                     ? {
-                                        fill: `${studioClass.class.capacity === '0' ? '#716560' : '#BEAFA9'}`,
+                                        fill: `${studioClass.class.capacity === 0 ? '#716560' : '#BEAFA9'}`,
                                       }
                                     : {
-                                        stroke: `${studioClass.class.capacity === '0' ? '#716560' : '#BEAFA9'}`,
+                                        stroke: `${studioClass.class.capacity === 0 ? '#716560' : '#BEAFA9'}`,
                                       })}
                                 />
                                 <circle
@@ -514,10 +523,10 @@ export const Timetable: React.FC<Props> = ({
                                   {...(studioClass.class.hard &&
                                   parseInt(studioClass.class.hard) >= 3
                                     ? {
-                                        fill: `${studioClass.class.capacity === '0' ? '#716560' : '#BEAFA9'}`,
+                                        fill: `${studioClass.class.capacity === 0 ? '#716560' : '#BEAFA9'}`,
                                       }
                                     : {
-                                        stroke: `${studioClass.class.capacity === '0' ? '#716560' : '#BEAFA9'}`,
+                                        stroke: `${studioClass.class.capacity === 0 ? '#716560' : '#BEAFA9'}`,
                                       })}
                                 />
                               </svg>
@@ -527,7 +536,7 @@ export const Timetable: React.FC<Props> = ({
                             <div className="timetable__grid-studioname-atributs">
                               <p
                                 className={
-                                  studioClass.class.capacity !== '0'
+                                  studioClass.class.capacity !== 0
                                     ? `timetable__grid-studioname-text ${isLedWorkout ? 'pr-4' : 'pr-7'}`
                                     : `disabled-text ${isLedWorkout ? 'pr-4' : 'pr-7'}`
                                 }
@@ -536,7 +545,7 @@ export const Timetable: React.FC<Props> = ({
                               </p>
                               <p
                                 className={
-                                  studioClass.class.capacity !== '0'
+                                  studioClass.class.capacity !== 0
                                     ? 'timetable__grid-studioname-text'
                                     : 'disabled-text'
                                 }
@@ -547,7 +556,7 @@ export const Timetable: React.FC<Props> = ({
                             <div className="timetable__grid-studioname-atributs">
                               <p
                                 className={
-                                  studioClass.class.capacity !== '0'
+                                  studioClass.class.capacity !== 0
                                     ? 'timetable__grid-studioname-text'
                                     : 'disabled-text'
                                 }
@@ -556,7 +565,7 @@ export const Timetable: React.FC<Props> = ({
                               </p>
                               <p
                                 className={
-                                  studioClass.class.capacity !== '0'
+                                  studioClass.class.capacity !== 0
                                     ? 'timetable__grid-studioname-text'
                                     : 'disabled-text'
                                 }
@@ -569,7 +578,7 @@ export const Timetable: React.FC<Props> = ({
                           </div>
                           <div
                             className={
-                              studioClass.class.capacity === '0'
+                              studioClass.class.capacity === 0
                                 ? 'hidden'
                                 : 'timetable__grid-studioname-hover-button'
                             }

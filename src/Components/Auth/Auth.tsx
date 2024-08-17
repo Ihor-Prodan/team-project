@@ -6,53 +6,18 @@ import pictures from './Pictures/Sign-up.png';
 import picturesLogin from './Pictures/login.png';
 import { useAppDispatch, useAppSelector } from '../../Hooks/hooks';
 import { setIsConfirm, setIsModal } from '../Redux/Slices/Modal';
-import Joi from 'joi';
 import { useNavigate } from 'react-router-dom';
 import { userLoad } from '../Redux/Slices/User';
 import ReactDOM from 'react-dom';
+import { getLoginUser, getRegistrUser } from '../../FechAPI/fechData';
+import { UserType } from '../../Types/UserType';
+import { schemaLogin, schemaSignUp } from './Schema/SchemaValidate';
 
 interface FormData {
   fullName?: string;
   email: string;
   password: string;
 }
-
-const schemaSignUp = Joi.object({
-  fullName: Joi.string().required().messages({
-    'string.empty': 'Enter your first name and last name',
-  }),
-  email: Joi.string()
-    .email({ tlds: { allow: false } })
-    .required()
-    .messages({
-      'string.empty': 'Enter your email',
-      'string.email': 'Enter your email',
-    }),
-  password: Joi.string()
-    .min(8)
-    .required()
-    .pattern(new RegExp('^[a-zA-Z0-9]{3,30}$'))
-    .messages({
-      'string.empty': 'Password must be at least 8 characters long',
-      'string.min': 'Password must be at least 8 characters long',
-      'string.pattern.base':
-        'Password must include latin letters and/or numbers',
-    }),
-});
-
-const schemaLogin = Joi.object({
-  email: Joi.string()
-    .email({ tlds: { allow: false } })
-    .required()
-    .messages({
-      'string.empty': 'Enter your email',
-      'string.email': 'Enter your email',
-    }),
-  password: Joi.string().required().messages({
-    'string.empty': 'Password must be at least 8 characters long',
-    'string.pattern.base': 'Password must include latin letters and/or numbers',
-  }),
-});
 
 export const Auth: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -67,6 +32,8 @@ export const Auth: React.FC = () => {
   const currentUser = useAppSelector(state => state.user.user);
   const isConfirm = useAppSelector(state => state.modal.isConfirm);
   const [newScreen, setNewScreen] = useState(window.innerWidth <= 1060);
+  const [errorPassword, setErrorPassword] = useState('');
+  const [google, setGoogle] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -125,7 +92,7 @@ export const Auth: React.FC = () => {
   );
 
   const handleSubmit = useCallback(
-    (event: React.FormEvent<HTMLFormElement>) => {
+    async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       const formErrors = validateForm(formData);
 
@@ -135,36 +102,40 @@ export const Auth: React.FC = () => {
         const firstName = fullNameArray?.[0] || '';
         const lastName = fullNameArray?.slice(1).join(' ') || '';
 
-        const user = {
-          firstName,
-          lastName,
-          email: formData.email,
-          password: formData.password,
-          membership: {
-            duration: '',
-            date: '',
-            giveOne: '',
-            giveTwo: '',
-            giveThree: '',
-          },
-          workout: [
-            {
-              trainerName: '',
-              date: '',
-              time: '',
-              location: '',
-            },
-          ],
-          dataCard: {
-            cardNumber: '',
-            cvv: '',
-            date: '',
-            phoneNumber: '',
-          },
-        };
+        let userResponse: { user: UserType; token: string } | null = null;
 
-        if (user.email !== currentUser?.email) {
-          dispatch(userLoad(user));
+        if (isConfirm) {
+          const loginUser = {
+            email: formData.email,
+            password: formData.password,
+          };
+
+          try {
+            userResponse = await getLoginUser(loginUser);
+          } catch (error) {
+            if (error) {
+              setErrorPassword('Failed password');
+            }
+
+            return;
+          }
+        } else {
+          const newUser = {
+            firstName: firstName,
+            lastName: lastName,
+            email: formData.email,
+            password: formData.password,
+          };
+
+          try {
+            userResponse = await getRegistrUser(newUser);
+          } catch (error) {
+            return;
+          }
+        }
+
+        if (userResponse) {
+          dispatch(userLoad(userResponse));
         }
 
         setFormData({
@@ -203,6 +174,16 @@ export const Auth: React.FC = () => {
   if (!modalRoot) {
     return null;
   }
+
+  const handleGoogleButton = () => {
+    setGoogle(true);
+    setErrorPassword('Sorry, this service is currently unavailable. :(');
+
+    const intervalId = setInterval(() => {
+      setErrorPassword('');
+      clearInterval(intervalId);
+    }, 5000);
+  };
 
   return ReactDOM.createPortal(
     <div className="wrapper">
@@ -376,6 +357,11 @@ export const Auth: React.FC = () => {
                       placeholder="••••••••"
                     ></input>
                   </div>
+                  {errorPassword && isConfirm && (
+                    <div className="mt-0">
+                      <p className="errorMessage flex mt-12">{errorPassword}</p>
+                    </div>
+                  )}
                   {!isConfirm ? (
                     <>
                       <p
@@ -404,12 +390,23 @@ export const Auth: React.FC = () => {
                   )}
                 </div>
                 <div className="autorization__modal-forms-buttonsContainer">
-                  <button className="autorization__modal-forms-button-continue">
+                  <button
+                    className="autorization__modal-forms-button-continue"
+                    type="submit"
+                  >
                     Continue
                   </button>
-                  <button className="autorization__modal-forms-button-google">
+                  <button
+                    className="autorization__modal-forms-button-google"
+                    onClick={handleGoogleButton}
+                  >
                     {isConfirm ? 'Log in with Google' : 'Sign up with Google'}
                   </button>
+                  {google && (
+                    <div className="mt-0">
+                      <p className="errorMessage flex mt-12">{errorPassword}</p>
+                    </div>
+                  )}
                 </div>
                 <div className="autorization__modal-loginContainer mt-[-3px]">
                   <p className="autorization__modal-message">

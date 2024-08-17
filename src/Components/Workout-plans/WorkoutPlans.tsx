@@ -5,7 +5,6 @@ import { Theme } from '../Redux/Slices/themeMode';
 import './workoutPlans.scss';
 import Footer from '../Footer/Footer';
 import Card from './Card';
-import { CardType, initialStateCart } from './initialCartData';
 import useScrollToTop from '../../Hooks/location';
 import { Auth } from '../Auth/Auth';
 import { useAppDispatch, useAppSelector } from '../../Hooks/hooks';
@@ -13,28 +12,49 @@ import useResponsive from '../../Hooks/sizing';
 import PageMenu from '../PageMenu/PageMenu';
 import { useNavigate } from 'react-router-dom';
 import { setIsOpenMenu } from '../Redux/Slices/Menu';
+import { getAllWorkouts } from '../../FechAPI/fechData';
+import { Workouts } from '../../Types/WorkoutsType';
+import useLoading from '../../Hooks/useLoading';
+import { showAlert } from '../Redux/Slices/Alert';
+import CustomAlert from '../CustomAlert/CustomAlert';
+import Loader from '../Loader/Loader';
 
 interface Props {
   themeColor: Theme;
   workoutName: string;
 }
-
 export const WorkoutPlans: React.FC<Props> = ({ themeColor, workoutName }) => {
   useScrollToTop();
+  const [worcoutsList, setWorcoutsList] = useState<Workouts[]>([]);
   const isModalVisible = useAppSelector(state => state.modal.isModal);
   const currentUser = useAppSelector(state => state.user.user);
-  const [cards, setCards] = useState<CardType[]>(initialStateCart);
   const { isSmallScreen } = useResponsive();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { loading, startLoading, stopLoading } = useLoading();
 
   useEffect(() => {
     dispatch(setIsOpenMenu(false));
   }, [navigate]);
 
   useEffect(() => {
-    setCards(initialStateCart);
-  }, []);
+    startLoading();
+    getAllWorkouts()
+      .then(data => setWorcoutsList(data))
+      .catch(err => {
+        if (err) {
+          dispatch(
+            showAlert({
+              type: 'Notice',
+              message: 'Unable to load workouts. Please try again soon.',
+            }),
+          );
+        }
+      })
+      .finally(() => {
+        stopLoading();
+      });
+  }, [dispatch]);
 
   const worcoutsBlock = ['Flex & Stretch', 'Strength & Mass', 'Shape & Tone'];
 
@@ -58,19 +78,26 @@ export const WorkoutPlans: React.FC<Props> = ({ themeColor, workoutName }) => {
         {worcoutsBlock.map(workout => (
           <Fragment key={workout}>
             <h3 className="workout__workouts">{workout}</h3>
-            <article className="workout__list">
-              {cards
-                .filter(card => card.category === workout)
-                .map(card => (
-                  <Card card={card} key={card.id} />
-                ))}
-            </article>
+            {loading ? (
+              <div className="w-full h-[450px] flex justify-center items-center">
+                <Loader />
+              </div>
+            ) : (
+              <article className="workout__list">
+                {worcoutsList
+                  .filter(card => card.category === workout)
+                  .map(card => (
+                    <Card card={card} key={card.id} />
+                  ))}
+              </article>
+            )}
           </Fragment>
         ))}
       </section>
       <Footer />
       {isModalVisible && !currentUser && <Auth />}
       <PageMenu themeColor={Theme.dark} />
+      <CustomAlert />
     </div>
   );
 };

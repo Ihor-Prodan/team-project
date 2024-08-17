@@ -1,0 +1,16 @@
+.not-section {
+  display: flex;
+  max-width: 1512px;
+  max-height: 400px;
+  margin: 0 auto;
+  justify-content: center;
+  flex-direction: column;
+  margin-inline: auto;
+  background: #D6D0CE;
+}
+
+.not-found {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+}

@@ -1,11 +1,14 @@
 /* eslint-disable max-len */
-import React, { useCallback, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import './userPage.scss';
 import './myworkout.scss';
 import { useAppDispatch, useAppSelector } from '../../Hooks/hooks';
 import { useNavigate } from 'react-router-dom';
-import { updateUser } from '../Redux/Slices/User';
 import { setIsOpenMenu } from '../Redux/Slices/Menu';
+import { getRemoveWorkout, getUserById } from '../../FechAPI/fechData';
+import { userLoad } from '../Redux/Slices/User';
+import { showAlert } from '../Redux/Slices/Alert';
+import { CustomAlert } from '../CustomAlert/CustomAlert';
 
 export const MyWorkout: React.FC = () => {
   const currentUser = useAppSelector(state => state.user.user);
@@ -16,22 +19,26 @@ export const MyWorkout: React.FC = () => {
     dispatch(setIsOpenMenu(false));
   }, [dispatch, navigate]);
 
-  const removeWorkout = useCallback(
-    (workoutId: string) => {
-      if (currentUser) {
-        const updatedWorkouts = currentUser.workouts.filter(
-          workout => workout.id !== workoutId,
-        );
-        const updatedUser = {
-          ...currentUser,
-          workouts: updatedWorkouts,
-        };
+  const removeWorkout = async (workoutId: string, userId: number) => {
+    try {
+      await getRemoveWorkout(workoutId, userId);
 
-        dispatch(updateUser(updatedUser));
+      if (currentUser?.userId) {
+        const updatedUserData = await getUserById(currentUser.userId);
+
+        dispatch(userLoad(updatedUserData));
       }
-    },
-    [currentUser, dispatch],
-  );
+    } catch (error) {
+      if (error) {
+        dispatch(
+          showAlert({
+            type: 'Error',
+            message: 'Error removing workout.',
+          }),
+        );
+      }
+    }
+  };
 
   return (
     <div className="userPage__info-container-modalInfo">
@@ -85,10 +92,29 @@ export const MyWorkout: React.FC = () => {
                   <span className="my__workout-grid-card-content-info ml-2"></span>
                   {item.location}
                 </p>
+                {item.name && (
+                  <p className="my__workout-grid-card-content-name">
+                    Studio:
+                    <span className="my__workout-grid-card-content-info ml-2"></span>
+                    {item.studio}
+                  </p>
+                )}
+                <p className="my__workout-grid-card-content-name">
+                  Class:
+                  <span className="my__workout-grid-card-content-info ml-2"></span>
+                  {item.name ? 'Group workout' : 'Led workout'}
+                </p>
+                {item.name && (
+                  <p className="my__workout-grid-card-content-name">
+                    Workout:
+                    <span className="my__workout-grid-card-content-info ml-2"></span>
+                    {item.name}
+                  </p>
+                )}
               </div>
               <button
                 className="my__workout-grid-card-cancel"
-                onClick={() => removeWorkout(item.id)}
+                onClick={() => removeWorkout(item.id, currentUser.userId)}
               >
                 Cancel workout
               </button>
@@ -96,6 +122,7 @@ export const MyWorkout: React.FC = () => {
           ))}
         </div>
       )}
+      <CustomAlert />
     </div>
   );
 };

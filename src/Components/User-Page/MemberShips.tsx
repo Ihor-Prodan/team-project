@@ -53,7 +53,7 @@ export const Memberships: React.FC = () => {
               {currentUser.membership.duration} months
             </p>
             <p className="userPage__info-container-member-isMember-duration-data mt-1">
-              Due to {currentUser.membership.date}
+              Due to {currentUser.membership.date.slice(0, 10)}
             </p>
           </div>
           <div className="userPage__info-container-member-isMember-benefits">

@@ -1,3 +1,5 @@
+import Joi from 'joi';
+
 export const formatPhoneNumber = (value: string) => {
   const cleaned = ('' + value).replace(/\D/g, '').slice(0, 9);
   const match = cleaned.match(/^(\d{1,2})(\d{0,3})(\d{0,2})(\d{0,2})?$/);
@@ -48,3 +50,23 @@ export const formatCVV = (value: string) => {
 
   return cleaned.slice(0, 3);
 };
+
+export const schemaCard = Joi.object({
+  phoneNumber: Joi.string().length(12).messages({
+    'string.empty': 'Phone number cannot be empty',
+    'string.length': 'Phone number must be exactly 12 digits long',
+  }),
+  cardNumber: Joi.string().length(19).messages({
+    'string.empty': 'Card number cannot be empty',
+    'string.length': 'Card number must be exactly 16 digits long',
+  }),
+  date: Joi.string().length(5).messages({
+    'string.empty': 'Expiration date cannot be empty',
+    'string.length': 'Expiration date must be exactly 4 digits long (MM/YY)',
+  }),
+  cvv: Joi.string().length(3).messages({
+    'string.empty': 'CVV cannot be empty',
+    'string.length': 'CVV must be exactly 3 digits long',
+  }),
+  userId: Joi.number(),
+});

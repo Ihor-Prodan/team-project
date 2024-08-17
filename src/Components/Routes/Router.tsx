@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { HashRouter, Route, Routes } from 'react-router-dom';
 import React, { useState } from 'react';
 import { Provider } from 'react-redux';
@@ -18,10 +19,6 @@ import TermsOfService from '../Policy/Term-Of-Service';
 import PrivacyPolicy from '../Policy/Privacy-Policy';
 import UserPage from '../User-Page/UserPage';
 import ProtectedRoute from '../ProtectedRout/Protected';
-import {
-  ledWorkoutsTable,
-  timetable,
-} from '../Timetable/Helpers/timetableData';
 
 export const Root: React.FC = () => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
@@ -45,7 +42,6 @@ export const Root: React.FC = () => {
             path="/timetable/group-workout"
             element={
               <Timetable
-                timetableDate={timetable}
                 themeColor={Theme.dark}
                 workoutName={'Group Workout'}
                 isLedWorkout={true}
@@ -56,7 +52,6 @@ export const Root: React.FC = () => {
             path="timetable/trainer-led-workout"
             element={
               <Timetable
-                timetableDate={ledWorkoutsTable}
                 themeColor={Theme.dark}
                 workoutName={'Trainer-Led Workout'}
                 isLedWorkout={false}

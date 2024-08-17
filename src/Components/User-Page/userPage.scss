@@ -428,6 +428,10 @@
         letter-spacing: 0.64px;
         text-transform: uppercase;
 
+        @media (min-width: 320px) and (max-width: 770px) {
+          width: 100%;
+        }
+
         &:hover {
           border: 1px solid var(--Gray-60, #A7A7A7);
         }

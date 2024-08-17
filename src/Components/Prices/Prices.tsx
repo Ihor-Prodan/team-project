@@ -4,17 +4,20 @@ import { Theme } from '../Redux/Slices/themeMode';
 import './prices.scss';
 import { GivIcon, GroupIcon, GymIcon, LockerIcon } from './Helpers/priceIcons';
 import Footer from '../Footer/Footer';
-import pricesCard, { Membership } from './Helpers/priceCardInfo';
+import pricesCard from './Helpers/priceCardInfo';
 import useScrollToTop from '../../Hooks/location';
 import { useAppDispatch, useAppSelector } from '../../Hooks/hooks';
 import { setIsModal } from '../Redux/Slices/Modal';
 import { Auth } from '../Auth/Auth';
-import { updateUser, User } from '../Redux/Slices/User';
+import { updateUser } from '../Redux/Slices/User';
 import PageMenu from '../PageMenu/PageMenu';
 import { useNavigate } from 'react-router-dom';
 import { setIsOpenMenu } from '../Redux/Slices/Menu';
 import CustomAlert from '../CustomAlert/CustomAlert';
 import { showAlert } from '../Redux/Slices/Alert';
+import { User } from '../../Types/CurentUser';
+import { createMembership } from '../../FechAPI/fechData';
+import { Membership } from '../../Types/Membership';
 
 interface Props {
   themeColor: Theme;
@@ -31,7 +34,7 @@ export const Prices: React.FC<Props> = ({ themeColor }) => {
     dispatch(setIsOpenMenu(false));
   }, [navigate]);
 
-  const handleBuyMembership = (item: Membership): User | void => {
+  const handleBuyMembership = async (item: Membership): Promise<void> => {
     const currentDate = new Date();
 
     const addMonths = (date: Date, months: number) => {
@@ -52,6 +55,10 @@ export const Prices: React.FC<Props> = ({ themeColor }) => {
 
     const endDate = formatDate(addMonths(currentDate, parseInt(item.duration)));
 
+    if (!item.duration || !endDate) {
+      return;
+    }
+
     if (currentUser) {
       if (currentUser.membership && currentUser.membership.duration) {
         dispatch(
@@ -64,31 +71,50 @@ export const Prices: React.FC<Props> = ({ themeColor }) => {
         return;
       }
 
-      const updatedUser: User = {
-        firstName: currentUser.firstName,
-        lastName: currentUser.lastName,
-        email: currentUser.email,
-        password: currentUser.password,
-        membership: {
-          duration: item.duration,
-          date: endDate,
-          giveOne: item.giveOne,
-          giveTwo: item.giveTwo,
-          giveThree: item.giveThree,
-          slogan: item.slogan,
-          access: item.access,
-          unlimited: item.unlimited,
-          locker: item.locker,
-          price: item.price,
-          best: item.best,
-        },
-        workouts: currentUser.workouts,
-        dataCard: currentUser.dataCard,
+      const newMembership = {
+        duration: item.duration,
+        slogan: item.slogan,
+        access: item.access,
+        unlimited: item.unlimited,
+        locker: item.locker,
+        giveOne: item.giveOne,
+        giveTwo: item.giveTwo || '',
+        giveThree: item.giveThree || '',
+        price: item.price,
+        best: item.best,
+        date: endDate,
+        membershipId: currentUser.userId,
       };
 
-      dispatch(updateUser(updatedUser));
+      try {
+        const createdMembership = await createMembership(newMembership);
 
-      return updatedUser;
+        const updatedUser: User = {
+          firstName: currentUser.firstName,
+          lastName: currentUser.lastName,
+          email: currentUser.email,
+          membership: createdMembership,
+          workouts: currentUser.workouts,
+          dataCard: currentUser.dataCard,
+          userId: currentUser.userId,
+        };
+
+        dispatch(updateUser(updatedUser));
+
+        dispatch(
+          showAlert({
+            message: 'Membership activated successfully!',
+            type: 'Membership Purchase Success',
+          }),
+        );
+      } catch (error) {
+        dispatch(
+          showAlert({
+            message: 'Failed to purchase membership. Please try again.',
+            type: 'Notice',
+          }),
+        );
+      }
     }
 
     if (!currentUser) {

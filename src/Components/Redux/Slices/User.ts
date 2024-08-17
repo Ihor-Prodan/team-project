@@ -1,61 +1,66 @@
 /* eslint-disable no-param-reassign */
 import { PayloadAction, createSlice, Slice } from '@reduxjs/toolkit';
-import { Membership } from '../../Prices/Helpers/priceCardInfo';
-import { Training } from '../../Timetable/Helpers/timetableData';
-
-export const BASE_URL = 'http://localhost:8080';
-
-// export const usersFetch = () => async (dispatch: AppDispatch) => {
-//   try {
-//     const response = await axios.get(`${BASE_URL}/user/${id}`);
-
-//     // eslint-disable-next-line @typescript-eslint/no-use-before-define
-//     dispatch(userLoad(response.data.user));
-//   } catch (error) {
-//     // eslint-disable-next-line @typescript-eslint/no-use-before-define
-//     setError('Enable to load user');
-//   }
-// };
-
-export type User = {
-  firstName: string | null;
-  lastName: string | null;
-  email: string | null;
-  password: string | null;
-  membership: Membership;
-  workouts: Training[];
-  dataCard: CardData;
-};
-
-export type CardData = {
-  cardNumber: string | null;
-  cvv: string | null;
-  date: string | null;
-  phoneNumber: string | null;
-};
+import { UserType } from '../../../Types/UserType';
+import { User } from '../../../Types/CurentUser';
 
 export interface UserState {
   user: User | null;
   loading: boolean;
   error: string | null;
+  token: string | null;
+  id: string;
 }
 
 const initialState: UserState = {
   user: null,
   loading: false,
   error: null,
+  token: null,
+  id: '',
 };
 
 export const userSlice: Slice<UserState> = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    userLoad: (state, action: PayloadAction<User>) => {
-      state.user = action.payload;
+    userLoad: (
+      state,
+      action: PayloadAction<{ user: UserType; token: string }>,
+    ) => {
+      const serverUser = action.payload.user;
+
+      const transformedUser: User = {
+        firstName: serverUser.firstName,
+        lastName: serverUser.lastName,
+        email: serverUser.email,
+        userId: serverUser.userId,
+        membership: serverUser.membership || {
+          duration: '',
+          slogan: '',
+          access: '',
+          unlimited: '',
+          locker: '',
+          giveOne: '',
+          price: '',
+          best: false,
+          membershipId: 0,
+        },
+        workouts: serverUser.workouts || [],
+        dataCard: serverUser.dataCard || {
+          cardNumber: '',
+          cvv: '',
+          date: '',
+          phoneNumber: '',
+          userId: 0,
+        },
+      };
+
+      state.user = transformedUser;
+      state.token = action.payload.token;
       state.loading = false;
       state.error = null;
     },
-    updateUser: (state, action: PayloadAction<User>) => {
+    updateUser: (state, action: PayloadAction<UserType>) => {
       if (state.user) {
         state.user = { ...state.user, ...action.payload };
       }
@@ -65,6 +70,7 @@ export const userSlice: Slice<UserState> = createSlice({
     },
     removeUser: state => {
       state.user = null;
+      state.token = null;
       state.loading = false;
       state.error = null;
     },

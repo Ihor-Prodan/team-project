@@ -13,19 +13,15 @@ import persistStore from 'redux-persist/es/persistStore';
 import storage from 'redux-persist/lib/storage';
 import { calendarSlice } from '../Slices/Calendar';
 import { modalSlice } from '../Slices/Modal';
-import { themeSlice } from '../Slices/themeMode';
-import { workoutsSlice } from '../Slices/Workouts';
-import { trainersSlice } from '../Slices/Trainers';
 import { userSlice } from '../Slices/User';
 import { menuSlice } from '../Slices/Menu';
 import { alertSlice } from '../Slices/Alert';
+import { themeSlice } from '../Slices/themeMode';
 
 const rootReducer = combineReducers({
   theme: themeSlice.reducer,
   calendar: calendarSlice.reducer,
   modal: modalSlice.reducer,
-  workouts: workoutsSlice.reducer,
-  trainers: trainersSlice.reducer,
   user: userSlice.reducer,
   menu: menuSlice.reducer,
   alertMessage: alertSlice.reducer,
@@ -34,6 +30,7 @@ const rootReducer = combineReducers({
 const persistConfig = {
   key: 'root',
   storage: storage,
+  whitelist: ['user'],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

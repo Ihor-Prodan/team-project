@@ -4,7 +4,6 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Theme } from '../Redux/Slices/themeMode';
 import Header from '../Header/Header';
 import './infoInstructors.scss';
-import { TrainerType, trainers } from '../Instructors/trainersList';
 import Footer from '../Footer/Footer';
 import useLoadAnimation from '../../Hooks/animation';
 import useScrollToTop from '../../Hooks/location';
@@ -13,6 +12,12 @@ import { useAppDispatch, useAppSelector } from '../../Hooks/hooks';
 import { Auth } from '../Auth/Auth';
 import PageMenu from '../PageMenu/PageMenu';
 import { setIsOpenMenu } from '../Redux/Slices/Menu';
+import { Trainers } from '../../Types/TrainerType';
+import { getTrainers } from '../../FechAPI/fechData';
+import { showAlert } from '../Redux/Slices/Alert';
+import CustomAlert from '../CustomAlert/CustomAlert';
+import useLoading from '../../Hooks/useLoading';
+import Loader from '../Loader/Loader';
 
 interface Props {
   themeColor: Theme;
@@ -20,16 +25,37 @@ interface Props {
 
 export const InfoInstructors: React.FC<Props> = ({ themeColor }) => {
   useScrollToTop();
-  const [trainer, setTrainer] = useState<TrainerType | null>(null);
+  const [trainersList, setTrainersList] = useState<Trainers[]>([]);
+  const [trainer, setTrainer] = useState<Trainers | null>(null);
   const { id } = useParams();
   const loaded = useLoadAnimation(trainer?.image);
   const dispatch = useAppDispatch();
   const isModalVisible = useAppSelector(state => state.modal.isModal);
   const currentUser = useAppSelector(state => state.user.user);
   const navigate = useNavigate();
+  const { loading, startLoading, stopLoading } = useLoading();
 
-  const getWorkoutById = (trainerId: string): TrainerType | undefined => {
-    return trainers.find(t => t.id === trainerId);
+  useEffect(() => {
+    startLoading();
+    getTrainers()
+      .then(data => setTrainersList(data))
+      .catch(err => {
+        if (err) {
+          dispatch(
+            showAlert({
+              type: 'Notice',
+              message: 'Unable to load trainers. Please try again soon.',
+            }),
+          );
+        }
+      })
+      .finally(() => {
+        stopLoading();
+      });
+  }, [dispatch, navigate]);
+
+  const getWorkoutById = (trainerId: string): Trainers | undefined => {
+    return trainersList.find(t => t.id === trainerId);
   };
 
   useEffect(() => {
@@ -42,11 +68,11 @@ export const InfoInstructors: React.FC<Props> = ({ themeColor }) => {
         setTrainer(null);
       }
     }
-  }, [id]);
+  }, [id, navigate, trainersList]);
 
   useEffect(() => {
     dispatch(setIsOpenMenu(false));
-  }, [id, navigate]);
+  }, [dispatch, id, navigate]);
 
   const isUser = () => {
     if (!currentUser) {
@@ -84,86 +110,95 @@ export const InfoInstructors: React.FC<Props> = ({ themeColor }) => {
             {trainer?.name}
           </p>
         </div>
-        <div className="instructors__details-grid">
-          <div
-            className={`instructors__details-grid-content ${loaded ? 'loaded' : ''}`}
-          >
-            <div className="instructors__details-grid-content-titleAndicon">
-              <h3 className="instructors__details-grid-content-titleAndicon-title">
-                {trainer?.name}
-              </h3>
-            </div>
-            <div
-              className={`instructors__details-grid-content-aboutWorkout ${loaded ? 'loaded' : ''}`}
-            >
-              <div className="instructors__details-grid-content-aboutWorkout">
-                <p className="instructors__details-grid-content-title">
-                  Specialty
-                </p>
-                <p className="instructors__details-grid-content-text">
-                  {trainer?.specialty}
-                </p>
-              </div>
-              <div className="instructors__details-grid-content-aboutWorkout">
-                <p className="instructors__details-grid-content-title">
-                  Professional Experience
-                </p>
-                <p className="instructors__details-grid-content-text">
-                  {trainer?.experience}
-                </p>
-                <p className="instructors__details-grid-content-text-two">
-                  {trainer?.experiencetwo}
-                </p>
-              </div>
-              <div className="instructors__details-grid-content-aboutWorkout">
-                <p className="instructors__details-grid-content-title">Price</p>
-                <p className="instructors__details-grid-content-text">
-                  {`${trainer?.price} ₴ / 1 workout`}
-                </p>
-              </div>
-            </div>
-            <button
-              className="workout__detail-grid-content-button mt-14"
-              onClick={isUser}
-            >
-              <span className="workout__button-text">
-                book a Trainer-Led Workout
-              </span>
-              <svg
-                className="workout__ready-button-arrow-white"
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-              >
-                <path
-                  d="M3 12.013L20.789 12M14.013 19L21 12L14.012 5"
-                  strokeWidth="1"
-                  stroke="#111115"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </button>
+        {loading ? (
+          <div className="w-full h-[450px] flex justify-center items-center">
+            <Loader />
           </div>
-          {trainer?.isTop && (
+        ) : (
+          <div className="instructors__details-grid">
             <div
-              className={`instructors__details-grid-img-info-top ${loaded ? 'loaded' : ''}`}
+              className={`instructors__details-grid-content ${loaded ? 'loaded' : ''}`}
             >
-              Top trainer
+              <div className="instructors__details-grid-content-titleAndicon">
+                <h3 className="instructors__details-grid-content-titleAndicon-title">
+                  {trainer?.name}
+                </h3>
+              </div>
+              <div
+                className={`instructors__details-grid-content-aboutWorkout ${loaded ? 'loaded' : ''}`}
+              >
+                <div className="instructors__details-grid-content-aboutWorkout">
+                  <p className="instructors__details-grid-content-title">
+                    Specialty
+                  </p>
+                  <p className="instructors__details-grid-content-text">
+                    {trainer?.specialty}
+                  </p>
+                </div>
+                <div className="instructors__details-grid-content-aboutWorkout">
+                  <p className="instructors__details-grid-content-title">
+                    Professional Experience
+                  </p>
+                  <p className="instructors__details-grid-content-text">
+                    {trainer?.experience}
+                  </p>
+                  <p className="instructors__details-grid-content-text-two">
+                    {trainer?.experiencetwo}
+                  </p>
+                </div>
+                <div className="instructors__details-grid-content-aboutWorkout">
+                  <p className="instructors__details-grid-content-title">
+                    Price
+                  </p>
+                  <p className="instructors__details-grid-content-text">
+                    {`${trainer?.price} ₴ / 1 workout`}
+                  </p>
+                </div>
+              </div>
+              <button
+                className="workout__detail-grid-content-button mt-14"
+                onClick={isUser}
+              >
+                <span className="workout__button-text">
+                  book a Trainer-Led Workout
+                </span>
+                <svg
+                  className="workout__ready-button-arrow-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                >
+                  <path
+                    d="M3 12.013L20.789 12M14.013 19L21 12L14.012 5"
+                    strokeWidth="1"
+                    stroke="#111115"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
             </div>
-          )}
-          <img
-            src={trainer?.image}
-            className={`instructors__details-grid-img ${loaded ? 'loaded' : ''}`}
-            alt={trainer?.name}
-          />
-        </div>
+            {trainer?.isTop && (
+              <div
+                className={`instructors__details-grid-img-info-top ${loaded ? 'loaded' : ''}`}
+              >
+                Top trainer
+              </div>
+            )}
+            <img
+              src={trainer?.image}
+              className={`instructors__details-grid-img ${loaded ? 'loaded' : ''}`}
+              alt={trainer?.name}
+            />
+          </div>
+        )}
       </section>
       <Footer />
       {isModalVisible && !currentUser && <Auth />}
       <PageMenu themeColor={Theme.dark} />
+      <CustomAlert />
     </div>
   );
 };

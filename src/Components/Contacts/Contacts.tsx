@@ -26,7 +26,7 @@ export const Contacts: React.FC<Props> = ({ themeColor }) => {
 
   useEffect(() => {
     dispatch(setIsOpenMenu(false));
-  }, [navigate]);
+  }, [dispatch, navigate]);
 
   const isUser = () => {
     if (!currentUser) {

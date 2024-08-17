@@ -7,12 +7,13 @@ import Footer from '../Footer/Footer';
 import MemberShips from './MemberShips';
 import MyWorkout from './MyWorkout';
 import { useAppDispatch, useAppSelector } from '../../Hooks/hooks';
-import { NavLink, useNavigate, useParams } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { removeUser } from '../Redux/Slices/User';
 import './Helpers/formatForm';
 import PageMenu from '../PageMenu/PageMenu';
 import { setIsOpenMenu } from '../Redux/Slices/Menu';
 import UserInfo from './UserInfo';
+import { UserData } from '../../Types/UserData';
 
 interface Props {
   themeColor: Theme;
@@ -20,16 +21,6 @@ interface Props {
   isMembership: boolean;
   isUserInfo: boolean;
 }
-
-type UserData = {
-  fullName: string;
-  email: string;
-  password: string;
-  number: string;
-  card: string;
-  cardDate: string;
-  cvv: string;
-};
 
 export const clearForm = (
   field: keyof UserData,
@@ -41,14 +32,17 @@ export const clearForm = (
   }));
 };
 
-export const list = [
+export const listInfo = [
   { name: 'Personal info', path: '/user-info' },
   { name: 'Membership', path: '/membership' },
   { name: 'Trainer-led workouts', path: '/my-workout' },
 ];
 
 export const UserPage: React.FC<Props> = ({ themeColor }) => {
-  const [selectedMenu, setSelectedMenu] = useState<string>('/user-info');
+  const location = useLocation();
+  const [selectedMenu, setSelectedMenu] = useState<string>(
+    location.pathname.replace('/profile', ''),
+  );
   const dispatch = useAppDispatch();
   const currentUser = useAppSelector(state => state.user.user);
 
@@ -73,6 +67,14 @@ export const UserPage: React.FC<Props> = ({ themeColor }) => {
   }, [isMobilVersion, setIsMobilVersion]);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (location.pathname === '/profile') {
+      navigate('/profile/user-info');
+    } else {
+      setSelectedMenu(location.pathname.replace('/profile', ''));
+    }
+  }, [location.pathname, navigate]);
 
   useEffect(() => {
     dispatch(setIsOpenMenu(false));
@@ -145,7 +147,7 @@ export const UserPage: React.FC<Props> = ({ themeColor }) => {
               <>{renderSelectedComponent()}</>
             ) : (
               <ul className="userPage__info-container-menuList">
-                {list.map((item, ind) => (
+                {listInfo.map((item, ind) => (
                   <li
                     key={ind}
                     className="userPage__info-container-menuList-icon"

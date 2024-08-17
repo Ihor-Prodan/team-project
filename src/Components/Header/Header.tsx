@@ -61,7 +61,7 @@ export const Header: React.FC<Props> = ({ themeColor }) => {
     if (!currentUser) {
       dispatch(setIsModal(true));
     } else {
-      navigate('/profile');
+      navigate('/timetable/trainer-led-workout');
     }
   };
 

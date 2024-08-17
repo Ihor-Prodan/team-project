@@ -3,7 +3,7 @@ import React from 'react';
 import './workout.scss';
 import { Link } from 'react-router-dom';
 
-type Cart = {
+export type Card = {
   id: string;
   name: string;
   duration: string;
@@ -13,7 +13,7 @@ type Cart = {
 };
 
 interface Props {
-  cart: Cart;
+  cart: Card;
 }
 
 export const WorkoutsCard: React.FC<Props> = ({ cart }) => {

@@ -1,18 +1,28 @@
 /* eslint-disable max-len */
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { CardType } from './initialCartData';
+import { Workouts } from '../../Types/WorkoutsType';
+import useLoader from '../../Hooks/loading';
+import Loader from '../Loader/Loader';
 
 interface Props {
-  card: CardType;
+  card: Workouts;
 }
 
 export const Card: React.FC<Props> = ({ card }) => {
+  const isLoading = useLoader(1000);
+
   return (
     <div className="workout__list-cart">
-      <NavLink to={`/workout/group-workout/${card.id}`} className="w-full">
-        <img src={card.image} className="workout__list-cart-img"></img>
-      </NavLink>
+      {isLoading ? (
+        <div className="flex items-center justify-center w-full h-[420px]">
+          <Loader />
+        </div>
+      ) : (
+        <NavLink to={`/workout/group-workout/${card.id}`} className="w-full">
+          <img src={card.image} className="workout__list-cart-img"></img>
+        </NavLink>
+      )}
       <div className="workout__list-cart-content">
         <div className="workout__list-cart-content-titleAndStrong">
           <NavLink to={`/workout/group-workout/${card.id}`}>
@@ -31,7 +41,7 @@ export const Card: React.FC<Props> = ({ card }) => {
               cx="4.16667"
               cy="4.16667"
               r="4.16667"
-              {...(card?.hardLewel && parseInt(card.hardLewel) >= 1
+              {...(card?.hardLevel && parseInt(card.hardLevel) >= 1
                 ? { fill: '#BEAFA9' }
                 : { stroke: '#BEAFA9' })}
             />
@@ -39,7 +49,7 @@ export const Card: React.FC<Props> = ({ card }) => {
               cx="14.8815"
               cy="4.16667"
               r="4.16667"
-              {...(card?.hardLewel && parseInt(card.hardLewel) >= 2
+              {...(card?.hardLevel && parseInt(card.hardLevel) >= 2
                 ? { fill: '#BEAFA9' }
                 : { stroke: '#BEAFA9' })}
             />
@@ -47,7 +57,7 @@ export const Card: React.FC<Props> = ({ card }) => {
               cx="25.5964"
               cy="4.16667"
               r="4.16667"
-              {...(card?.hardLewel && parseInt(card.hardLewel) >= 3
+              {...(card?.hardLevel && parseInt(card.hardLevel) >= 3
                 ? { fill: '#BEAFA9' }
                 : { stroke: '#BEAFA9' })}
             />

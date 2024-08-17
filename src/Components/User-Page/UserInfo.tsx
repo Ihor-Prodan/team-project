@@ -1,30 +1,30 @@
 /* eslint-disable max-len */
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../Hooks/hooks';
-import { updateUser } from '../Redux/Slices/User';
 import './userPage.scss';
 import {
   formatCreditCardNumber,
   formatCVV,
   formatDateForm,
   formatPhoneNumber,
+  schemaCard,
 } from './Helpers/formatForm';
+import {
+  createCardData,
+  getUpdateUser,
+  getUserById,
+  updateCardData,
+} from '../../FechAPI/fechData';
+import { userLoad } from '../Redux/Slices/User';
+import { showAlert } from '../Redux/Slices/Alert';
+import CustomAlert from '../CustomAlert/CustomAlert';
+import { UserData } from '../../Types/UserData';
 
 interface Props {
   isMyWorkout: boolean;
   isMembership: boolean;
   isUserInfo: boolean;
 }
-
-type UserData = {
-  fullName: string;
-  email: string;
-  password: string;
-  number: string;
-  card: string;
-  cardDate: string;
-  cvv: string;
-};
 
 export const clearForm = (
   field: keyof UserData,
@@ -46,7 +46,6 @@ const UserInfo: React.FC<Props> = ({
   const [formData, setFormData] = useState<UserData>({
     fullName: `${currentUser?.firstName} ${currentUser?.lastName}`,
     email: currentUser?.email || '',
-    password: '',
     number: currentUser?.dataCard.phoneNumber || '',
     card: currentUser?.dataCard.cardNumber || '',
     cardDate: currentUser?.dataCard.date || '',
@@ -56,45 +55,110 @@ const UserInfo: React.FC<Props> = ({
 
   const dispatch = useAppDispatch();
 
-  const handleSubmit = () => {
-    // e.preventDefault();
-    if (
-      formData.fullName.trim() !== '' ||
-      formData.email.trim() !== '' ||
-      formData.card.trim() !== '' ||
-      formData.cardDate.trim() !== '' ||
-      formData.cvv.trim() !== '' ||
-      formData.number.trim() !== ''
-    ) {
-      dispatch(
-        updateUser({
-          ...currentUser,
-          firstName: formData.fullName.split(' ')[0] || currentUser?.firstName,
-          lastName: formData.fullName.split(' ')[1] || currentUser?.lastName,
-          email: formData.email || currentUser?.email,
-          dataCard: {
-            cardNumber: formData.card || currentUser?.dataCard.cardNumber,
-            date: formData.cardDate || currentUser?.dataCard.date,
-            cvv: formData.cvv || currentUser?.dataCard.cvv,
-            phoneNumber: formData.number || currentUser?.dataCard.phoneNumber,
-          },
-        }),
-      );
-    }
-  };
+  const handleSubmit = async () => {
+    try {
+      let hasUpdatedUserData = false;
+      let hasUpdatedCardData = false;
 
-  useEffect(() => {
-    if (
-      formData.fullName ||
-      formData.email ||
-      formData.number ||
-      formData.card ||
-      formData.cardDate ||
-      formData.cvv
-    ) {
-      handleSubmit();
-    }
-  }, [formData]);
+      if (formData.fullName.trim() !== '' || formData.email.trim() !== '') {
+        const updatedUser = {
+          firstName:
+            formData.fullName.split(' ')[0] ||
+            (currentUser?.firstName as string),
+          lastName:
+            formData.fullName.split(' ')[1] ||
+            (currentUser?.lastName as string),
+          email: formData.email || (currentUser?.email as string),
+          userId: currentUser?.userId as number,
+        };
+
+        await getUpdateUser(updatedUser);
+        dispatch(userLoad(await getUserById(currentUser?.userId as number)));
+        hasUpdatedUserData = true;
+      }
+
+      if (
+        formData.card.trim() !== '' ||
+        formData.cardDate.trim() !== '' ||
+        formData.cvv.trim() !== '' ||
+        formData.number.trim() !== ''
+      ) {
+        const newCardData = {
+          cardNumber: formData.card,
+          date: formData.cardDate,
+          cvv: formData.cvv,
+          phoneNumber: formData.number,
+          userId: currentUser?.userId as number,
+        };
+
+        const { error } = schemaCard.validate(newCardData);
+
+        if (error) {
+          dispatch(
+            showAlert({
+              type: 'Validation error',
+              message: `${error.details.map(x => x.message).join(', ')}`,
+            }),
+          );
+
+          return;
+        }
+
+        if (
+          currentUser?.dataCard.cardNumber === '' ||
+          currentUser?.dataCard.cvv === '' ||
+          currentUser?.dataCard.date === '' ||
+          currentUser?.dataCard.phoneNumber === ''
+        ) {
+          await createCardData(newCardData);
+          dispatch(userLoad(await getUserById(currentUser?.userId as number)));
+          hasUpdatedCardData = true;
+        } else {
+          const existingCardData = currentUser?.dataCard;
+
+          if (
+            formData.card !== existingCardData?.cardNumber ||
+            formData.cvv !== existingCardData?.cvv ||
+            formData.cardDate !== existingCardData?.date ||
+            formData.number !== existingCardData?.phoneNumber
+          ) {
+            await updateCardData(newCardData);
+            dispatch(
+              userLoad(await getUserById(currentUser?.userId as number)),
+            );
+            hasUpdatedCardData = true;
+          }
+        }
+      }
+
+      if (hasUpdatedUserData) {
+        dispatch(
+          showAlert({
+            type: 'Success!',
+            message: 'Your name and email have been updated. Looking good!',
+          }),
+        );
+      }
+
+      if (hasUpdatedCardData) {
+        dispatch(
+          showAlert({
+            type: 'Card data updated',
+            message: 'Card information has been successfully updated.',
+          }),
+        );
+      }
+
+      if (!hasUpdatedUserData && !hasUpdatedCardData) {
+        dispatch(
+          showAlert({
+            type: 'No changes',
+            message: 'No changes were made.',
+          }),
+        );
+      }
+    } catch (error) {}
+  };
 
   const handleInputChange = (
     e: ChangeEvent<HTMLInputElement>,
@@ -331,19 +395,6 @@ const UserInfo: React.FC<Props> = ({
                 <p className="userPage__info-container-modalInfo-forms-personal-name">
                   CVV
                 </p>
-                {/* <svg
-                 
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="18"
-                  height="18"
-                  viewBox="0 0 18 18"
-                  fill="none"
-                >
-                  <path
-                    d="M12.6884 11.9971L17.8576 6.82592C17.9488 6.73432 18 6.61035 17.9999 6.48114C17.9998 6.35192 17.9485 6.22801 17.8572 6.13654C17.6744 5.95479 17.3525 5.95387 17.1679 6.13746L12 11.3087L6.83032 6.13608C6.64662 5.95479 6.32469 5.95571 6.14192 6.137C6.09655 6.18216 6.06064 6.2359 6.03627 6.29508C6.01191 6.35426 5.99958 6.4177 6.00001 6.48169C6.00001 6.61204 6.05053 6.73412 6.14192 6.82454L11.3111 11.9967L6.14238 17.1693C6.05116 17.261 6.00008 17.3851 6.00034 17.5145C6.0006 17.6438 6.05218 17.7677 6.14375 17.8591C6.23239 17.9468 6.35776 17.9972 6.48727 17.9972H6.49002C6.61999 17.9968 6.74536 17.9458 6.83216 17.8573L12 12.686L17.1697 17.8586C17.2611 17.9495 17.3832 18 17.5127 18C17.5768 18.0002 17.6402 17.9877 17.6994 17.9633C17.7586 17.9389 17.8124 17.903 17.8577 17.8578C17.903 17.8125 17.9389 17.7588 17.9633 17.6996C17.9877 17.6404 18.0002 17.577 18 17.513C18 17.3831 17.9495 17.2606 17.8576 17.1702L12.6884 11.9971Z"
-                    fill="#B0B1B5"
-                  />
-                </svg> */}
                 <svg
                   onClick={visiblePassword}
                   className="userPage__info-container-modalInfo-forms-personal-input-clear active"
@@ -377,6 +428,7 @@ const UserInfo: React.FC<Props> = ({
             </div>
           </div>
         </div>
+        <CustomAlert />
       </form>
     </div>
   );
