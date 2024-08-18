@@ -2,7 +2,7 @@ export type Workouts = {
   name: string;
   category: string;
   duration: string;
-  couch: string;
+  trainer: string;
   hardLevel: string;
   description: string;
   preparationTips: string;

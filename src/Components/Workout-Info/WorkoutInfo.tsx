@@ -157,7 +157,7 @@ export const WorkoutInfo: React.FC<Props> = ({ themeColor }) => {
                     About Workout
                   </p>
                   <p className="workout__detail-grid-content-text trainer">
-                    Trainer: {workout?.couch}
+                    Trainer: {workout?.trainer}
                   </p>
                   <p className="workout__detail-grid-content-text">
                     {workout?.description}
